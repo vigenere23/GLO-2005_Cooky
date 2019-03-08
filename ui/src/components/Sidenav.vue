@@ -3,15 +3,26 @@
 </template>
 
 <script>
+import { EventBus } from '@/eventbus'
+
 export default {
-  name: 'SideNav'
+  name: 'SideNav',
+  data () {
+    return {
+      menuOpened: false
+    }
+  },
+  methods: {
+    toggleMenu () {
+      this.menuOpened = !this.menuOpened
+    }
+  },
+  mounted () {
+    EventBus.$on('toggleMenu', this.toggleMenu)
+  }
 }
 </script>
 
 <style lang="scss">
-@import '~@/assets/scss/variables';
 
-#default-layout {
-  @include mdElevation(5);
-}
 </style>

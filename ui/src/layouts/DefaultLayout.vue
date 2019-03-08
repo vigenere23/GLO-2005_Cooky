@@ -20,5 +20,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+#default-layout {
+  width: 100%;
+  min-height: 100vh;
+}
 </style>
