@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: "user-bookmarks"
-};
+  name: 'UserComments'
+}
 </script>
