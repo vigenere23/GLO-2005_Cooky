@@ -48,7 +48,7 @@ export default {
   }
 }
 
-@media screen and (max-width: $tablet) {
+@media screen and (max-width: $tablet-max) {
   #header {
     height: 48px;
     padding: 0 8px;

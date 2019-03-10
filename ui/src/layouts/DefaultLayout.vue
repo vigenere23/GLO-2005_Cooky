@@ -41,7 +41,7 @@ export default {
   }
 }
 
-@media screen and (max-width: $tablet) {
+@media screen and (max-width: $tablet-max) {
   #default-layout {
     #main {
       padding-top: 48px;

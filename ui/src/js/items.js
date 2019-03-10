@@ -18,11 +18,11 @@ export const NavItems = [
   },
   {
     type: 'divider',
-    text: 'user'
+    text: 'personal'
   },
   {
     type: 'item',
-    text: 'My recipes',
+    text: 'Recipe book',
     icon: 'book',
     link: '/users'
   },
@@ -37,6 +37,12 @@ export const NavItems = [
     text: 'Shopping cart',
     icon: 'shopping_cart',
     link: '/cart'
+  },
+  {
+    type: 'item',
+    text: 'Commands',
+    icon: 'receipt',
+    link: '/users'
   },
   {
     type: 'divider',
