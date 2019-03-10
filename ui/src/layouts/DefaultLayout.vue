@@ -1,5 +1,6 @@
 <template>
   <div id="default-layout">
+    <DrawerScreen />
     <Header />
     <div id="main">
       <Sidenav />
@@ -11,12 +12,14 @@
 </template>
 
 <script>
+import DrawerScreen from '@/components/DrawerScreen'
 import Header from '@/components/Header'
 import Sidenav from '@/components/Sidenav'
 
 export default {
   name: 'DefaultLayout',
   components: {
+    DrawerScreen,
     Header,
     Sidenav
   },
