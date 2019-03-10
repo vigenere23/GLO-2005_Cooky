@@ -41,7 +41,7 @@ import { NavItems } from '@/js/items'
 import { mapState } from 'vuex'
 
 export default {
-  name: 'SideNav',
+  name: 'NavigationDrawer',
   data () {
     return {
       closed: false,
