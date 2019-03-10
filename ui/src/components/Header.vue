@@ -2,20 +2,18 @@
   <div id="header">
     <a
       class="material-icons hamburger"
-      @click="toggleMenu"
+      @click="toggleDrawer"
     >menu</a>
     <span class="project-name">Project</span>
   </div>
 </template>
 
 <script>
-import { EventBus } from '@/js/eventbus'
-
 export default {
   name: 'Header',
   methods: {
-    toggleMenu () {
-      EventBus.$emit('toggleMenu')
+    toggleDrawer () {
+      this.$store.commit('toggleDrawer')
     }
   }
 }

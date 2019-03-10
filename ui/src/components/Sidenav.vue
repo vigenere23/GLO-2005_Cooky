@@ -1,7 +1,7 @@
 <template>
   <div
     id="sidenav"
-    :class="{ closed }"
+    :class="{ closed: drawerClosed }"
   >
     <ul>
       <li class="profile">
@@ -38,6 +38,7 @@
 <script>
 import { EventBus } from '@/js/eventbus'
 import { NavItems } from '@/js/items'
+import { mapState } from 'vuex'
 
 export default {
   name: 'SideNav',
@@ -54,7 +55,8 @@ export default {
   },
   mounted () {
     EventBus.$on('toggleMenu', this.toggleMenu)
-  }
+  },
+  computed: mapState([ 'drawerClosed' ])
 }
 </script>
 

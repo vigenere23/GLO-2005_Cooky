@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { constants } from '@/js/constants'
 
 Vue.use(Vuex)
 
@@ -8,11 +9,14 @@ export default new Vuex.Store({
     drawerClosed: true
   },
   mutations: {
-    openDrawer () { this.drawerClosed = false },
-    closeDrawer () { this.drawerClosed = true },
-    toggleDrawer () { this.drawerClosed = !this.drawerClosed }
+    openDrawer (state) { state.drawerClosed = false },
+    closeDrawer (state) { state.drawerClosed = true },
+    toggleDrawer (state) { state.drawerClosed = !state.drawerClosed }
   },
   actions: {
 
+  },
+  getters: {
+    isSmallScreen: state => window => window.innerWidth <= constants.tabletWidth
   }
 })

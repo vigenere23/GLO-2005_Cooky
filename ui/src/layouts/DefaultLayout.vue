@@ -19,6 +19,19 @@ export default {
   components: {
     Header,
     Sidenav
+  },
+  methods: {
+    handleResize () {
+      if (this.$store.getters.isSmallScreen(window)) {
+        this.$store.commit('closeDrawer')
+      } else {
+        this.$store.commit('openDrawer')
+      }
+    }
+  },
+  mounted () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
   }
 }
 </script>
