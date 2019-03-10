@@ -1,8 +1,12 @@
 <template>
   <div id="default-layout">
     <Header />
-    <Sidenav />
-    <slot />
+    <div id="main">
+      <Sidenav />
+      <div id="content">
+        <slot />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -20,8 +24,28 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@/assets/scss/variables';
+
 #default-layout {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+
+  #main {
+    height: 100%;
+    padding-top: 64px;
+    display: flex;
+
+    #content {
+      padding: 16px;
+    }
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  #default-layout {
+    #main {
+      padding-top: 48px;
+    }
+  }
 }
 </style>

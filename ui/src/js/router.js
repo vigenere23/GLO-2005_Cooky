@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 
 Vue.use(Router)
 
@@ -8,53 +7,53 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'Home',
+      component: require('@/views/Home.vue').default
     },
     {
       path: '/recipes',
-      name: 'recipes',
+      name: 'Recipes',
       component: () => import('@/views/Recipes.vue')
     },
     {
       path: '/recipes/:id',
-      name: 'recipe',
+      name: 'Recipe',
       component: () => import('@/views/Recipe.vue')
     },
     {
       path: '/ingredients',
-      name: 'ingredients',
+      name: 'Ingredients',
       component: () => import('@/views/Ingredients.vue')
     },
     {
       path: '/ingredients/:id',
-      name: 'ingredient',
+      name: 'Ingredient',
       component: () => import('@/views/Ingredient.vue')
     },
     {
       path: '/users/:id',
-      name: 'user',
+      name: 'User',
       component: () => import('@/views/User.vue')
     },
     {
       path: '/users/:id/recipes',
-      name: 'userRecipes',
+      name: 'UserRecipes',
       component: () => import('@/views/UserRecipes.vue')
     },
     {
       path: '/users/:id/likes',
-      name: 'userLikes',
+      name: 'UserLikes',
       component: () => import('@/views/UserLikes.vue')
     },
     {
       path: '/users/:id/comments',
-      name: 'userComments',
+      name: 'UserComments',
       component: () => import('@/views/UserComments.vue')
     },
     {
       path: '*',
-      name: '404',
-      component: () => import('@/views/404.vue')
+      name: 'PageNotFound',
+      component: () => import('@/views/PageNotFound.vue')
     }
   ]
 })

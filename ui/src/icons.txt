@@ -1,0 +1,27 @@
+menu
+explore
+favorite / favorite_border
+star / star_half
+receipt
+delete
+settings
+search
+shopping_cart
+error / warning
+comment
+phone / email
+add
+clear / close / remove_circle / remove_circle_border
+create
+filter_list / sort
+save
+send
+keyboard_arrow_x
+local_dining / restaurant_menu
+fast_food
+category
+restaurant
+arrow_back
+account_circle
+spa / kitchen (for ingredients)
+person

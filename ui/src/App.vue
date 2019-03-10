@@ -1,17 +1,27 @@
 <template>
   <div id="app">
-    <router-view />
+    <DefaultLayout>
+      <router-view />
+    </DefaultLayout>
   </div>
 </template>
+
+<script>
+import DefaultLayout from '@/layouts/DefaultLayout'
+
+export default {
+  name: 'App',
+  components: {
+    DefaultLayout
+  }
+}
+</script>
 
 <style lang="scss">
 @import '~@/assets/scss/variables';
 
 body {
   margin: 0;
-}
-
-#app {
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -19,6 +29,7 @@ body {
 
   * {
     box-sizing: border-box;
+    position: relative;
   }
 
   a {
@@ -39,6 +50,7 @@ body {
 
   h1 {
     font-size: 48px;
+    margin-top: 0;
   }
 }
 </style>
