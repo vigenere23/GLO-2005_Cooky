@@ -131,6 +131,10 @@ export default {
           margin-left: 8px;
           margin-right: 24px;
         }
+
+        > * {
+          flex-shrink: 0;
+        }
       }
     }
   }
