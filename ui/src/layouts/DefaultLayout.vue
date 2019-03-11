@@ -1,10 +1,10 @@
 <template>
-  <div id="default-layout">
+  <div class="default-layout">
     <DrawerScreen />
     <Header />
-    <div id="main">
-      <NavigationDrawer />
-      <div id="content">
+    <div class="main">
+      <NavDrawer />
+      <div class="content">
         <slot />
       </div>
     </div>
@@ -14,7 +14,7 @@
 <script>
 import DrawerScreen from '@/components/DrawerScreen'
 import Header from '@/components/Header'
-import NavigationDrawer from '@/components/NavigationDrawer'
+import NavDrawer from '@/components/NavDrawer'
 import { LayoutHelper } from '@/js/helpers'
 
 export default {
@@ -22,7 +22,7 @@ export default {
   components: {
     DrawerScreen,
     Header,
-    NavigationDrawer
+    NavDrawer
   },
   methods: {
     handleResize () {
@@ -43,24 +43,24 @@ export default {
 <style lang="scss">
 @import '~@/assets/scss/variables';
 
-#default-layout {
+.default-layout {
   width: 100%;
   height: 100vh;
 
-  #main {
+  .main {
     height: 100%;
     padding-top: 64px;
     display: flex;
 
-    #content {
+    .content {
       padding: 16px;
     }
   }
 }
 
 @media screen and (max-width: $tablet-max) {
-  #default-layout {
-    #main {
+  .default-layout {
+    .main {
       padding-top: 48px;
     }
   }

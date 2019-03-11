@@ -1,5 +1,5 @@
 <template>
-  <div id="user-recipes-page">
+  <div class="user-recipes-page">
     <h1>User's recipes page</h1>
   </div>
 </template>

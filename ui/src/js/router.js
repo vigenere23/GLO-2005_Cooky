@@ -11,6 +11,16 @@ export default new Router({
       component: require('@/views/Home.vue').default
     },
     {
+      path: '/signup',
+      name: 'Signup',
+      component: () => import('@/views/Signup.vue')
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/Login.vue')
+    },
+    {
       path: '/recipes',
       name: 'Recipes',
       component: () => import('@/views/Recipes.vue')
@@ -36,6 +46,11 @@ export default new Router({
       component: () => import('@/views/User.vue')
     },
     {
+      path: '/users/:id/edit',
+      name: 'UserEdit',
+      component: () => import('@/views/private/UserEdit.vue')
+    },
+    {
       path: '/users/:id/recipes',
       name: 'UserRecipes',
       component: () => import('@/views/UserRecipes.vue')
@@ -46,9 +61,24 @@ export default new Router({
       component: () => import('@/views/UserLikes.vue')
     },
     {
-      path: '/users/:id/comments',
-      name: 'UserComments',
-      component: () => import('@/views/UserComments.vue')
+      path: '/cart',
+      name: 'Cart',
+      component: () => import('@/views/private/Cart.vue')
+    },
+    {
+      path: '/commands',
+      name: 'Commands',
+      component: () => import('@/views/private/Commands.vue')
+    },
+    {
+      path: '/settings',
+      name: 'Settings',
+      component: () => import('@/views/private/Settings.vue')
+    },
+    {
+      path: '/logout',
+      name: 'Logout',
+      component: () => import('@/views/private/Logout.vue')
     },
     {
       path: '*',

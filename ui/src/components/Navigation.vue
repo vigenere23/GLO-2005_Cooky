@@ -11,7 +11,7 @@
       <router-link
         v-for="section in category.items"
         :key="section.text"
-        :to="section.link"
+        :to="section.link(userId)"
         tag="a"
         class="navigation-item"
         :class="{ current: section.current }"
@@ -25,6 +25,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { LayoutHelper } from '@/js/helpers'
+
 export default {
   name: 'Navigation',
   props: {
@@ -33,9 +36,12 @@ export default {
       default: () => []
     }
   },
+  computed: mapState([ 'userId' ]),
   methods: {
     closeDrawer () {
-      this.$store.commit('closeDrawer')
+      if (LayoutHelper.isSmallScreen()) {
+        this.$store.commit('closeDrawer')
+      }
     }
   }
 }

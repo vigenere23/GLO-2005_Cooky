@@ -5,13 +5,13 @@ export const NavItems = [
       {
         text: 'Explore recipes',
         icon: 'restaurant_menu',
-        link: '/recipes',
+        link: () => '/recipes',
         current: true
       },
       {
         text: 'Find ingredients',
         icon: 'spa',
-        link: '/ingredients'
+        link: () => '/ingredients'
       }
     ]
   },
@@ -21,22 +21,22 @@ export const NavItems = [
       {
         text: 'Recipe book',
         icon: 'book',
-        link: '/users'
+        link: (userId) => `/users/${userId}/recipes`
       },
       {
         text: 'Liked recipes',
         icon: 'favorite',
-        link: '/users'
+        link: (userId) => `/users/${userId}/likes`
       },
       {
         text: 'Shopping cart',
         icon: 'shopping_cart',
-        link: '/cart'
+        link: () => '/cart'
       },
       {
         text: 'Commands',
         icon: 'receipt',
-        link: '/users'
+        link: () => '/commands'
       }
     ]
   },
@@ -46,17 +46,17 @@ export const NavItems = [
       {
         text: 'Profile',
         icon: 'person',
-        link: '/users'
+        link: (userId) => `/users/${userId}`
       },
       {
         text: 'Settings',
         icon: 'settings',
-        link: '/users'
+        link: () => '/settings'
       },
       {
         text: 'Logout',
         icon: 'exit_to_app',
-        link: '/logout'
+        link: () => '/logout'
       }
     ]
   }

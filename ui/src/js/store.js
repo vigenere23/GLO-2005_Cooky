@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    drawerClosed: true
+    drawerClosed: true,
+    userId: '87abdf9nf2903438'
   },
   mutations: {
     openDrawer (state) { state.drawerClosed = false },

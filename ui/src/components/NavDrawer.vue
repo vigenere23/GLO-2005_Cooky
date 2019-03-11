@@ -29,7 +29,7 @@ export default {
       items: NavItems
     }
   },
-  computed: mapState([ 'drawerClosed' ])
+  computed: mapState([ 'drawerClosed', 'userId' ])
 }
 </script>
 

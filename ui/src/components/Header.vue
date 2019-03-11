@@ -4,7 +4,13 @@
       class="material-icons hamburger"
       @click="toggleDrawer"
     >menu</a>
-    <span class="project-name">Project</span>
+    <router-link
+      class="project-name"
+      to="/"
+      tag="a"
+    >
+      Project
+    </router-link>
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
-  <div class="recipe-page">
-    <h1>Recipe page</h1>
+  <div class="logout">
+    <h1>Logout page</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Recipe'
+  name: 'Logout'
 }
 </script>
