@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { LayoutHelper } from '@/js/helpers'
+
 export default {
   name: 'DrawerScreen',
   methods: {
@@ -16,7 +18,7 @@ export default {
   },
   computed: {
     show () {
-      return this.$store.getters.isSmallScreen(window) && !this.$store.state.drawerClosed
+      return !this.$store.state.drawerClosed && LayoutHelper.isSmallScreen()
     }
   }
 }

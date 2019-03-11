@@ -1,60 +1,33 @@
 <template>
   <div
-    id="sidenav"
+    id="navigation-drawer"
     :class="{ closed: drawerClosed }"
   >
-    <ul>
-      <li class="profile">
-        <img
-          class="profile-picture"
-          src="../../static/default-avatar.png"
-        >
-        <span class="username">mscupcake352</span>
-      </li>
-      <li
-        v-for="(item, i) in items"
-        :key="i"
+    <div class="profile">
+      <img
+        class="profile-picture"
+        src="../../static/default-avatar.png"
       >
-        <router-link
-          v-if="item.type === 'item'"
-          :to="item.link"
-          tag="a"
-          :class="{ current: item.current }"
-        >
-          <span class="material-icons menu-icon">{{ item.icon }}</span>
-          <span class="menu-text">{{ item.text }}</span>
-        </router-link>
-        <div
-          v-else-if="item.type === 'divider'"
-          class="divider"
-        >
-          <span>{{ item.text }}</span>
-        </div>
-      </li>
-    </ul>
+      <span class="username">mscupcake352</span>
+    </div>
+    <Navigation :items="items" />
   </div>
 </template>
 
 <script>
-import { EventBus } from '@/js/eventbus'
 import { NavItems } from '@/js/items'
 import { mapState } from 'vuex'
+import Navigation from '@/components/Navigation'
 
 export default {
   name: 'NavigationDrawer',
+  components: {
+    Navigation
+  },
   data () {
     return {
-      closed: false,
       items: NavItems
     }
-  },
-  methods: {
-    toggleMenu () {
-      this.closed = !this.closed
-    }
-  },
-  mounted () {
-    EventBus.$on('toggleMenu', this.toggleMenu)
   },
   computed: mapState([ 'drawerClosed' ])
 }
@@ -63,7 +36,7 @@ export default {
 <style lang="scss">
 @import '~@/assets/scss/variables';
 
-#sidenav {
+#navigation-drawer {
   height: 100%;
   width: 240px;
   flex-basis: 240px;
@@ -75,73 +48,28 @@ export default {
   font-weight: 500;
   color: $secondary-text-color;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
+  flex-direction: column;
 
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  .profile {
+    height: 56px;
     flex-shrink: 0;
-    flex-basis: 100%;
+    display: flex;
+    align-items: center;
 
-    li {
-      .divider {
-        margin: 8px;
-        margin-top: 16px;
-
-        span {
-          font-size: 12px;
-          color: $lighter-secondary-text-color;
-          text-transform: uppercase;
-        }
-      }
-
-      &.profile {
-        height: 56px;
-        display: flex;
-        align-items: center;
-
-        .profile-picture {
-          width: 38px;
-          height: 38px;
-          border-radius: 50%;
-          margin-left: 8px;
-          margin-right: 16px;
-        }
-      }
-
-      a {
-        display: flex;
-        align-items: center;
-        height: 40px;
-        margin: 4px 0;
-        border-radius: 4px;
-
-        &:hover {
-          background-color: $grey100;
-        }
-
-        &.current {
-          color: $primary-color;
-          background-color: rgba($primary-color, 0.2);
-          font-weight: 500;
-        }
-
-        .menu-icon {
-          margin-left: 8px;
-          margin-right: 24px;
-        }
-
-        > * {
-          flex-shrink: 0;
-        }
-      }
+    .profile-picture {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      margin-left: 8px;
+      margin-right: 16px;
     }
   }
 }
 
 @media screen and (min-width: $desktop-min) {
-  #sidenav {
+  #navigation-drawer {
     transition: all 0.2s ease-in-out;
 
     &.closed {
@@ -154,7 +82,7 @@ export default {
 }
 
 @media screen and (max-width: $tablet-max) {
-  #sidenav {
+  #navigation-drawer {
     padding: 8px;
     position: fixed;
     top: 0;

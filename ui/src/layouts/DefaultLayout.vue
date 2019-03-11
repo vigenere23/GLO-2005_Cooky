@@ -15,6 +15,7 @@
 import DrawerScreen from '@/components/DrawerScreen'
 import Header from '@/components/Header'
 import NavigationDrawer from '@/components/NavigationDrawer'
+import { LayoutHelper } from '@/js/helpers'
 
 export default {
   name: 'DefaultLayout',
@@ -25,7 +26,7 @@ export default {
   },
   methods: {
     handleResize () {
-      if (this.$store.getters.isSmallScreen(window)) {
+      if (LayoutHelper.isSmallScreen()) {
         this.$store.commit('closeDrawer')
       } else {
         this.$store.commit('openDrawer')
