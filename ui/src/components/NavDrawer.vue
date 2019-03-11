@@ -10,19 +10,19 @@
       >
       <span class="username">mscupcake352</span>
     </div>
-    <Navigation :items="items" />
+    <Nav :items="items" />
   </div>
 </template>
 
 <script>
 import { NavItems } from '@/js/items'
 import { mapState } from 'vuex'
-import Navigation from '@/components/Navigation'
+import Nav from '@/components/Nav'
 
 export default {
   name: 'NavigationDrawer',
   components: {
-    Navigation
+    Nav
   },
   data () {
     return {

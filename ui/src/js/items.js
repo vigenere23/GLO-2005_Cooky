@@ -5,8 +5,7 @@ export const NavItems = [
       {
         text: 'Explore recipes',
         icon: 'restaurant_menu',
-        link: () => '/recipes',
-        current: true
+        link: () => '/recipes'
       },
       {
         text: 'Find ingredients',
