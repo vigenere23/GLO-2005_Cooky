@@ -1,21 +1,15 @@
 <template>
   <div
     id="sidenav"
-    :class="{ opened }"
+    :class="{ closed: drawerClosed }"
   >
     <ul>
-      <li>
-        <router-link
-          class="profile"
-          to="/users"
-          tag="a"
+      <li class="profile">
+        <img
+          class="profile-picture"
+          src="../../static/default-avatar.png"
         >
-          <img
-            class="profile-picture"
-            src="../../static/default-avatar.png"
-          >
-          <span class="username">mscupcake352</span>
-        </router-link>
+        <span class="username">mscupcake352</span>
       </li>
       <li
         v-for="(item, i) in items"
@@ -44,23 +38,25 @@
 <script>
 import { EventBus } from '@/js/eventbus'
 import { NavItems } from '@/js/items'
+import { mapState } from 'vuex'
 
 export default {
-  name: 'SideNav',
+  name: 'NavigationDrawer',
   data () {
     return {
-      opened: false,
+      closed: false,
       items: NavItems
     }
   },
   methods: {
     toggleMenu () {
-      this.opened = !this.opened
+      this.closed = !this.closed
     }
   },
   mounted () {
     EventBus.$on('toggleMenu', this.toggleMenu)
-  }
+  },
+  computed: mapState([ 'drawerClosed' ])
 }
 </script>
 
@@ -79,11 +75,14 @@ export default {
   font-weight: 500;
   color: $secondary-text-color;
   overflow-y: auto;
+  display: flex;
 
   ul {
     padding: 0;
     margin: 0;
     list-style: none;
+    flex-shrink: 0;
+    flex-basis: 100%;
 
     li {
       .divider {
@@ -94,6 +93,20 @@ export default {
           font-size: 12px;
           color: $lighter-secondary-text-color;
           text-transform: uppercase;
+        }
+      }
+
+      &.profile {
+        height: 56px;
+        display: flex;
+        align-items: center;
+
+        .profile-picture {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          margin-left: 8px;
+          margin-right: 16px;
         }
       }
 
@@ -114,28 +127,33 @@ export default {
           font-weight: 500;
         }
 
-        &.profile {
-          height: 56px;
-
-          .profile-picture {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            margin-left: 8px;
-            margin-right: 16px;
-          }
-        }
-
         .menu-icon {
           margin-left: 8px;
           margin-right: 24px;
+        }
+
+        > * {
+          flex-shrink: 0;
         }
       }
     }
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (min-width: $desktop-min) {
+  #sidenav {
+    transition: all 0.2s ease-in-out;
+
+    &.closed {
+      width: 0;
+      flex-basis: 0;
+      padding: 8px 0;
+      border-color: transparent;
+    }
+  }
+}
+
+@media screen and (max-width: $tablet-max) {
   #sidenav {
     padding: 8px;
     position: fixed;
@@ -143,7 +161,12 @@ export default {
     left: 0;
     z-index: 100;
     background-color: white;
+    transition: all 0.3s ease-in-out;
     @include mdElevationElement('nav-drawer');
+
+    &.closed {
+      margin-left: -100%;
+    }
   }
 }
 </style>

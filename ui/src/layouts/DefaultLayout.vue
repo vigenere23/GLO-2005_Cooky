@@ -1,8 +1,9 @@
 <template>
   <div id="default-layout">
+    <DrawerScreen />
     <Header />
     <div id="main">
-      <Sidenav />
+      <NavigationDrawer />
       <div id="content">
         <slot />
       </div>
@@ -11,14 +12,29 @@
 </template>
 
 <script>
+import DrawerScreen from '@/components/DrawerScreen'
 import Header from '@/components/Header'
-import Sidenav from '@/components/Sidenav'
+import NavigationDrawer from '@/components/NavigationDrawer'
 
 export default {
   name: 'DefaultLayout',
   components: {
+    DrawerScreen,
     Header,
-    Sidenav
+    NavigationDrawer
+  },
+  methods: {
+    handleResize () {
+      if (this.$store.getters.isSmallScreen(window)) {
+        this.$store.commit('closeDrawer')
+      } else {
+        this.$store.commit('openDrawer')
+      }
+    }
+  },
+  mounted () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
   }
 }
 </script>
@@ -41,7 +57,7 @@ export default {
   }
 }
 
-@media screen and (max-width: $tablet) {
+@media screen and (max-width: $tablet-max) {
   #default-layout {
     #main {
       padding-top: 48px;
