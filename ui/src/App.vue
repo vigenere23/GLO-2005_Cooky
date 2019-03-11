@@ -44,8 +44,8 @@ body {
   }
 
   h1, h2, h3 {
-    font-family: "Lora", Helvetica, Arial, sans-serif;
-    font-weight: 400;
+    font-family: "Merriweather", Helvetica, Arial, sans-serif;
+    font-weight: 300;
   }
 
   h1 {
