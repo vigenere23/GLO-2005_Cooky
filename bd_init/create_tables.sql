@@ -9,7 +9,7 @@ CREATE TABLE Panier(
 
 CREATE TABLE Aliment(
   idAliment INTEGER PRIMARY KEY,
-  nom CHAR(50),
+  nom VARCHAR(50),
   cout FLOAT
 );
 
@@ -33,20 +33,20 @@ CREATE TABLE Confirmer(
 );
 
 CREATE TABLE Domicile(
-  adresse CHAR(200) PRIMARY KEY
+  adresse VARCHAR(200) PRIMARY KEY
 );
 
 CREATE TABLE Livrer(
   idCommande INTEGER,
-  adresse CHAR(200),
+  adresse VARCHAR(200),
   FOREIGN KEY(idCommande) REFERENCES Commande(idCommande) ON DELETE CASCADE,
   FOREIGN KEY(adresse) REFERENCES Domicile(adresse) ON DELETE CASCADE
 );
   
 CREATE TABLE Utilisateur(
   id INTEGER PRIMARY KEY,
-  nomUtilisateur CHAR(100),
-  motDePasse CHAR(50),
+  nomUtilisateur VARCHAR(100),
+  motDePasse VARCHAR(50),
   preference TEXT
 );
 
@@ -59,7 +59,7 @@ CREATE TABLE Rempli(
 
 CREATE TABLE TypeAliment(
   idType INTEGER PRIMARY KEY,
-  nom CHAR(50)
+  nom VARCHAR(50)
 );
 
 CREATE TABLE TypeDe(
