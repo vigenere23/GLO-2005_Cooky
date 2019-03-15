@@ -4,7 +4,7 @@ USE projet;
 
 CREATE TABLE Panier(
   idPanier INTEGER PRIMARY KEY,
-  coutTotal  FLOAT
+  coutTotal FLOAT
 );
 
 CREATE TABLE Aliment(
@@ -15,10 +15,10 @@ CREATE TABLE Aliment(
 
 CREATE TABLE Contient(
   idPanier INTEGER,
-  idAliment CHAR(50),
+  idAliment INTEGER,
   quantite INTEGER,
   FOREIGN KEY(idPanier) REFERENCES Panier(idPanier) ON DELETE CASCADE,
-  FOREIGN KEY(idAliment) REFERENCES Aliment(idAliment) ON DELETE CASCADE,
+  FOREIGN KEY(idAliment) REFERENCES Aliment(idAliment) ON DELETE CASCADE
 );
 
 CREATE TABLE Commande(
@@ -47,7 +47,7 @@ CREATE TABLE Utilisateur(
   id INTEGER PRIMARY KEY,
   nomUtilisateur CHAR(100),
   motDePasse CHAR(50),
-  preference CHAR(500)
+  preference TEXT
 );
 
 CREATE TABLE Rempli(
@@ -90,10 +90,10 @@ CREATE TABLE Inclut(
 
 CREATE TABLE Instruction(
   idInstruction INTEGER PRIMARY KEY,
-  texte CHAR(5000)
+  texte TEXT
 );
 
-CREATE TABLE Possède(
+CREATE TABLE Possede(
   idRecette INTEGER,
   idInstruction INTEGER,
   FOREIGN KEY(idRecette) REFERENCES Recette(idRecette) ON DELETE CASCADE,
@@ -118,7 +118,7 @@ CREATE TABLE Aimer(
 
 CREATE TABLE Commentaire(
   idCommentaire INTEGER PRIMARY KEY,
-  texte CHAR(500)
+  texte TEXT
 );
 
 CREATE TABLE Commenter(
