@@ -1,6 +1,6 @@
 from app import db
 from .model import User
-from app.exceptions import NotFoundException
+from app.helpers.exceptions import NotFoundException
 
 def getAll():
   data = []

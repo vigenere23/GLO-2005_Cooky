@@ -1,6 +1,6 @@
 import flask
 from functools import wraps
-from app.exceptions import NotFoundException
+from .exceptions import NotFoundException
 
 def __create(data, status):
   mimetype = 'text/plain'
