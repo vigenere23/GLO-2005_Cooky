@@ -1,44 +1,63 @@
 # App
 
-## Initialization
+## Database
 
-### Server
+### Preparing
 
 ```bash
-pip3 install -r requirements.txt
+# Currently on the project's root directory
+docker run -d \
+--name mysql1 --rm \
+-p 1337:3306 \
+--volume %cd%/mysql:/docker-entrypoint-initdb.d/:ro \
+--env "MYSQL_ALLOW_EMPTY_PASSWORD=yes" mysql:8.0
+docker start mysql1
 ```
 
-### Database
+> Note: On Linux, the script `start-docker.sh` takes care of everything
+
+### Populating
 
 ```bash
-docker run -d \
---name mysql1 \
---volume <PROJECT_PATH>/mysql:/var/lib/mysql \
---env "MYSQL_ALLOW_EMPTY_PASSWORD=yes" mysql
-docker start mysql1
 docker exec -i mysql1 mysql < bd_init/create_tables.sql
 ```
 
-Where `<PROJECT_PATH>` should be the **absolute** path to the project's root directory. 
-
-### UI
-
-...todo
-
-## Execution
-
-### Server
-
-```bash
-flask run
-```
-
-### Database
+### Executing
 
 ```bash
 docker exec -it mysql1 mysql
 ```
 
-### UI
+## Server
 
-...todo
+### Preparing
+
+```bash
+cd app
+pip3 install -r requirements.txt
+```
+
+### Executing
+
+```bash
+cd app
+flask run
+```
+
+## UI
+
+### Peparing
+
+```bash
+cd ui
+yarn install
+```
+
+> Note: This might take a while since some of the packages are quite huge. 
+
+### Executing
+
+```bash
+cd ui
+yarn serve
+```

@@ -44,11 +44,14 @@ CREATE TABLE Livrer(
 );
   
 CREATE TABLE Utilisateur(
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
   nomUtilisateur VARCHAR(100),
   motDePasse VARCHAR(50),
   preference TEXT
 );
+
+INSERT INTO Utilisateur(id, nomUtilisateur, motDePasse, preference)
+VALUES (NULL, "yolo", "motdepassepastresbon", "pas de bananes svp");
 
 CREATE TABLE Rempli(
   idPanier INTEGER,
