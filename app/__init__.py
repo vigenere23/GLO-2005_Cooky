@@ -7,4 +7,4 @@ app.config.from_object(Config)
 
 db = DB(Config.DATABASE)
 
-from app import controllers
+from app import main, users
