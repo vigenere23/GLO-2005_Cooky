@@ -1,10 +1,18 @@
 import flask
 
-class Response():
+def __create(data, status):
+  mimetype = 'text/plain'
+  
+  if not isinstance(data, str):
+    data = flask.json.dumps(data)
+    mimetype = 'application/json'
 
-  @staticmethod
-  def create(data, status):
-    if (not isinstance(data, str)):
-      data = flask.json.dumps(data)
+  return flask.Response(data, status=status, mimetype=mimetype)
 
-    return flask.Response(data, status=status, mimetype='application/json')
+def success(data, status=200):
+  return __create(data, status)
+
+def error(error, status=500):
+  return __create({
+    'error': error
+  }, status)

@@ -40,7 +40,6 @@ pip3 install -r requirements.txt
 ### Executing
 
 ```bash
-cd app
 flask run
 ```
 
