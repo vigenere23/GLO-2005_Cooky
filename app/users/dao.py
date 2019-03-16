@@ -1,14 +1,19 @@
 from app import db
+from .model import User
+from app.exceptions import NotFoundException
 
 def getAll():
   data = []
   query = 'SELECT * FROM Utilisateur'
-  results = db.select(query)
+  results = db.select(query, None)
   for result in results:
-    data.append({
-      "id": result[0],
-      "username": result[1],
-      "password": result[2],
-      "settings": result[3]
-    })
+    data.append(User(*result))
   return data
+
+def getById(id):
+  query = 'SELECT * FROM Utilisateur WHERE id = %(id)s'
+  result = db.select(query, { 'id': id }, 1)
+  if result:
+    return User(*result)
+  else:
+    raise NotFoundException(str.format("No user found with id '%d'", id))
