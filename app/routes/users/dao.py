@@ -4,16 +4,16 @@ from app.helpers.exceptions import NotFoundException
 
 def getAll():
   data = []
-  query = 'SELECT * FROM Utilisateur'
-  results = db.select(query, None)
+  query = 'SELECT * FROM User'
+  results = db.select(query)
   for result in results:
-    data.append(User(*result))
+    data.append(User(result))
   return data
 
 def getById(id):
-  query = 'SELECT * FROM Utilisateur WHERE id = %(id)s'
+  query = 'SELECT * FROM User WHERE id = %(id)s'
   result = db.select(query, { 'id': id }, 1)
   if result:
-    return User(*result)
+    return User(result)
   else:
     raise NotFoundException(str.format("No user found with id '%d'", id))

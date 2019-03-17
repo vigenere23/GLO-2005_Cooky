@@ -14,13 +14,17 @@ docker run -d \
 docker start mysql1
 ```
 
-> Note: On Linux, the script `start-docker.sh` takes care of everything
+> Note: On Linux, the script `scripts/start-docker.sh` takes care of everything
 
 ### Populating
 
 ```bash
-docker exec -i mysql1 mysql < bd_init/create_tables.sql
+docker exec -i mysql1 mysql < bd_init/database.sql
+docker exec -i mysql1 mysql < bd_init/tables.sql
+docker exec -i mysql1 mysql < bd_init/inserts.sql
 ```
+
+> Note: On Linux, the script `scripts/init-bd.sh` takes care of everything
 
 ### Executing
 

@@ -1,4 +1,5 @@
 import flask
+import traceback
 from functools import wraps
 from .exceptions import NotFoundException
 
@@ -40,5 +41,6 @@ def handleExceptions(f):
     except NotFoundException as e:
       return error(e, 404)
     except Exception as e:
+      traceback.print_exc()
       return error(e)
   return wrapper

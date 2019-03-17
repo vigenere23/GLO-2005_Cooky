@@ -1,5 +1,5 @@
 from flask import Blueprint
-from app.helpers import response, exceptions
+from app.helpers import response, exceptions, queries
 from . import dao
 
 routes = Blueprint('user', __name__)

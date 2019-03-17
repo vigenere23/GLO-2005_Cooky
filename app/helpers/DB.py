@@ -29,7 +29,7 @@ class DB:
       self.__connection.rollback()
       raise e
 
-  def select(self, query, data, limit=0):
+  def select(self, query, data=None, limit=0):
     self.__cursor.execute(query, data)
     if limit == 1:
       return self.__cursor.fetchone()
