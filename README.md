@@ -4,12 +4,26 @@
 
 ### Preparing
 
+**Windows**:
+
 ```bash
 # Currently on the project's root directory
 docker run -d \
 --name mysql1 --rm \
 -p 1337:3306 \
---volume %cd%/mysql:/docker-entrypoint-initdb.d/:ro \
+--volume <PROJECT_ROOT_ABSOLUTE_PATH>/mysql:/docker-entrypoint-initdb.d/:ro \
+--env "MYSQL_ALLOW_EMPTY_PASSWORD=yes" mysql:8.0
+docker start mysql1
+```
+
+**Bash**
+
+```bash
+# Currently on the project's root directory
+docker run -d \
+--name mysql1 --rm \
+-p 1337:3306 \
+--volume $PWD/mysql:/docker-entrypoint-initdb.d/:ro \
 --env "MYSQL_ALLOW_EMPTY_PASSWORD=yes" mysql:8.0
 docker start mysql1
 ```
