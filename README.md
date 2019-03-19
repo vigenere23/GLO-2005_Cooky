@@ -2,48 +2,24 @@
 
 ## Database
 
-### Preparing
+### Preparing and executing
 
-**Windows**:
+**Windows (on bash only)**:
 
 ```bash
-# Currently on the project's root directory
-docker run -d \
---name mysql1 --rm \
--p 1337:3306 \
---volume <PROJECT_ROOT_ABSOLUTE_PATH>/mysql:/docker-entrypoint-initdb.d/:ro \
---env "MYSQL_ALLOW_EMPTY_PASSWORD=yes" mysql:8.0
-docker start mysql1
+./scripts/win-start-docker.sh
 ```
 
-**Bash**
+**Linux / Mac**
 
 ```bash
-# Currently on the project's root directory
-docker run -d \
---name mysql1 --rm \
--p 1337:3306 \
---volume $PWD/mysql:/docker-entrypoint-initdb.d/:ro \
---env "MYSQL_ALLOW_EMPTY_PASSWORD=yes" mysql:8.0
-docker start mysql1
+scripts/start-docker.sh
 ```
 
-> Note: On Linux, the script `scripts/start-docker.sh` takes care of everything
-
-### Populating
+### Populating (on bash only)
 
 ```bash
-docker exec -i mysql1 mysql < bd_init/database.sql
-docker exec -i mysql1 mysql < bd_init/tables.sql
-docker exec -i mysql1 mysql < bd_init/inserts.sql
-```
-
-> Note: On Linux, the script `scripts/init-bd.sh` takes care of everything
-
-### Executing
-
-```bash
-docker exec -it mysql1 mysql
+./scripts/init-bd.sh
 ```
 
 ## Server
