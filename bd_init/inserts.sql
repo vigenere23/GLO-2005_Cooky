@@ -42,7 +42,7 @@ INSERT INTO `MesureType` (`id`,`name`) VALUES
 -- ---
 
 INSERT INTO `Ingredient` (`id`,`id_MesureType`,`id_IngredientType`,`name`,`cost`,`baseQuantity`) VALUES
- (NULL, 1, 3,'Pomme', 3.20, 1);
+ (NULL, 1, 3,'Apple', 3.20, 1);
 
 
 -- ---
