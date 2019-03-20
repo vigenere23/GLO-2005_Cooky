@@ -61,6 +61,7 @@ DROP TABLE IF EXISTS `Ingredient`;
 CREATE TABLE `Ingredient` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_MesureType` INTEGER NOT NULL,
+  `id_IngredientType` INTEGER NOT NULL,
   `name` VARCHAR(30) NOT NULL,
   `cost` DECIMAL NOT NULL,
   `baseQuantity` DECIMAL NULL DEFAULT NULL,
@@ -187,7 +188,6 @@ DROP TABLE IF EXISTS `IngredientType`;
 		
 CREATE TABLE `IngredientType` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `id_Ingredient` INTEGER NOT NULL,
   `name` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`name`)
@@ -275,7 +275,8 @@ ALTER TABLE `Like` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_Address) REFERENCES `Address` (`id`);
 ALTER TABLE `Commands` ADD FOREIGN KEY (id_Cart) REFERENCES `Cart` (`id`);
-ALTER TABLE `IngredientType` ADD FOREIGN KEY (id_Ingredient) REFERENCES `Ingredient` (`id`);
+-- ALTER TABLE `IngredientType` ADD FOREIGN KEY (id_Ingredient) REFERENCES `Ingredient` (`id`);
+ALTER TABLE `Ingredient` ADD FOREIGN KEY (id_IngredientType) REFERENCES `IngredientType` (`id`);
 ALTER TABLE `Profile` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `MesureUnit` ADD FOREIGN KEY (id_MesureType) REFERENCES `MesureType` (`id`);
 
