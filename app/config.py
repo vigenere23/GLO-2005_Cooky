@@ -5,7 +5,7 @@ class Config:
   DATABASE = {
     'user': 'root',
     'password': '',
-    'host': 'localhost',
+    'host': 'localhost', # TODO if platform.system() == 'Windows' use container's IP
     'port': '1337',
     'database': 'projet'
   }

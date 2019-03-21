@@ -60,11 +60,11 @@ DROP TABLE IF EXISTS `Ingredient`;
 		
 CREATE TABLE `Ingredient` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `id_MesureType` INTEGER NOT NULL,
   `id_IngredientType` INTEGER NOT NULL,
+  `id_QuantityUnit` INTEGER NOT NULL,
   `name` VARCHAR(30) NOT NULL,
-  `cost` DECIMAL NOT NULL,
-  `baseQuantity` DECIMAL NULL DEFAULT NULL,
+  `baseCost` DECIMAL NOT NULL,
+  `baseQuantity` DECIMAL NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`name`)
 );
@@ -109,9 +109,8 @@ DROP TABLE IF EXISTS `CartItem`;
 CREATE TABLE `CartItem` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_Ingredient` INTEGER NOT NULL,
-  `id_MesureUnit` INTEGER NOT NULL,
   `id_Cart` INTEGER NOT NULL,
-  `quantity` DECIMAL NOT NULL,
+  `multiplier` INT NOT NULL,
   `subCost` DECIMAL NOT NULL,
   PRIMARY KEY (`id`)
 );
@@ -127,7 +126,7 @@ CREATE TABLE `RecipeIngredient` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_Recipe` INTEGER NOT NULL,
   `id_Ingredient` INTEGER NOT NULL,
-  `id_MesureUnit` INTEGER NOT NULL,
+  `id_QuantityUnit` INTEGER NOT NULL,
   `quantity` DECIMAL NOT NULL,
   PRIMARY KEY (`id`)
 );
@@ -226,28 +225,28 @@ CREATE TABLE `Profile` (
 ) COMMENT 'Other users public infos. To be shared publicly on his wall.';
 
 -- ---
--- Table 'MesureUnit'
+-- Table 'QuantityUnit'
 -- Register all mesure units (like mL, cups, g, table spoon, etc.). Contains both the name and the abbreviation. 
 -- ---
 
-DROP TABLE IF EXISTS `MesureUnit`;
+DROP TABLE IF EXISTS `QuantityUnit`;
 		
-CREATE TABLE `MesureUnit` (
+CREATE TABLE `QuantityUnit` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `id_MesureType` INTEGER NOT NULL,
+  `id_QuantityType` INTEGER NOT NULL,
   `name` VARCHAR(20) NOT NULL,
   `abbreviation` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT 'Register all mesure units (like mL, cups, g, table spoon, et';
 
 -- ---
--- Table 'MesureType'
+-- Table 'QuantityType'
 -- Contains the type of mesure (weight, volume, units, etc.)
 -- ---
 
-DROP TABLE IF EXISTS `MesureType`;
+DROP TABLE IF EXISTS `QuantityType`;
 		
-CREATE TABLE `MesureType` (
+CREATE TABLE `QuantityType` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`)
@@ -259,26 +258,24 @@ CREATE TABLE `MesureType` (
 
 ALTER TABLE `Recipe` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Cart` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
-ALTER TABLE `Ingredient` ADD FOREIGN KEY (id_MesureType) REFERENCES `MesureType` (`id`);
+ALTER TABLE `Ingredient` ADD FOREIGN KEY (id_IngredientType) REFERENCES `IngredientType` (`id`);
+ALTER TABLE `Ingredient` ADD FOREIGN KEY (id_QuantityUnit) REFERENCES `QuantityUnit` (`id`);
 ALTER TABLE `Rating` ADD FOREIGN KEY (id_Recipe) REFERENCES `Recipe` (`id`);
 ALTER TABLE `Rating` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Comment` ADD FOREIGN KEY (id_Recipe) REFERENCES `Recipe` (`id`);
 ALTER TABLE `Comment` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `CartItem` ADD FOREIGN KEY (id_Ingredient) REFERENCES `Ingredient` (`id`);
-ALTER TABLE `CartItem` ADD FOREIGN KEY (id_MesureUnit) REFERENCES `MesureUnit` (`id`);
 ALTER TABLE `CartItem` ADD FOREIGN KEY (id_Cart) REFERENCES `Cart` (`id`);
 ALTER TABLE `RecipeIngredient` ADD FOREIGN KEY (id_Recipe) REFERENCES `Recipe` (`id`);
 ALTER TABLE `RecipeIngredient` ADD FOREIGN KEY (id_Ingredient) REFERENCES `Ingredient` (`id`);
-ALTER TABLE `RecipeIngredient` ADD FOREIGN KEY (id_MesureUnit) REFERENCES `MesureUnit` (`id`);
+ALTER TABLE `RecipeIngredient` ADD FOREIGN KEY (id_QuantityUnit) REFERENCES `QuantityUnit` (`id`);
 ALTER TABLE `Like` ADD FOREIGN KEY (id_Recipe) REFERENCES `Recipe` (`id`);
 ALTER TABLE `Like` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_Address) REFERENCES `Address` (`id`);
 ALTER TABLE `Commands` ADD FOREIGN KEY (id_Cart) REFERENCES `Cart` (`id`);
--- ALTER TABLE `IngredientType` ADD FOREIGN KEY (id_Ingredient) REFERENCES `Ingredient` (`id`);
-ALTER TABLE `Ingredient` ADD FOREIGN KEY (id_IngredientType) REFERENCES `IngredientType` (`id`);
 ALTER TABLE `Profile` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
-ALTER TABLE `MesureUnit` ADD FOREIGN KEY (id_MesureType) REFERENCES `MesureType` (`id`);
+ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `QuantityType` (`id`);
 
 -- ---
 -- Table Properties
@@ -298,8 +295,8 @@ ALTER TABLE `MesureUnit` ADD FOREIGN KEY (id_MesureType) REFERENCES `MesureType`
 -- ALTER TABLE `IngredientType` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `Address` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `Profile` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `MesureUnit` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `MesureType` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `QuantityUnit` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `QuantityType` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ---
 -- Test Data
@@ -311,15 +308,15 @@ ALTER TABLE `MesureUnit` ADD FOREIGN KEY (id_MesureType) REFERENCES `MesureType`
 -- ('','','','');
 -- INSERT INTO `Cart` (`id`,`id_User`,`totalCost`) VALUES
 -- ('','','');
--- INSERT INTO `Ingredient` (`id`,`id_MesureType`,`name`,`cost`,`baseQuantity`) VALUES
--- ('','','','','');
+-- INSERT INTO `Ingredient` (`id`,`id_IngredientType`,`id_QuantityUnit`,`name`,`baseCost`,`baseQuantity`) VALUES
+-- ('','','','','','');
 -- INSERT INTO `Rating` (`id`,`id_Recipe`,`id_User`,`value`) VALUES
 -- ('','','','');
 -- INSERT INTO `Comment` (`id`,`id_Recipe`,`id_User`,`text`) VALUES
 -- ('','','','');
--- INSERT INTO `CartItem` (`id`,`id_Ingredient`,`id_MesureUnit`,`id_Cart`,`quantity`,`subCost`) VALUES
--- ('','','','','','');
--- INSERT INTO `RecipeIngredient` (`id`,`id_Recipe`,`id_Ingredient`,`id_MesureUnit`,`quantity`) VALUES
+-- INSERT INTO `CartItem` (`id`,`id_Ingredient`,`id_Cart`,`multiplier`,`subCost`) VALUES
+-- ('','','','','');
+-- INSERT INTO `RecipeIngredient` (`id`,`id_Recipe`,`id_Ingredient`,`id_QuantityUnit`,`quantity`) VALUES
 -- ('','','','','');
 -- INSERT INTO `Like` (`id`,`id_Recipe`,`id_User`) VALUES
 -- ('','','');
@@ -327,13 +324,13 @@ ALTER TABLE `MesureUnit` ADD FOREIGN KEY (id_MesureType) REFERENCES `MesureType`
 -- ('','','','','','','');
 -- INSERT INTO `Commands` (`id`,`id_Cart`,`creationDate`,`arrivalDate`) VALUES
 -- ('','','','');
--- INSERT INTO `IngredientType` (`id`,`id_Ingredient`,`name`) VALUES
--- ('','','');
+-- INSERT INTO `IngredientType` (`id`,`name`) VALUES
+-- ('','');
 -- INSERT INTO `Address` (`id`,`number`,`apartment`,`street`,`city`,`country`) VALUES
 -- ('','','','','','');
 -- INSERT INTO `Profile` (`id`,`id_User`,`bio`,`backgroundPicture`) VALUES
 -- ('','','','');
--- INSERT INTO `MesureUnit` (`id`,`id_MesureType`,`name`,`abbreviation`) VALUES
+-- INSERT INTO `QuantityUnit` (`id`,`id_QuantityType`,`name`,`abbreviation`) VALUES
 -- ('','','','');
--- INSERT INTO `MesureType` (`id`,`name`) VALUES
+-- INSERT INTO `QuantityType` (`id`,`name`) VALUES
 -- ('','');
