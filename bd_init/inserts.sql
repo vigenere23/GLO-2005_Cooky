@@ -3,7 +3,7 @@ USE projet;
 
 /*---------- STATIC TABLES ----------*/
 
-INSERT INTO IngredientType (`id`,`name`) VALUES
+INSERT INTO `IngredientType` (`id`,`name`) VALUES
 (NULL, 'Dairy products'),
 (NULL, 'Oils'),
 (NULL, 'Fruits and vegetables'),
@@ -57,3 +57,36 @@ INSERT INTO `User` (`id`,`username`) VALUES
 
 INSERT INTO `Ingredient` (`id`,`id_IngredientType`,`id_QuantityUnit`,`name`,`baseCost`,`baseQuantity`) VALUES
 (NULL, 3, 15, 'Apple', 3.20, 1);
+
+INSERT INTO `Recipe` (`id`,`id_User`,`name`,`directives`) VALUES
+(NULL, 1,'Best Recepie','1 - edfffseff 2 - fesfsgfsf 3 - sfffffwfw');
+
+ INSERT INTO `Cart` (`id`,`id_User`,`totalCost`) VALUES
+(Null, 1, 300);
+
+ INSERT INTO `Rating` (`id`,`id_Recipe`,`id_User`,`value`) VALUES
+(Null,1,1, 4/5);
+
+ INSERT INTO `Comment` (`id`,`id_Recipe`,`id_User`,`text`) VALUES
+(Null, 1, 1,'Very good');
+
+INSERT INTO `CartItem` (`id`,`id_Ingredient`,`id_Cart`,`multiplier`,`subCost`) VALUES
+(NULL, 1, 1, 4, 12.80);
+
+INSERT INTO `LikeRecipe` (`id`,`id_Recipe`,`id_User`) VALUES
+(NULL, 1, 1);
+
+INSERT INTO `Address` (`id`,`number`,`apartment`,`street`,`city`,`country`) VALUES
+(NULL,'15', NULL,'Laurier','QC','Canada');
+
+ INSERT INTO `Account` (`id`,`id_User`,`id_Address`,`firstName`,`lastName`,`email`,`password`) VALUES
+(NULL, 1, 1, 'Jhon', 'Pro','jhonPro47@gmail.com','12345');
+
+INSERT INTO `Profile` (`id`,`id_User`,`bio`,`backgroundPicture`) VALUES
+(NULL, 1,'Big Jhon', NULL);
+
+ INSERT INTO `RecipeIngredient` (`id`,`id_Recipe`,`id_Ingredient`,`id_QuantityUnit`,`totalQuantity`) VALUES
+(NULL, 1, 1, 4, 1);
+
+INSERT INTO `Commands` (`id`,`id_Cart`, `creationDate`, `arrivalDate`) VALUES
+(NULL, 1, NOW(), NOW());

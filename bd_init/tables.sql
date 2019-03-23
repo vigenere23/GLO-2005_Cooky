@@ -127,18 +127,18 @@ CREATE TABLE `RecipeIngredient` (
   `id_Recipe` INTEGER NOT NULL,
   `id_Ingredient` INTEGER NOT NULL,
   `id_QuantityUnit` INTEGER NOT NULL,
-  `quantity` DECIMAL NOT NULL,
+  `totalQuantity` DECIMAL NOT NULL,
   PRIMARY KEY (`id`)
 );
 
 -- ---
--- Table 'Like'
+-- Table 'LikeRecipe'
 -- 
 -- ---
 
-DROP TABLE IF EXISTS `Like`;
+DROP TABLE IF EXISTS `LikeRecipe`;
 		
-CREATE TABLE `Like` (
+CREATE TABLE `LikeRecipe` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_Recipe` INTEGER NOT NULL,
   `id_User` INTEGER NOT NULL,
@@ -171,10 +171,10 @@ CREATE TABLE `Account` (
 DROP TABLE IF EXISTS `Commands`;
 		
 CREATE TABLE `Commands` (
-  `id` INTEGER NOT NULL,
+  `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_Cart` INTEGER NOT NULL,
-  `creationDate` DATETIME NOT NULL,
-  `arrivalDate` DATETIME NULL DEFAULT NULL,
+  `creationDate` DATE NOT NULL,
+  `arrivalDate` DATE NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -269,8 +269,8 @@ ALTER TABLE `CartItem` ADD FOREIGN KEY (id_Cart) REFERENCES `Cart` (`id`);
 ALTER TABLE `RecipeIngredient` ADD FOREIGN KEY (id_Recipe) REFERENCES `Recipe` (`id`);
 ALTER TABLE `RecipeIngredient` ADD FOREIGN KEY (id_Ingredient) REFERENCES `Ingredient` (`id`);
 ALTER TABLE `RecipeIngredient` ADD FOREIGN KEY (id_QuantityUnit) REFERENCES `QuantityUnit` (`id`);
-ALTER TABLE `Like` ADD FOREIGN KEY (id_Recipe) REFERENCES `Recipe` (`id`);
-ALTER TABLE `Like` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
+ALTER TABLE `LikeRecipe` ADD FOREIGN KEY (id_Recipe) REFERENCES `Recipe` (`id`);
+ALTER TABLE `LikeRecipe` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_Address) REFERENCES `Address` (`id`);
 ALTER TABLE `Commands` ADD FOREIGN KEY (id_Cart) REFERENCES `Cart` (`id`);
