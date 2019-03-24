@@ -22,18 +22,11 @@ class SQLMapper:
       model[self.column_names[i]] = value
     return self.modelClass(**model)
 
-  def from_data(self, data):
-    model = {}
-    for (key, value) in data.items():
-      if key in self.column_names:
-        model.__setattr__(key, value)
-      else:
-        raise AttributeError("Attribute {} does not exist for Table {}".format(key, self.table_name))
-    return self.modelClass(model)
-
-  def to_tuple(self):
+  def to_tuple(self, model):
+    if not isinstance(model, self.modelClass):
+      raise ValueError("model should be of type {}".format(type(self.modelClass).__name__))
     values = []
     for column_name in self.column_names:
-      values.append(self[column_name])
+      values.append(model[column_name])
     
     return tuple(values)
