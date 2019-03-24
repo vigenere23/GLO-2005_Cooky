@@ -1,6 +1,6 @@
 from app.helpers import queries
 
-class BaseSchema:
+class SQLMapper:
   def __init__(self, table_name, modelClass):
     self.table_name = table_name
     self.column_names = []
