@@ -1,5 +1,7 @@
 from app.helpers.BaseModel import BaseModel
 
-class User(BaseModel):
-  def __init__(self, data):
-    super().__init__(self, data)
+class UserModel(BaseModel):
+
+  def __init__(self, id=None, username=None):
+    self.id = id
+    self.username = username
