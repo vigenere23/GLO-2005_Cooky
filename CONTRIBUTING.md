@@ -19,13 +19,16 @@ app.register_blueprint(routes, url_prefix='/<WANTED_PREFIX>')
 
 ### `controller.py`
 
+A controller is responsible for defining the available routes of the API and calling the right functions to get and format the needed data. 
+
 ```python
 from flask import Blueprint
 # import only helpers you need
 from app.helpers import response, exceptions, queries
-from . import dao
+from .dao import SomeDao
 
 routes = Blueprint('<MODULE_NAME>', __name__)
+theUsedDao = SomeDao # should define an instance of the needed DAO
 
 @routes.route('/<URL_SUFFIX>')
 def some_name_related_to_this_route():
@@ -34,38 +37,47 @@ def some_name_related_to_this_route():
 # other routes below
 ```
 
+> See the section below to learn more about the different helpers
+
 ### `dao.py`
+
+A DAO is responsible for querying the database for the controllers. It should always inherit the BaseDao to ensure uniformity of methods. It should also define a `SQLMapper` instance to map the returned tuples from a table to the correct model. 
 
 ```python
 from app import db
-from .model import User
+from .model import UserModel
+from app.herlpers.SQLMapper import SQLMapper
+from app.helpers.BaseDao import BaseDao
 from app.helpers.exceptions import NotFoundException
 
-def someAccessFunctionLikeGetAll():
-  query = 'SELECT * FROM User WHERE id = %(id)s'
-  result = db.select(query, { 'id': id }, 1)
-  if result:
-    return User(result) # use of the model, some magic happens here
-  else:
-    raise NotFoundException(str.format("No user found with id '%d'", id))
+class UserDao(BaseDao):
+  def __init__(self):
+    self.mapper = SQLMapper('User', UserModel)
+
+  def getById(self, id):
+    query = 'SELECT * FROM User WHERE id = %(id)s'
+    result = db.select(query, { 'id': id }, 1)
+    if result:
+      return self.mapper.from_tuple(result)
+    else:
+      raise NotFoundException(str.format("No user found with id '%d'", id))
 ```
 
 > Any DAO is responsible for raising the correct exception(s) from `app.helpers.exceptions`.
+> You can always define new methods that are specific to that DAO (like `findByName` or `groupedByCategory`)
 
 ### `model.py` (only if needed)
+
+Models are used to reiceive and return correctly formatted data to the user. **They should be able to receive any arbitrairy decomposed dict**. Normally, the class name should be suffixed by `Model`. Any model should inherit the `BaseModel` class from `app.helpers` for automatic serialization (and maybe deserialization in the future). 
 
 ```python
 from app.helpers.BaseModel import BaseModel
 
-class ModelName(BaseModel):
-  # ABSOLUTLY NEEDED
-  def __init__(self, data):
-    super().__init__(self, data)
+class ModuleNameModel(BaseModel):
+  def __init__(self, id=None, other_attribute=None):
+    self.id = id
+    self.other_attribute = other_attribute
 ```
-
-You need to make sure that the `ModelName` matches the name of the associated table (ex. `User` or `Recipe`), else it will do nothing (or crash). The creation of properties and json serialization will be done automatically. 
-
-The `data` sent will normally be the result of a `SELECT * FROM ModelName` query. 
 
 ## Understanding the helpers
 
@@ -127,11 +139,10 @@ Here, `dao.getById()` could raise a `NotFOundException`. To catch it and return 
 
 ### `BaseModel`
 
-The `BaseModel` class is only meant to be inherited by model classes, and **not** used directly. It is configured to automatically map the returned SQL data to the Model inherited. 
+The `BaseModel` class is only meant to be inherited by model classes, and **not** used directly. It is configured to automatically serialize data to return to the user. Any model can override the `serialize` method to remove any unwanted fileds. 
 
 ### `queries`
 
-This one should not be usefull. It is used by the `BaseModel` class. 
+This one should not be usefull. It is used by the `SQLMapper` class. 
 
 It may contains in the future other usefull and often used queries. 
-
