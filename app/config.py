@@ -6,7 +6,7 @@ class Config:
   DATABASE = {
     'user': 'root',
     'password': '',
-    'host': '172.17.0.2' if platform.system() == 'Windows' else 'localhost',
+    'host': '192.168.99.100' if platform.system() == 'Windows' else 'localhost',
     'port': '1337',
     'database': 'projet'
   }
