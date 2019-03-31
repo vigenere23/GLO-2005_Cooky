@@ -25,4 +25,14 @@ class UserDao(BaseDao):
   def save(self, userModel):
     if not isinstance(userModel, UserModel):
       raise ValueError("userModel should be of type UserModel")
-    pass
+    query = 'INSERT INTO User VALUES (%s, %s)'
+    result = db.insert(query, self.mapper.to_tuple(userModel))
+    
+    if result:
+      return userModel
+    else:
+      raise Exception("Could not save user")
+
+  def create(self):
+    user = UserModel(username="lol")
+    return self.save(user)

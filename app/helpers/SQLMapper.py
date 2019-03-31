@@ -27,6 +27,6 @@ class SQLMapper:
       raise ValueError("model should be of type {}".format(type(self.modelClass).__name__))
     values = []
     for column_name in self.column_names:
-      values.append(model[column_name])
+      values.append(getattr(model, column_name))
     
     return tuple(values)
