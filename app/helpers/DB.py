@@ -10,6 +10,7 @@ class DB:
     try:
       self.__cursor.execute(query, data, multi=True)
       self.__connection.commit()
+      return self.__cursor.lastrowid
 
     except Exception as e:
       self.__connection.rollback()
