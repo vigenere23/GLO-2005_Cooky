@@ -4,7 +4,7 @@ from app.helpers.BaseDao import BaseDao
 from app.helpers.SQLMapper import SQLMapper
 from app.helpers.exceptions import NotFoundException
 
-class RecipeDao(BaseDao):
+class QuantityTypeDao(BaseDao):
 
     def __init__(self):
         self.mapper = SQLMapper('QuantityType', QuantityTypeModel)

@@ -4,7 +4,7 @@ from app.helpers.BaseDao import BaseDao
 from app.helpers.SQLMapper import SQLMapper
 from app.helpers.exceptions import NotFoundException
 
-class RecipeDao(BaseDao):
+class IngredientDao(BaseDao):
 
     def __init__(self):
         self.mapper = SQLMapper('Ingredient', IngredientModel)
@@ -12,6 +12,11 @@ class RecipeDao(BaseDao):
     def getAll(self):
         query = 'SELECT * FROM Ingredient'
         results = db.select(query)
+        return self.mapper.from_tuples(results)
+    
+    def getIngredientByName(self, name):
+        query = 'SELECT * FROM Ingredient WHERE name = %(name)s'
+        results = db.select(query, {'name': name})
         return self.mapper.from_tuples(results)
     
     def save(self, ingredientModel):

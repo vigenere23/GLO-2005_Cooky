@@ -4,7 +4,7 @@ from app.helpers.BaseDao import BaseDao
 from app.helpers.SQLMapper import SQLMapper
 from app.helpers.exceptions import NotFoundException
 
-class RecipeDao(BaseDao):
+class CartDao(BaseDao):
 
     def __init__(self):
         self.mapper = SQLMapper('Cart', CartModel)
@@ -12,6 +12,11 @@ class RecipeDao(BaseDao):
     def getAll(self):
         query = 'SELECT * FROM Cart'
         results = db.select(query)
+        return self.mapper.from_tuples(results)
+
+    def getCartByUser(self, id_User):
+        query = 'SELECT * FROM Cart WHERE id_User = %(id_User)s'
+        results = db.select(query, {'id_User': id_User})
         return self.mapper.from_tuples(results)
     
     def save(self, cartModel):
