@@ -9,10 +9,3 @@ recipeDao = RecipeDao()
 @response.handleExceptions
 def index():
   return response.success(recipeDao.getAll())
-
-@routes.route('/<int:id_User>')
-@response.handleExceptions
-def getAll(id_User):
-  data = recipeDao.getAllRecipeByUser(id_User)
-  return response.success(data)
-

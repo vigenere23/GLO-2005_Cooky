@@ -8,7 +8,7 @@ class DB:
 
   def insert(self, query, data):
     try:
-      self.__cursor.execute(query, data, multi=True)
+      self.__cursor.execute(query, data)
       self.__connection.commit()
       return self.__cursor.lastrowid
 

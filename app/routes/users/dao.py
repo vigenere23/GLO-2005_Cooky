@@ -26,13 +26,12 @@ class UserDao(BaseDao):
       raise NotFoundException(str.format("No user found with id '%d'", id))
 
   def getByUsername(self, username):
-    query = 'SELECT * FROM User WHERE username = %(username)s'
-    result = db.select(query, {'username': username}, 1)
+    query = 'SELECT * FROM User WHERE username = %s'
+    result = db.select(query, (username,), 1)
     if result:
       return self.mapper.from_tuple(result)
     else:
       raise NotFoundException(str.format("No user found with username '%s'", username))
-
 
   def save(self, userModel):
     if not isinstance(userModel, UserModel):
