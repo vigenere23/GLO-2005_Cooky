@@ -1,4 +1,4 @@
-import { constants } from '@/js/constants'
+import { constants } from '@/js/helpers/constants'
 
 export class LayoutHelper {
   static isSmallScreen () {

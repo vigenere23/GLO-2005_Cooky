@@ -21,7 +21,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import NavItem from '@/components/NavItem'
+import NavItem from '@/components/nav/NavItem'
 
 export default {
   name: 'Navigation',

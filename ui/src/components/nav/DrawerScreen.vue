@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { LayoutHelper } from '@/js/helpers'
+import { LayoutHelper } from '@/js/helpers/layout'
 
 export default {
   name: 'DrawerScreen',

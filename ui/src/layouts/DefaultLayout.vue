@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import DrawerScreen from '@/components/DrawerScreen'
-import Header from '@/components/Header'
-import NavDrawer from '@/components/NavDrawer'
-import { LayoutHelper } from '@/js/helpers'
+import DrawerScreen from '@/components/nav/DrawerScreen'
+import Header from '@/components/nav/Header'
+import NavDrawer from '@/components/nav/NavDrawer'
+import { LayoutHelper } from '@/js/helpers/layout'
 
 export default {
   name: 'DefaultLayout',
@@ -54,6 +54,7 @@ export default {
 
     .content {
       padding: 16px;
+      width: 100%;
     }
   }
 }

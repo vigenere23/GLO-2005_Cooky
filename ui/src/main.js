@@ -4,7 +4,8 @@ import router from './js/router'
 import store from './js/store'
 
 require('typeface-roboto')
-require('typeface-merriweather')
+require('typeface-noto-serif')
+require('@fortawesome/fontawesome-free/css/all.css')
 
 Vue.config.productionTip = false
 

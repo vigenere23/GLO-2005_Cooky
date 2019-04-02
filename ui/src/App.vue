@@ -44,13 +44,13 @@ body {
   }
 
   h1, h2, h3 {
-    font-family: "Merriweather", Helvetica, Arial, sans-serif;
-    font-weight: 300;
+    font-family: "Noto Serif", Helvetica, Arial, sans-serif;
+    font-weight: 400;
   }
 
   h1 {
     font-size: 48px;
-    margin-top: 0;
+    margin: 24px 0;
   }
 }
 </style>

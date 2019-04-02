@@ -6,7 +6,7 @@
     <div class="profile">
       <img
         class="profile-picture"
-        src="../../static/default-avatar.png"
+        src="../../../static/default-avatar.png"
       >
       <span class="username">mscupcake352</span>
     </div>
@@ -17,7 +17,7 @@
 <script>
 import { NavItems } from '@/js/items'
 import { mapState } from 'vuex'
-import Nav from '@/components/Nav'
+import Nav from '@/components/nav/Nav'
 
 export default {
   name: 'NavigationDrawer',

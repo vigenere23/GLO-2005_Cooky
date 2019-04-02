@@ -9,7 +9,7 @@
       to="/"
       tag="a"
     >
-      Project
+      <span>Cooky <i class="fas fa-cookie-bite">&nbsp;</i></span>
     </router-link>
   </div>
 </template>
