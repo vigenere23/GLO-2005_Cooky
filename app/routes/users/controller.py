@@ -46,7 +46,7 @@ def getAllRecipesByUser(id):
   data = recipeDao.getAllRecipesByUser(id)
   return response.success(data)
 
-@routes.route('/<int:id>/likeRecipes')
+@routes.route('/<int:id>/likes')
 @response.handleExceptions
 def getLikeRecipes(id):
   data = likeRecipeDao.getLikeRecipeByUser(id)
