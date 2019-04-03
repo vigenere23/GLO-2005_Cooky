@@ -5,6 +5,7 @@
     <DataTable
       :columns="columns"
       :items="items"
+      action-icon="add_circle"
     />
   </div>
 </template>
@@ -25,7 +26,6 @@ export default {
   data () {
     return {
       columns: [
-        { for: null, text: '' },
         { for: 'name', text: 'Name' },
         { for: 'quantity', text: 'Quantity' },
         { for: 'price', text: 'Price ($)' }

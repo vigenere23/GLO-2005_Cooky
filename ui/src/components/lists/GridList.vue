@@ -1,12 +1,13 @@
 <template>
   <div class="grid-list">
-    <template v-if="isPhone">
+    <template v-if="small || isPhone">
       <SmallCard
         v-for="(item, i) in items"
         :key="item.id || i"
         :title="item.title"
         :description="item.description"
         :image="item.image"
+        :baselink="baselink"
         add-margins="true"
       />
     </template>
@@ -17,6 +18,7 @@
         :title="item.title"
         :description="item.description"
         :image="item.image"
+        :link="`${baselink}/${item.id}`"
       />
     </template>
   </div>
@@ -38,11 +40,15 @@ export default {
   props: {
     items: {
       type: Array,
-      default: () => []
+      required: true
     },
     small: {
       type: Boolean,
       default: false
+    },
+    baselink: {
+      type: String,
+      default: ''
     }
   },
 
@@ -63,7 +69,7 @@ export default {
   grid-gap: 16px;
   justify-content: center;
   justify-items: center;
-  margin: 32px auto;
+  margin: 16px auto;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 
   > * {

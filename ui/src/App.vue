@@ -58,6 +58,12 @@ body {
     text-align: center;
   }
 
+  h2 {
+    margin: 0.5em;
+    margin-top: 1em;
+    font-weight: 500;
+  }
+
   .hide-text {
     position: relative;
     overflow: hidden;

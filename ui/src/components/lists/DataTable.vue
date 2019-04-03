@@ -1,10 +1,15 @@
 <template>
-  <table class="data-table">
+  <table
+    class="data-table"
+    :class="{ small }"
+  >
     <thead>
       <tr>
+        <th v-if="actionIcon" />
         <th
           v-for="(column, i) in columns"
           :key="i"
+          :class="{ first: i == 0 }"
         >
           {{ column.text }}
         </th>
@@ -16,13 +21,19 @@
         :key="item.id || i"
       >
         <td
+          v-if="actionIcon"
+          class="action"
+        >
+          <a class="material-icons">
+            {{ actionIcon }}
+          </a>
+        </td>
+        <td
           v-for="(column, j) in columns"
           :key="j"
+          :class="{ first: j == 0 }"
         >
-          <template v-if="!j">
-            <a class="material-icons action">add_circle</a>
-          </template>
-          <template v-else>
+          <template v-if="item[column.for]">
             {{ item[column.for] }}
           </template>
         </td>
@@ -44,6 +55,14 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    small: {
+      type: Boolean,
+      default: false
+    },
+    actionIcon: {
+      type: String,
+      default: ''
     }
   }
 
@@ -56,12 +75,19 @@ export default {
 .data-table {
   width: 100%;
   max-width: 720px;
-  margin: 32px auto;
+  margin: 16px auto;
   background-color: white;
   border-radius: 4px;
   border-collapse: collapse;
   border: $faded-border;
   @include mdElevation(2);
+
+  &.small {
+    width: auto;
+    max-width: 320px;
+    margin-left: initial;
+    margin-right: initial;
+  }
 
   thead tr, tbody tr:not(:last-child) {
     border-bottom: $faded-border;
@@ -79,29 +105,23 @@ export default {
 
   td, th {
     text-align: center;
-    padding: 12px 16px 12px 0;
+    padding: 12px 0 12px 16px;
 
-    &:first-child {
-      width: 60px;
-      padding-left: 16px;
-    }
-
-    &:first-child, &:nth-child(2) {
+    &.first {
       text-align: left;
+      padding-left: 16px;
     }
 
     &:last-child {
       text-align: right;
+      padding-right: 16px;
     }
   }
 
   .action {
+    text-align: left;
+    width: 32px;
     color: $secondary-text-color;
   }
 }
 </style>
-
-<!--
-      Name       Quantity      Price
-+    Orange       1 unit       0.85 $
--->
