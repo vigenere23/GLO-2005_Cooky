@@ -33,7 +33,7 @@ export default {
     padding: 16px;
     padding-right: 48px;
     border-radius: 4px;
-    border: solid 1px $border-color;
+    border: $faded-border;
     @include mdElevationElement('search-bar');
   }
 

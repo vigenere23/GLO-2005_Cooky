@@ -74,4 +74,12 @@ body {
     }
   }
 }
+
+@media screen and (max-width: $phone-max) {
+  body {
+    h1 {
+      font-size: 32px;
+    }
+  }
+}
 </style>
