@@ -57,6 +57,7 @@ export default {
       padding: 16px;
       width: 100%;
       overflow-y: auto;
+      background-color: #fafafa;
     }
   }
 }

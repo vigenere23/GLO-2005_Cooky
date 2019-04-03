@@ -57,6 +57,7 @@ export default {
   width: 100%;
   max-width: 720px;
   margin: 32px auto;
+  background-color: white;
   border-radius: 4px;
   border-collapse: collapse;
   border: $faded-border;
