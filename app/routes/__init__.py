@@ -1,1 +1,1 @@
-from . import main, users, recipe, ingredient, cart
+from . import main, users, recipe, ingredient, cart, ingredientType
