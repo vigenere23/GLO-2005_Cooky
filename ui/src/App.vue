@@ -59,7 +59,7 @@ body {
 
   .hide-text {
     position: relative;
-    overflow-y: hidden;
+    overflow: hidden;
 
     &:after {
       content: '';

@@ -7,6 +7,7 @@
         :title="item.title"
         :description="item.description"
         :image="item.image"
+        add-margins="true"
       />
     </template>
     <template v-else>
@@ -71,7 +72,7 @@ export default {
 
 @media screen and (max-width: $phone-max) {
   .grid-list {
-    grid-template-columns: 1 minmax(auto, 180px);
+    display: block;
   }
 }
 </style>
