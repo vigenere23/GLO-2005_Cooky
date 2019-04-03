@@ -60,6 +60,7 @@ export default {
 .medium-card {
   display: block;
   border-radius: 4px;
+  border: solid 1px $border-color;
   @include mdElevationElement('card');
 
   &.add-margins {

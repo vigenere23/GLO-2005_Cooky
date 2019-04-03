@@ -1,6 +1,7 @@
 <template>
   <div class="recipes-page">
     <h1>Explore recipes</h1>
+    <SearchBar />
     <GridList
       :items="recipes"
     />
@@ -8,6 +9,7 @@
 </template>
 
 <script>
+import SearchBar from '@/components/SearchBar'
 import GridList from '@/components/lists/GridList'
 
 export default {
@@ -15,6 +17,7 @@ export default {
   name: 'Recipes',
 
   components: {
+    SearchBar,
     GridList
   },
 
@@ -47,11 +50,3 @@ export default {
 
 }
 </script>
-
-<style lang="scss">
-.recipes-page {
-  h1 {
-    text-align: center;
-  }
-}
-</style>

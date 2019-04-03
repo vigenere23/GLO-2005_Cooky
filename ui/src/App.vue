@@ -54,7 +54,8 @@ body {
 
   h1 {
     font-size: 48px;
-    margin: 24px 0;
+    margin: 1em 0;
+    text-align: center;
   }
 
   .hide-text {
