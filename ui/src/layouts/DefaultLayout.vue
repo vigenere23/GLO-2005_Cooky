@@ -15,7 +15,6 @@
 import DrawerScreen from '@/components/nav/DrawerScreen'
 import Header from '@/components/nav/Header'
 import NavDrawer from '@/components/nav/NavDrawer'
-import { LayoutHelper } from '@/js/helpers/layout'
 
 export default {
   name: 'DefaultLayout',
@@ -26,7 +25,9 @@ export default {
   },
   methods: {
     handleResize () {
-      if (LayoutHelper.isSmallScreen()) {
+      this.$store.commit('updateScreenWidth', window.innerWidth)
+
+      if (this.$store.getters.isTablet) {
         this.$store.commit('closeDrawer')
       } else {
         this.$store.commit('openDrawer')

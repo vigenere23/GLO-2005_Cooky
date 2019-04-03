@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import { LayoutHelper } from '@/js/helpers/layout'
-
 export default {
   name: 'NavItem',
   props: {
@@ -42,7 +40,7 @@ export default {
   },
   methods: {
     closeDrawer () {
-      if (LayoutHelper.isSmallScreen()) {
+      if (this.$store.getters.isTablet) {
         this.$store.commit('closeDrawer')
       }
     }

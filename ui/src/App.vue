@@ -38,6 +38,10 @@ body {
     cursor: pointer;
   }
 
+  p {
+    line-height: 1.4em;
+  }
+
   button {
     border: none;
     background: none;
@@ -51,6 +55,22 @@ body {
   h1 {
     font-size: 48px;
     margin: 24px 0;
+  }
+
+  .hide-text {
+    position: relative;
+    overflow-y: hidden;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 2em;
+      height: 1.4em;
+      background: linear-gradient(to right, transparent, white 80%);
+    }
   }
 }
 </style>

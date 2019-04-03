@@ -1,15 +1,19 @@
 <template>
-  <a class="medium-card">
-    <div class="medium-card_image"
-      :style="background"></div>
-    <div class="medium-card_content">
-      <p class="medium-card_title">{{ title }}</p>
-      <p class="medium-card_creator"></p>
-      <p class="medium-card_description">{{ description }}</p>
-      <div class="medium-card_tags"></div>
-      <div class="medium-card_actions"></div>
-    </div>
-  </a>
+  <div class="medium-card-wrapper">
+    <a
+      class="medium-card"
+      :class="{ 'add-margins': addMargins }"
+    >
+      <div
+        class="medium-card_image"
+        :style="background"
+      />
+      <div class="medium-card_content">
+        <p class="medium-card_title hide-text">{{ title }}</p>
+        <p class="medium-card_description hide-text">{{ description }}</p>
+      </div>
+    </a>
+  </div>
 </template>
 
 <script>
@@ -31,11 +35,15 @@ export default {
     description: {
       type: String,
       default: ''
+    },
+    addMargins: {
+      type: Boolean,
+      default: false
     }
   },
 
   computed: {
-    defaultImage() {
+    defaultImage () {
       return '../../../static/default-recipe-image.png'
     },
     background () {
@@ -51,9 +59,12 @@ export default {
 
 .medium-card {
   display: block;
-  width: 320px;
   border-radius: 4px;
   @include mdElevationElement('card');
+
+  &.add-margins {
+    margin: 16px;
+  }
 
   .medium-card_image {
     width: 100%;
@@ -72,26 +83,13 @@ export default {
       font-size: 20px;
       font-weight: 500;
       margin-bottom: 20px;
+      max-height: 1.4em;
     }
 
     .medium-card_description {
       color: $secondary-text-color;
       font-size: 14.5px;
-      line-height: 1.4em;
       max-height: calc(2 * 1.4em);
-      position: relative;
-      overflow: hidden;
-
-      &:after {
-        content: '';
-        display: block;
-        position:absolute;
-        bottom: 0;
-        right: 0;
-        width: 4em;
-        height: 1.4em;
-        background: linear-gradient(to right, transparent, white 80%);
-      }
     }
   }
 }

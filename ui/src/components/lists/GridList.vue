@@ -1,37 +1,37 @@
 <template>
   <div class="grid-list">
-
-    <div v-if="small">
+    <template v-if="isPhone">
       <SmallCard
-        v-for="(i, item) in items"
+        v-for="(item, i) in items"
         :key="item.id || i"
-        :item="item"
-      ></SmallCard>
-    </div>
-
-    <div v-else>
+        :title="item.title"
+        :description="item.description"
+        :image="item.image"
+      />
+    </template>
+    <template v-else>
       <MediumCard
         v-for="(item, i) in items"
         :key="item.id || i"
         :title="item.title"
         :description="item.description"
         :image="item.image"
-      ></MediumCard>
-    </div>
+      />
+    </template>
   </div>
 </template>
 
 <script>
-import MediumCard from '@/components/cards/MediumCard'
 import SmallCard from '@/components/cards/SmallCard'
+import MediumCard from '@/components/cards/MediumCard'
 
 export default {
 
   name: 'GridList',
 
   components: {
-    MediumCard,
-    SmallCard
+    SmallCard,
+    MediumCard
   },
 
   props: {
@@ -43,7 +43,35 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+
+  computed: {
+    isPhone () {
+      return this.$store.getters.isPhone
+    }
   }
 
 }
 </script>
+
+<style lang="scss">
+@import '~@/assets/scss/variables';
+
+.grid-list {
+  display: grid;
+  grid-gap: 16px;
+  justify-content: center;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+
+  > * {
+    grid-column: span 1;
+  }
+}
+
+@media screen and (max-width: $phone-max) {
+  .grid-list {
+    grid-template-columns: 1 minmax(auto, 180px);
+  }
+}
+</style>
