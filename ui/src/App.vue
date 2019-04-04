@@ -31,6 +31,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $primary-text-color;
+  font-size: 14.5px;
 
   * {
     box-sizing: border-box;

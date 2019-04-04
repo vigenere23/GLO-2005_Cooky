@@ -1,18 +1,24 @@
 <template>
   <div class="small-card-wrapper">
-    <a
+    <router-link
       class="small-card"
       :class="{ 'add-margins': addMargins }"
+      tag="a"
+      :to="link || ''"
     >
       <div
         class="small-card_image"
         :style="background"
       />
       <div class="small-card_content">
-        <p class="small-card_title hide-text">{{ title }}</p>
-        <p class="small-card_description hide-text">{{ description }}</p>
+        <p class="small-card_title hide-text">
+          {{ title }}
+        </p>
+        <p class="small-card_description hide-text">
+          {{ description }}
+        </p>
       </div>
-    </a>
+    </router-link>
   </div>
 </template>
 
@@ -39,6 +45,10 @@ export default {
     addMargins: {
       type: Boolean,
       default: false
+    },
+    link: {
+      type: String,
+      default: ''
     }
   },
 

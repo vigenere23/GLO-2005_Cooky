@@ -7,7 +7,7 @@
         :title="item.title"
         :description="item.description"
         :image="item.image"
-        :baselink="baselink"
+        :link="`${baselink}/${item.id}`"
         :add-margins="true"
       />
     </template>

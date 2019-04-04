@@ -77,6 +77,7 @@ export default {
   max-width: 720px;
   margin: 16px auto;
   background-color: white;
+  font-size: 14.5px;
   border-radius: 4px;
   border-collapse: collapse;
   border: $faded-border;
@@ -90,7 +91,7 @@ export default {
 
   thead tr, tbody tr:not(:last-child) {
     border-bottom: $faded-border;
-  }
+  }z
 
   thead tr {
     border-width: 2px;
