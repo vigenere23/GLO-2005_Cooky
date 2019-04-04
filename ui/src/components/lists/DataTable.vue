@@ -13,13 +13,13 @@
         >
           <span
             :class="{ sortable: column.sortable }"
-            @click="updateSorting(column.name)"
+            @click="updateSorting(column)"
           >
             {{ column.text }}
             <i
-              v-if="column.sortable && currentSorting === column.name"
+              v-if="column.sortable && currentSorting.name === column.name"
               class="material-icons sorting-arrow"
-              :class="{ ascending: ascendingSortingReactive }"
+              :class="{ ascending: ascendingSorting }"
             >arrow_downward</i>
           </span>
         </th>
@@ -73,33 +73,44 @@ export default {
     actionIcon: {
       type: String,
       default: ''
-    },
-    defaultSorted: {
-      type: Object,
-      default: null
-    }
-  },
-
-  computed: {
-    ascendingSortingReactive () {
-      return this.ascendingSorting
     }
   },
 
   data () {
     return {
-      currentSorting: this.defaultSorted.name,
-      ascendingSorting: this.defaultSorted.ascending === true
+      currentSorting: this.columns.find(col => col.defaultSorting),
+      ascendingSorting: this.columns.find(col => col.defaultSorting).defaultSorting !== 'desc'
     }
   },
 
+  mounted () {
+    this.sortItems()
+  },
+
   methods: {
-    updateSorting (columnName) {
-      if (columnName === this.currentSorting) {
-        this.ascendingSorting = !this.ascendingSorting
+    updateSorting (column) {
+      if (column.sortable) {
+        if (column.name === this.currentSorting.name) {
+          this.ascendingSorting = !this.ascendingSorting
+        } else {
+          this.currentSorting = column
+          this.ascendingSorting = false
+        }
+
+        this.sortItems()
+      }
+    },
+    sortItems () {
+      if (this.currentSorting.comparator) {
+        this.items.sort((a, b) => this.currentSorting.comparator(a[this.currentSorting.name], b[this.currentSorting.name]))
       } else {
-        this.currentSorting = columnName
-        this.ascendingSorting = false
+        this.items.sort((a, b) => {
+          return a[this.currentSorting.name] < b[this.currentSorting.name]
+        })
+      }
+
+      if (this.ascendingSorting) {
+        this.items.reverse()
       }
     }
   }
@@ -129,7 +140,7 @@ export default {
 
   thead tr, tbody tr:not(:last-child) {
     border-bottom: $faded-border;
-  }z
+  }
 
   thead tr {
     border-width: 2px;
@@ -147,7 +158,7 @@ export default {
       transition: transform 0.1s ease-in-out;
 
       &.ascending {
-        transform: rotate(180deg);
+        transform: rotate(-180deg);
       }
     }
 

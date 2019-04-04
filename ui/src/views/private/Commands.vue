@@ -5,13 +5,11 @@
     <DataTable
       :columns="ongoingColumns"
       :items="ongoingCommands"
-      :default-sorted="{ name: 'created_on' }"
     />
     <h2>Completed</h2>
     <DataTable
       :columns="completedColumns"
       :items="completedCommands"
-      :default-sorted="{ name: 'date' }"
     />
   </div>
 </template>
@@ -30,7 +28,7 @@ export default {
   data () {
     return {
       ongoingColumns: [
-        { name: 'created_on', text: 'Created on', sortable: true },
+        { name: 'created_on', text: 'Created on', sortable: true, defaultSorting: 'desc' },
         { name: 'status', text: 'Status', sortable: true },
         { name: 'total', text: 'Total ($)', sortable: true }
       ],
@@ -47,34 +45,34 @@ export default {
         }
       ],
       completedColumns: [
-        { name: 'date', text: 'Date', sortable: true },
+        { name: 'date', text: 'Date', sortable: true, defaultSorting: 'desc' },
         { name: 'status', text: 'Status', sortable: true },
         { name: 'total', text: 'Total ($)', sortable: true }
       ],
       completedCommands: [
         {
           date: '02-04-2019',
-          status: 'Received',
+          status: 'z',
           total: 37.48
         },
         {
           date: '02-05-2019',
-          status: 'Received',
+          status: 'xx',
           total: 75.64
         },
         {
           date: '02-04-2019',
-          status: 'Received',
+          status: 'yyy',
           total: 37.48
         },
         {
           date: '02-05-2019',
-          status: 'Cancelled',
+          status: 'yyx',
           total: 75.64
         },
         {
           date: '02-04-2019',
-          status: 'Received',
+          status: 'yyz',
           total: 37.48
         },
         {

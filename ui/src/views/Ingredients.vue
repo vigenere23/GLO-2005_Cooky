@@ -26,90 +26,90 @@ export default {
   data () {
     return {
       columns: [
-        { name: 'name', text: 'Name' },
+        { name: 'name', text: 'Name', sortable: true, defaultSorting: 'desc' },
         { name: 'quantity', text: 'Quantity' },
-        { name: 'price', text: 'Price ($)' }
+        { name: 'price', text: 'Price ($)', sortable: true }
       ],
       items: [
         {
           name: 'Orange',
           quantity: '1 unit',
-          price: '3.45'
+          price: 3.45
         },
         {
           name: 'Natural whipped cream',
           quantity: '355 mL',
-          price: '6.99'
+          price: 6.99
         },
         {
           name: 'Honey Bunches of Oats',
           quantity: '411 g',
-          price: '4.99'
+          price: 4.99
         },
         {
           name: 'Jasmine rice',
           quantity: '5 kg',
-          price: '18.62'
+          price: 18.62
         },
         {
           name: 'Orange',
           quantity: '1 unit',
-          price: '3.45'
+          price: 3.45
         },
         {
           name: 'Natural whipped cream',
           quantity: '355 mL',
-          price: '6.99'
+          price: 6.99
         },
         {
           name: 'Honey Bunches of Oats',
           quantity: '411 g',
-          price: '4.99'
+          price: 4.99
         },
         {
           name: 'Jasmine rice',
           quantity: '5 kg',
-          price: '18.62'
+          price: 18.62
         },
         {
           name: 'Orange',
           quantity: '1 unit',
-          price: '3.45'
+          price: 3.45
         },
         {
           name: 'Natural whipped cream',
           quantity: '355 mL',
-          price: '6.99'
+          price: 6.99
         },
         {
           name: 'Honey Bunches of Oats',
           quantity: '411 g',
-          price: '4.99'
+          price: 4.99
         },
         {
           name: 'Jasmine rice',
           quantity: '5 kg',
-          price: '18.62'
+          price: 18.62
         },
         {
           name: 'Orange',
           quantity: '1 unit',
-          price: '3.45'
+          price: 3.45
         },
         {
           name: 'Natural whipped cream',
           quantity: '355 mL',
-          price: '6.99'
+          price: 6.99
         },
         {
           name: 'Honey Bunches of Oats',
           quantity: '411 g',
-          price: '4.99'
+          price: 4.99
         },
         {
           name: 'Jasmine rice',
           quantity: '5 kg',
-          price: '18.62'
+          price: 18.62
         }
       ]
     }
