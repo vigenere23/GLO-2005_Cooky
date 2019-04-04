@@ -8,7 +8,7 @@
         :description="item.description"
         :image="item.image"
         :baselink="baselink"
-        add-margins="true"
+        :add-margins="true"
       />
     </template>
     <template v-else>

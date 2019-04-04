@@ -1,4 +1,4 @@
 export const constants = Object.freeze({
-  tabletWidth: 800,
+  tabletWidth: 900,
   phoneWidth: 540
 })

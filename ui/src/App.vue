@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <DefaultLayout>
-      <router-view />
+      <transition
+        name="fade"
+        mode="out-in"
+      >
+        <router-view />
+      </transition>
     </DefaultLayout>
   </div>
 </template>
@@ -47,19 +52,16 @@ body {
     background: none;
   }
 
-  h1, h2, h3 {
+  h1 {
     font-family: "Noto Serif", Helvetica, Arial, sans-serif;
     font-weight: 400;
-  }
-
-  h1 {
     font-size: 48px;
     margin: 1em 0;
     text-align: center;
   }
 
   h2 {
-    margin: 0.5em;
+    margin-bottom: 0.5em;
     margin-top: 1em;
     font-weight: 500;
   }
@@ -78,6 +80,20 @@ body {
       height: 1.4em;
       background: linear-gradient(to right, transparent, white 80%);
     }
+  }
+
+  .emoji {
+    font-family: Arial;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .2s
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0
   }
 }
 

@@ -83,8 +83,7 @@ export default {
   @include mdElevation(2);
 
   &.small {
-    width: auto;
-    max-width: 320px;
+    max-width: 360px;
     margin-left: initial;
     margin-right: initial;
   }

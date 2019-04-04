@@ -4,8 +4,13 @@
     <Header />
     <div class="main">
       <NavDrawer />
-      <div class="content">
-        <slot />
+      <div
+        class="wrapper"
+        :class="{ 'drawer-closed': drawerClosed }"
+      >
+        <div class="content">
+          <slot />
+        </div>
       </div>
     </div>
   </div>
@@ -22,6 +27,11 @@ export default {
     DrawerScreen,
     Header,
     NavDrawer
+  },
+  computed: {
+    drawerClosed () {
+      return this.$store.state.drawerClosed
+    }
   },
   methods: {
     handleResize () {
@@ -47,17 +57,28 @@ export default {
 .default-layout {
   width: 100%;
   height: 100vh;
+  background-color: #fafafa;
 
   .main {
     height: 100%;
-    padding-top: 64px;
-    display: flex;
+    padding-top: $header-height;
 
-    .content {
-      padding: 16px;
+    .wrapper {
       width: 100%;
-      overflow-y: auto;
-      background-color: #fafafa;
+      height: 100%;
+      padding-left: $nav-drawer-width;
+      transition: padding-left 0.2s ease-in-out;
+
+      &.drawer-closed {
+        padding-left: 0;
+      }
+
+      .content {
+        padding: 32px;
+        width: 100%;
+        max-width: 1000px;
+        margin: auto;
+      }
     }
   }
 }
@@ -65,7 +86,27 @@ export default {
 @media screen and (max-width: $tablet-max) {
   .default-layout {
     .main {
-      padding-top: 48px;
+      padding-top: $header-height-small;
+
+      .wrapper {
+        padding-left: 0;
+
+        .content {
+          padding: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $phone-max) {
+  .default-layout {
+    .main {
+      .wrapper {
+        .content {
+          padding: 16px;
+        }
+      }
     }
   }
 }

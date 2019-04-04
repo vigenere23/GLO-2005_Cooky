@@ -7,8 +7,7 @@ export const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: require('@/views/Home.vue').default
+      redirect: '/recipes'
     },
     {
       path: '/signup',
@@ -85,5 +84,12 @@ export const router = new Router({
       name: 'PageNotFound',
       component: () => import('@/views/PageNotFound.vue')
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({ x: 0, y: 0 })
+      }, 200)
+    })
+  }
 })

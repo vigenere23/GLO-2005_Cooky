@@ -1,19 +1,27 @@
 <template>
   <div class="recipe-page">
     <h1>{{ title }}</h1>
-    <img src="https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2017/04/main/dragon-fruit-smoothie-bowl-1704w.jpg">
-    <p class="recipe_description">
-      {{ description }}
-    </p>
-    <h2>Ingredients</h2>
-    <DataTable
-      :columns="columns"
-      :items="ingredients"
-      :small="true"
-      action-icon="add_circle"
-    />
-    <h2>Steps</h2>
-    <p>{{ steps }}</p>
+    <div class="recipe_intro">
+      <img src="https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2017/04/main/dragon-fruit-smoothie-bowl-1704w.jpg">
+      <p class="recipe_description">
+        {{ description }}
+      </p>
+    </div>
+    <div class="recipe_content">
+      <div>
+        <h2>Ingredients</h2>
+        <DataTable
+          :columns="columns"
+          :items="ingredients"
+          :small="true"
+          action-icon="add_circle"
+        />
+      </div>
+      <div>
+        <h2>Steps</h2>
+        <p>{{ steps }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -69,14 +77,44 @@ export default {
 @import '~@/assets/scss/variables';
 
 .recipe-page {
-  img {
+
+  .recipe_intro {
     width: 100%;
-    border-radius: 4px;
-    @include mdElevation(2);
+    max-width: 700px;
+    margin: auto;
+
+    img {
+      width: 100%;
+      display: block;
+      border-radius: 4px;
+      @include mdElevation(2);
+    }
+
+    .recipe_description {
+      color: $secondary-text-color;
+    }
   }
 
-  .recipe_description {
-    color: $secondary-text-color;
+  .recipe_content {
+    display: grid;
+    margin: auto;
+    justify-content: space-around;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 32px;
+
+    > * {
+      grid-column: span 1;
+    }
+  }
+}
+
+@media screen and (max-width: $phone-max) {
+  .recipe-page {
+    .recipe_content {
+      > * {
+        grid-column: span 2;
+      }
+    }
   }
 }
 </style>
