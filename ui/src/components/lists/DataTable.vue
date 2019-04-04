@@ -9,9 +9,19 @@
         <th
           v-for="(column, i) in columns"
           :key="i"
-          :class="{ first: i == 0 }"
+          :class="{ first: i === 0 }"
         >
-          {{ column.text }}
+          <span
+            :class="{ sortable: column.sortable }"
+            @click="updateSorting(column.name)"
+          >
+            {{ column.text }}
+            <i
+              v-if="column.sortable && currentSorting === column.name"
+              class="material-icons sorting-arrow"
+              :class="{ ascending: ascendingSortingReactive }"
+            >arrow_downward</i>
+          </span>
         </th>
       </tr>
     </thead>
@@ -31,10 +41,10 @@
         <td
           v-for="(column, j) in columns"
           :key="j"
-          :class="{ first: j == 0 }"
+          :class="{ first: j === 0 }"
         >
-          <template v-if="item[column.for]">
-            {{ item[column.for] }}
+          <template v-if="item[column.name]">
+            {{ item[column.name] }}
           </template>
         </td>
       </tr>
@@ -63,6 +73,34 @@ export default {
     actionIcon: {
       type: String,
       default: ''
+    },
+    defaultSorted: {
+      type: Object,
+      default: null
+    }
+  },
+
+  computed: {
+    ascendingSortingReactive () {
+      return this.ascendingSorting
+    }
+  },
+
+  data () {
+    return {
+      currentSorting: this.defaultSorted.name,
+      ascendingSorting: this.defaultSorted.ascending === true
+    }
+  },
+
+  methods: {
+    updateSorting (columnName) {
+      if (columnName === this.currentSorting) {
+        this.ascendingSorting = !this.ascendingSorting
+      } else {
+        this.currentSorting = columnName
+        this.ascendingSorting = false
+      }
     }
   }
 
@@ -101,10 +139,26 @@ export default {
     color: $secondary-text-color;
     font-weight: 500;
     font-size: 13.5px;
+
+    .sorting-arrow {
+      font-size: 18px;
+      padding-left: 2px;
+      vertical-align: bottom;
+      transition: transform 0.1s ease-in-out;
+
+      &.ascending {
+        transform: rotate(180deg);
+      }
+    }
+
+    span.sortable {
+      cursor: pointer;
+    }
   }
 
   td, th {
     text-align: center;
+    vertical-align: center;
     padding: 12px 0 12px 16px;
 
     &.first {

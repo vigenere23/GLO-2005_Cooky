@@ -5,11 +5,13 @@
     <DataTable
       :columns="ongoingColumns"
       :items="ongoingCommands"
+      :default-sorted="{ name: 'created_on' }"
     />
     <h2>Completed</h2>
     <DataTable
       :columns="completedColumns"
       :items="completedCommands"
+      :default-sorted="{ name: 'date' }"
     />
   </div>
 </template>
@@ -28,9 +30,9 @@ export default {
   data () {
     return {
       ongoingColumns: [
-        { for: 'created_on', text: 'Created on' },
-        { for: 'status', text: 'Status' },
-        { for: 'total', text: 'Total ($)' }
+        { name: 'created_on', text: 'Created on', sortable: true },
+        { name: 'status', text: 'Status', sortable: true },
+        { name: 'total', text: 'Total ($)', sortable: true }
       ],
       ongoingCommands: [
         {
@@ -45,9 +47,9 @@ export default {
         }
       ],
       completedColumns: [
-        { for: 'date', text: 'Date' },
-        { for: 'status', text: 'Status' },
-        { for: 'total', text: 'Total ($)' }
+        { name: 'date', text: 'Date', sortable: true },
+        { name: 'status', text: 'Status', sortable: true },
+        { name: 'total', text: 'Total ($)', sortable: true }
       ],
       completedCommands: [
         {

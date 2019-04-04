@@ -26,9 +26,9 @@ export default {
   data () {
     return {
       columns: [
-        { for: 'name', text: 'Name' },
-        { for: 'quantity', text: 'Quantity' },
-        { for: 'price', text: 'Price ($)' }
+        { name: 'name', text: 'Name' },
+        { name: 'quantity', text: 'Quantity' },
+        { name: 'price', text: 'Price ($)' }
       ],
       items: [
         {
