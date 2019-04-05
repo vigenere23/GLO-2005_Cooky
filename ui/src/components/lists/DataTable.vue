@@ -13,11 +13,11 @@
         >
           <span
             :class="{ sortable: column.sortable }"
-            @click="updateSorting(column)"
+            @mousedown="updateSorting(column)"
           >
             {{ column.text }}
             <i
-              v-if="column.sortable && currentSorting.name === column.name"
+              v-if="showSortingArrow(column)"
               class="material-icons sorting-arrow"
               :class="{ ascending: ascendingSorting }"
             >arrow_downward</i>
@@ -78,16 +78,23 @@ export default {
 
   data () {
     return {
-      currentSorting: this.columns.find(col => col.defaultSorting),
-      ascendingSorting: this.columns.find(col => col.defaultSorting).defaultSorting !== 'desc'
+      currentSorting: null,
+      ascendingSorting: null
     }
   },
 
   mounted () {
-    this.sortItems()
+    this.currentSorting = this.columns.find(col => col.defaultSorting)
+    if (this.currentSorting) {
+      this.ascendingSorting = this.currentSorting.defaultSorting !== 'desc'
+      this.sortItems()
+    }
   },
 
   methods: {
+    showSortingArrow (column) {
+      return column.sortable && this.currentSorting && this.currentSorting.name === column.name
+    },
     updateSorting (column) {
       if (column.sortable) {
         if (column.name === this.currentSorting.name) {

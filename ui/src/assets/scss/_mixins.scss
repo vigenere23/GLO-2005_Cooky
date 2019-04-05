@@ -1,5 +1,11 @@
+@import './colors';
+
 @mixin background() {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+}
+
+@mixin primary-color-background($alpha) {
+  background-color: rgba(76, 175, 80, $alpha);
 }

@@ -1,22 +1,14 @@
 <template>
   <div
     id="navigation-drawer"
-    :class="{ closed: drawerClosed }"
+    :class="{ closed: $store.state.drawerClosed }"
   >
-    <div class="profile">
-      <img
-        class="profile-picture"
-        src="../../../static/default-avatar.png"
-      >
-      <span class="username">mscupcake352</span>
-    </div>
-    <Nav :items="items" />
+    <Nav :items="navItems" />
   </div>
 </template>
 
 <script>
-import { NavItems } from '@/js/items'
-import { mapState } from 'vuex'
+import { navItems } from '@/data/navItems'
 import Nav from '@/components/nav/Nav'
 
 export default {
@@ -26,10 +18,14 @@ export default {
   },
   data () {
     return {
-      items: NavItems
+      navItems: navItems
     }
   },
-  computed: mapState([ 'drawerClosed', 'userId' ])
+  computed: {
+    isCurrent () {
+      return this.$route.path === this.link
+    }
+  }
 }
 </script>
 
@@ -52,21 +48,6 @@ export default {
   display: flex;
   flex-direction: column;
   z-index: 40;
-
-  .profile {
-    height: 56px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-
-    .profile-picture {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      margin-left: 8px;
-      margin-right: 16px;
-    }
-  }
 }
 
 @media screen and (min-width: $desktop-min) {

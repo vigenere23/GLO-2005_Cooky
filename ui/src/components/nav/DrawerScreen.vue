@@ -1,7 +1,7 @@
 <template>
   <div
     id="drawer-screen"
-    @click="closeDrawer"
+    @mousedown="closeDrawer"
     :class="{ show }"
   />
 </template>

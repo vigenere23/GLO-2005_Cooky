@@ -50,16 +50,6 @@ export const router = new Router({
       component: () => import('@/views/private/UserEdit.vue')
     },
     {
-      path: '/users/:id/recipes',
-      name: 'UserRecipes',
-      component: () => import('@/views/UserRecipes.vue')
-    },
-    {
-      path: '/users/:id/likes',
-      name: 'UserLikes',
-      component: () => import('@/views/UserLikes.vue')
-    },
-    {
       path: '/cart',
       name: 'Cart',
       component: () => import('@/views/private/Cart.vue')
@@ -68,6 +58,11 @@ export const router = new Router({
       path: '/commands',
       name: 'Commands',
       component: () => import('@/views/private/Commands.vue')
+    },
+    {
+      path: '/account',
+      name: 'Account',
+      component: () => import('@/views/private/Account.vue')
     },
     {
       path: '/settings',

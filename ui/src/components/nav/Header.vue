@@ -2,7 +2,7 @@
   <div id="header">
     <a
       class="material-icons hamburger"
-      @click="toggleDrawer"
+      @mousedown="toggleDrawer"
     >menu</a>
     <router-link
       class="project-name"

@@ -80,6 +80,10 @@ export default {
 @media screen and (max-width: $phone-max) {
   .grid-list {
     display: block;
+
+    > * {
+      width: 100%;
+    }
   }
 }
 </style>

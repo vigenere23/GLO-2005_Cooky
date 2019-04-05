@@ -1,11 +1,11 @@
 <template>
-  <div class="settings-page">
-    <h1>Settings</h1>
+  <div class="account-page">
+    <h1>Account</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Settings'
+  name: 'Account'
 }
 </script>

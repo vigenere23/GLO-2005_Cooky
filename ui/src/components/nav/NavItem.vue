@@ -2,17 +2,16 @@
   <router-link
     class="nav-item"
     :to="link"
-    tag="a"
-    :class="{ 'nav-item__current': isCurrent }"
+    :class="{ 'nav-item_current': isCurrent }"
     @click.native="closeDrawer"
   >
     <span
       v-if="icon"
-      class="material-icons nav-item__icon"
+      class="material-icons nav-item_icon"
     >
       {{ icon }}
     </span>
-    <span class="nav-item__text">{{ text }}</span>
+    <slot class="nav-item_text" />
   </router-link>
 </template>
 
@@ -20,10 +19,6 @@
 export default {
   name: 'NavItem',
   props: {
-    text: {
-      type: String,
-      required: true
-    },
     icon: {
       type: String,
       default: ''
@@ -62,13 +57,13 @@ export default {
     background-color: $grey100;
   }
 
-  &.nav-item__current {
+  &.nav-item_current {
     color: $primary-color;
     background-color: rgba($primary-color, 0.2);
     font-weight: 500;
   }
 
-  .nav-item__icon {
+  .nav-item_icon {
     margin-left: 8px;
     margin-right: 24px;
   }
