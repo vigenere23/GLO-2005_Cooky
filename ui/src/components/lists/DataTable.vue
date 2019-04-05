@@ -193,7 +193,7 @@ export default {
   .action {
     text-align: left;
     width: 32px;
-    color: $secondary-text-color;
+    color: $primary-color;
   }
 }
 </style>

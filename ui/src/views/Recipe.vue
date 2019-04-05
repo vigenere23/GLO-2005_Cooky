@@ -6,6 +6,15 @@
       <p class="recipe_description">
         {{ description }}
       </p>
+      <p class="user">
+        by
+        <router-link
+          tag="a"
+          :to="`/users/${user.id}`"
+        >
+          {{ user.username }}
+        </router-link>
+      </p>
     </div>
     <div class="recipe_content">
       <div>
@@ -39,6 +48,10 @@ export default {
   data () {
     return {
       title: 'Fruity smoothie bowl',
+      user: {
+        username: 'mscupcake352',
+        id: this.$store.state.userId
+      },
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       steps: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. Incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       columns: [
@@ -92,6 +105,15 @@ export default {
 
     .recipe_description {
       color: $secondary-text-color;
+    }
+
+    .user {
+      font-size: 16px;
+
+      a {
+        color: $primary-color;
+        font-weight: 500;
+      }
     }
   }
 

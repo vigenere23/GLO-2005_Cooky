@@ -62,9 +62,18 @@ body {
   }
 
   h2 {
-    margin-bottom: 0.5em;
     margin-top: 1em;
+    margin-bottom: 0.5em;
     font-weight: 500;
+    font-size: 22px;
+  }
+
+  h3 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    font-weight: 500;
+    font-size: 20px;
+    color: $secondary-text-color;
   }
 
   .hide-text {
