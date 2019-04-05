@@ -12,12 +12,12 @@
           :class="{ first: i === 0 }"
         >
           <span
-            :class="{ sortable: column.sortable }"
+            class="column-text"
+            :class="{ sortable: column.sortable, sorting: isCurrentSorting(column) }"
             @mousedown="updateSorting(column)"
           >
             {{ column.text }}
             <i
-              v-if="showSortingArrow(column)"
               class="material-icons sorting-arrow"
               :class="{ ascending: ascendingSorting }"
             >arrow_downward</i>
@@ -92,7 +92,7 @@ export default {
   },
 
   methods: {
-    showSortingArrow (column) {
+    isCurrentSorting (column) {
       return column.sortable && this.currentSorting && this.currentSorting.name === column.name
     },
     updateSorting (column) {
@@ -153,10 +153,22 @@ export default {
     border-width: 2px;
   }
 
-  th {
+  th .column-text {
     color: $secondary-text-color;
     font-weight: 500;
     font-size: 13.5px;
+
+    &:not(.sorting) .sorting-arrow {
+      display: none;
+    }
+
+    &.sortable {
+      cursor: pointer;
+    }
+
+    &.sorting {
+      color: $primary-color;
+    }
 
     .sorting-arrow {
       font-size: 18px;
@@ -167,10 +179,6 @@ export default {
       &.ascending {
         transform: rotate(-180deg);
       }
-    }
-
-    span.sortable {
-      cursor: pointer;
     }
   }
 
