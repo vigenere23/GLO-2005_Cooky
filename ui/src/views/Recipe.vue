@@ -19,11 +19,10 @@
     <div class="recipe_content">
       <div>
         <h2>Ingredients</h2>
-        <DataTable
+        <IngredientsDataTable
           :columns="columns"
           :items="ingredients"
           :small="true"
-          action-icon="add_circle"
         />
       </div>
       <div>
@@ -31,56 +30,51 @@
         <p>{{ steps }}</p>
       </div>
     </div>
+    <h2>Comments</h2>
+    <CommentList
+      :comments="comments"
+      :owner-id="user.id"
+    />
   </div>
 </template>
 
 <script>
-import DataTable from '@/components/lists/DataTable'
+import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
+import CommentList from '@/components/comments/CommentList'
+import { ingredients } from '@/js/data/ingredients'
+import { comments } from '@/js/data/comments'
+import { mapState } from 'vuex'
 
 export default {
 
   name: 'Recipe',
 
   components: {
-    DataTable
+    IngredientsDataTable,
+    CommentList
   },
+
+  computed: mapState('user', ['userId']),
 
   data () {
     return {
       title: 'Fruity smoothie bowl',
       user: {
-        username: 'mscupcake352',
-        id: this.$store.state.userId
+        username: 'mscupcake352'
       },
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       steps: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. Incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       columns: [
-        { name: 'name', text: 'Name' },
+        { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' }
       ],
-      ingredients: [
-        {
-          name: 'Orange',
-          quantity: '3/4 unit'
-        },
-        {
-          name: 'Natural whipped cream',
-          quantity: '10 mL'
-        },
-        {
-          name: 'Honey Bunches of Oats',
-          quantity: '1 cup'
-        },
-        {
-          name: 'Jasmine rice',
-          quantity: '2 cups'
-        },
-        {
-          name: 'Water',
-          quantity: '3 1/2 cups'
-        }
-      ]
+      ingredients: ingredients,
+      comments: comments
     }
+  },
+
+  mounted () {
+    this.user.id = this.userId
   }
 
 }

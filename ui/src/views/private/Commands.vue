@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       ongoingColumns: [
-        { name: 'created_on', text: 'Created on', sortable: true, defaultSorting: 'desc' },
+        { name: 'created_on', text: 'Created on', sortable: true, defaultSorting: 'desc', initiallySorted: true },
         { name: 'status', text: 'Status', sortable: true },
         { name: 'total', text: 'Total ($)', sortable: true }
       ],
@@ -45,7 +45,7 @@ export default {
         }
       ],
       completedColumns: [
-        { name: 'date', text: 'Date', sortable: true, defaultSorting: 'desc' },
+        { name: 'date', text: 'Date', sortable: true, defaultSorting: 'desc', initiallySorted: true },
         { name: 'status', text: 'Status', sortable: true },
         { name: 'total', text: 'Total ($)', sortable: true }
       ],

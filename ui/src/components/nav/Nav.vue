@@ -6,7 +6,7 @@
     >
       <img
         class="profile-picture"
-        src="../../../static/default-avatar.png"
+        :src="avatar()"
       >
       <span class="username">mscupcake352</span>
     </NavItem>
@@ -32,11 +32,11 @@
 
 <script>
 import NavItem from '@/components/nav/NavItem'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
 
-  name: 'Navigation',
+  name: 'Nav',
 
   components: {
     NavItem
@@ -49,7 +49,10 @@ export default {
     }
   },
 
-  computed: mapState('user', ['userId'])
+  computed: {
+    ...mapState('user', ['userId']),
+    ...mapGetters('user', ['avatar'])
+  }
 
 }
 </script>

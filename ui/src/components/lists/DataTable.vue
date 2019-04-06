@@ -19,15 +19,15 @@
             {{ column.text }}
             <i
               class="material-icons sorting-arrow"
-              :class="{ ascending: ascendingSorting }"
-            >arrow_downward</i>
+              :class="{ reverse: reverseSorting }"
+            >arrow_upward</i>
           </span>
         </th>
       </tr>
     </thead>
     <tbody v-if="items.length">
       <tr
-        v-for="(item, i) in items"
+        v-for="(item, i) in sortedItems"
         :key="item.id || i"
       >
         <td
@@ -35,10 +35,9 @@
           class="action"
         >
           <SelectionIcon
-            :payload="item"
-            :selected="actions.selected"
-            :deselected="actions.deselected"
-            :initially-selected="actions.initiallySelected"
+            :is-selected="actions.isSelected(item)"
+            @selection="actions.onSelection(item)"
+            @deselection="actions.onDeselection(item)"
           />
         </td>
         <td
@@ -88,20 +87,17 @@ export default {
   data () {
     return {
       currentSorting: null,
-      ascendingSorting: null,
+      reverseSorting: null,
       sortedItems: this.items
     }
   },
 
   mounted () {
-    this.currentSorting = this.columns.find(col => col.defaultSortingAscending !== undefined)
+    this.currentSorting = this.columns.find(col => col.initiallySorted)
     if (this.currentSorting) {
-      this.ascendingSorting = this.currentSorting.defaultSortingAscending
+      this.reverseSorting = this.currentSorting.defaultSorting === 'desc'
       this.sortItems()
     }
-    this.items.forEach(item => {
-      item.isSelected = this.actions.initiallySelected(item)
-    })
   },
 
   methods: {
@@ -111,10 +107,10 @@ export default {
     updateSorting (column) {
       if (column.sortable) {
         if (column.name === this.currentSorting.name) {
-          this.ascendingSorting = !this.ascendingSorting
+          this.reverseSorting = !this.reverseSorting
         } else {
           this.currentSorting = column
-          this.ascendingSorting = false
+          this.reverseSorting = this.currentSorting.defaultSorting === 'desc'
         }
 
         this.sortItems()
@@ -125,11 +121,11 @@ export default {
         this.sortedItems.sort((a, b) => this.currentSorting.comparator(a[this.currentSorting.name], b[this.currentSorting.name]))
       } else {
         this.sortedItems.sort((a, b) => {
-          return a[this.currentSorting.name] < b[this.currentSorting.name]
+          return a[this.currentSorting.name] > b[this.currentSorting.name]
         })
       }
 
-      if (this.ascendingSorting) {
+      if (this.reverseSorting) {
         this.sortedItems.reverse()
       }
     }
@@ -189,15 +185,16 @@ export default {
       vertical-align: bottom;
       transition: transform 0.1s ease-in-out;
 
-      &.ascending {
-        transform: rotate(-180deg);
+      &.reverse {
+        transform: rotate(180deg);
       }
     }
   }
 
   td, th {
     text-align: center;
-    vertical-align: center;
+    vertical-align: middle;
+    line-height: 1.4em;
     padding: 12px 0 12px 16px;
 
     &.first {
