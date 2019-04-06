@@ -4,14 +4,12 @@ from .dao import UserDao
 from .model import UserModel
 from ..recipe.dao import RecipeDao
 from ..likeRecipe.dao import LikeRecipeDao
-from ..profile.dao import ProfileDao
 from ..cart.dao import CartDao
 
 routes = Blueprint('users', __name__)
 userDao = UserDao()
 recipeDao = RecipeDao()
 likeRecipeDao = LikeRecipeDao()
-profileDao = ProfileDao()
 cartDao = CartDao()
 
 @routes.route('', methods=['GET'])
@@ -50,12 +48,6 @@ def getAllRecipesByUser(id):
 @response.handleExceptions
 def getLikeRecipes(id):
   data = likeRecipeDao.getLikeRecipeByUser(id)
-  return response.success(data)
-
-@routes.route('/<int:id>/profile')
-@response.handleExceptions
-def getProfileByUser(id):
-  data = profileDao.getProfileByUser(id)
   return response.success(data)
 
 
