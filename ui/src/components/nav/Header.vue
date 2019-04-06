@@ -15,13 +15,14 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
+
   name: 'Header',
-  methods: {
-    toggleDrawer () {
-      this.$store.commit('toggleDrawer')
-    }
-  }
+
+  methods: mapMutations('layout', ['toggleDrawer'])
+
 }
 </script>
 

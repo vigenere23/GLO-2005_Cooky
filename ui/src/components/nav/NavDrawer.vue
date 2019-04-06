@@ -1,7 +1,7 @@
 <template>
   <div
     id="navigation-drawer"
-    :class="{ closed: $store.state.drawerClosed }"
+    :class="{ closed: drawerClosed }"
   >
     <Nav :items="navItems" />
   </div>
@@ -10,6 +10,7 @@
 <script>
 import { navItems } from '@/data/navItems'
 import Nav from '@/components/nav/Nav'
+import { mapState } from 'vuex'
 
 export default {
   name: 'NavigationDrawer',
@@ -22,6 +23,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('layout', ['drawerClosed']),
     isCurrent () {
       return this.$route.path === this.link
     }

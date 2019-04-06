@@ -50,6 +50,7 @@ export default {
     updateSelection () {
       if (this.isSelected && this.deselected.action(this.payload)) {
         this.isSelected = false
+        alert('unselected')
       } else if (!this.isSelected && this.selected.action(this.payload)) {
         this.isSelected = true
       }

@@ -101,7 +101,6 @@ export default {
 
   .tab-slider_content-wrapper {
     display: flex;
-    will-change: transform;
     transition: all 0.3s ease-in-out;
 
     .tab-slider_content {

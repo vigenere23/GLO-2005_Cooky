@@ -20,34 +20,45 @@
 import DrawerScreen from '@/components/nav/DrawerScreen'
 import Header from '@/components/nav/Header'
 import NavDrawer from '@/components/nav/NavDrawer'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 
 export default {
+
   name: 'DefaultLayout',
+
   components: {
     DrawerScreen,
     Header,
     NavDrawer
   },
-  computed: {
-    drawerClosed () {
-      return this.$store.state.drawerClosed
-    }
-  },
-  methods: {
-    handleResize () {
-      this.$store.commit('updateScreenWidth', window.innerWidth)
 
-      if (this.$store.getters.isTablet) {
-        this.$store.commit('closeDrawer')
+  computed: {
+    ...mapState('layout', ['drawerClosed']),
+    ...mapGetters('layout', ['isTablet'])
+  },
+
+  methods: {
+    ...mapMutations('layout', [
+      'updateScreenWidth',
+      'closeDrawer',
+      'openDrawer'
+    ]),
+    handleResize () {
+      this.updateScreenWidth(window.innerWidth)
+
+      if (this.isTablet) {
+        this.closeDrawer()
       } else {
-        this.$store.commit('openDrawer')
+        this.openDrawer()
       }
     }
   },
+
   mounted () {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
   }
+
 }
 </script>
 

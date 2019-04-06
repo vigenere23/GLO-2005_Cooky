@@ -3,7 +3,7 @@
     class="nav-item"
     :to="link"
     :class="{ 'nav-item_current': isCurrent }"
-    @click.native="closeDrawer"
+    @click.native="tryCloseDrawer"
   >
     <span
       v-if="icon"
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex'
+
 export default {
   name: 'NavItem',
   props: {
@@ -29,14 +31,16 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('layout', ['isTablet']),
     isCurrent () {
       return this.$route.path === this.link
     }
   },
   methods: {
-    closeDrawer () {
-      if (this.$store.getters.isTablet) {
-        this.$store.commit('closeDrawer')
+    ...mapMutations('layout', ['closeDrawer']),
+    tryCloseDrawer () {
+      if (this.isTablet) {
+        this.closeDrawer()
       }
     }
   }

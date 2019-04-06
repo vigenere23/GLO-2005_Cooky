@@ -2,7 +2,7 @@
   <div class="navigation">
     <NavItem
       class="profile"
-      :link="`/users/${$store.state.userId}`"
+      :link="`/users/${userId}`"
     >
       <img
         class="profile-picture"
@@ -32,18 +32,25 @@
 
 <script>
 import NavItem from '@/components/nav/NavItem'
+import { mapState } from 'vuex'
 
 export default {
+
   name: 'Navigation',
+
   components: {
     NavItem
   },
+
   props: {
     items: {
       type: Array,
       default: () => []
     }
-  }
+  },
+
+  computed: mapState('user', ['userId'])
+
 }
 </script>
 

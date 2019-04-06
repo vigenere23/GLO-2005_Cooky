@@ -7,18 +7,22 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapGetters } from 'vuex'
+
 export default {
+
   name: 'DrawerScreen',
-  methods: {
-    closeDrawer () {
-      this.$store.commit('closeDrawer')
-    }
-  },
+
+  methods: mapMutations('layout', ['closeDrawer']),
+
   computed: {
+    ...mapState('layout', ['drawerClosed']),
+    ...mapGetters('layout', ['isTablet']),
     show () {
-      return !this.$store.state.drawerClosed && this.$store.getters.isTablet
+      return !this.drawerClosed && this.isTablet
     }
   }
+
 }
 </script>
 
