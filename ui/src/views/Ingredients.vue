@@ -2,19 +2,17 @@
   <div class="ingredients-page">
     <h1>Find ingredients</h1>
     <SearchBar />
-    <DataTable
+    <IngredientsDataTable
       :columns="columns"
       :items="ingredients"
-      :actions="actions"
     />
   </div>
 </template>
 
 <script>
 import SearchBar from '@/components/SearchBar'
-import DataTable from '@/components/lists/DataTable'
+import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
 import { ingredients } from '@/js/data/ingredients'
-import { mapGetters, mapMutations } from 'vuex'
 
 export default {
 
@@ -22,10 +20,8 @@ export default {
 
   components: {
     SearchBar,
-    DataTable
+    IngredientsDataTable
   },
-
-  computed: mapGetters('user', ['cartContains']),
 
   data () {
     return {
@@ -34,16 +30,9 @@ export default {
         { name: 'quantity', text: 'Quantity' },
         { name: 'price', text: 'Price ($)', sortable: true }
       ],
-      ingredients: ingredients,
-      actions: {
-        isSelected: (item) => this.cartContains(item.id),
-        onSelection: (item) => this.addCartItem(item.id),
-        onDeselection: (item) => this.removeCartItem(item.id)
-      }
+      ingredients: ingredients
     }
-  },
-
-  methods: mapMutations('user', ['addCartItem', 'removeCartItem'])
+  }
 
 }
 </script>

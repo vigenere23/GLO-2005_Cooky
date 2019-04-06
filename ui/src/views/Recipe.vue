@@ -19,11 +19,10 @@
     <div class="recipe_content">
       <div>
         <h2>Ingredients</h2>
-        <DataTable
+        <IngredientsDataTable
           :columns="columns"
           :items="ingredients"
           :small="true"
-          :actions="actions"
         />
       </div>
       <div>
@@ -35,22 +34,19 @@
 </template>
 
 <script>
-import DataTable from '@/components/lists/DataTable'
+import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
 import { ingredients } from '@/js/data/ingredients'
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
 
   name: 'Recipe',
 
   components: {
-    DataTable
+    IngredientsDataTable
   },
 
-  computed: {
-    ...mapGetters('user', ['cartContains']),
-    ...mapState('user', ['userId'])
-  },
+  computed: mapState('user', ['userId']),
 
   data () {
     return {
@@ -65,16 +61,9 @@ export default {
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' }
       ],
-      ingredients: ingredients,
-      actions: {
-        isSelected: (item) => this.cartContains(item.id),
-        onSelection: (item) => this.addCartItem(item.id),
-        onDeselection: (item) => this.removeCartItem(item.id)
-      }
+      ingredients: ingredients
     }
-  },
-
-  methods: mapMutations('user', ['addCartItem', 'removeCartItem'])
+  }
 
 }
 </script>
