@@ -19,7 +19,7 @@ scripts/start-docker.sh
 ### Populating (on bash only)
 
 ```bash
-./scripts/init-bd.sh
+./scripts/init-database.sh
 ```
 
 ## Server

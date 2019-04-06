@@ -33,4 +33,11 @@ class RecipeDao(BaseDao):
     def save(self, recipeModel):
         if not isinstance(recipeModel, RecipeModel):
             raise ValueError("recipeModel should be of type RecipeModel")
-        pass
+
+        query = 'INSERT INTO Recipe (id, id_User, name, directives) VALUES (%s, %s, %s, %s)'
+        newRecipeId = db.insert(query, self.mapper.to_tuple(recipeModel))
+       
+        if newRecipeId:
+            return self.getRecipeById(newRecipeId)
+        else:
+            raise Exception("Could not save recipe")

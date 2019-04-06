@@ -14,7 +14,27 @@ class RatingDao(BaseDao):
         results = db.select(query)
         return self.mapper.from_tuples(results)
     
+    def getRateById(self, id):
+    
+        if not id:
+            raise Exception("Id cannot be None")
+
+        query = 'SELECT * FROM Rating WHERE id = %(id)s'
+        result = db.select(query, { 'id': id }, 1)
+        if result:
+            return self.mapper.from_tuple(result)
+        else:
+            raise NotFoundException(str.format("No rate found with id '%d'", id))
+    
+    
     def save(self, ratingModel):
         if not isinstance(ratingModel, RatingModel):
             raise ValueError("ratingModel should be of type RatingModel")
-        pass
+
+        query = 'INSERT INTO Rating (id, id_Recipe, id_User, value) VALUES (%s, %s, %s, %s)'
+        newItemId = db.insert(query, self.mapper.to_tuple(ratingModel))
+       
+        if newItemId:
+            return self.getRateById(newItemId)
+        else:
+            raise Exception("Could not save rate")
