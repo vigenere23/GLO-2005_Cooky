@@ -5,7 +5,7 @@
   >
     <thead>
       <tr>
-        <th v-if="actionIcon" />
+        <th v-if="actions" />
         <th
           v-for="(column, i) in columns"
           :key="i"
@@ -31,12 +31,15 @@
         :key="item.id || i"
       >
         <td
-          v-if="actionIcon"
+          v-if="actions"
           class="action"
         >
-          <a class="material-icons">
-            {{ actionIcon }}
-          </a>
+          <SelectionIcon
+            :payload="item"
+            :selected="actions.selected"
+            :deselected="actions.deselected"
+            :initially-selected="actions.initiallySelected"
+          />
         </td>
         <td
           v-for="(column, j) in columns"
@@ -53,9 +56,15 @@
 </template>
 
 <script>
+import SelectionIcon from '@/components/SelectionIcon'
+
 export default {
 
   name: 'DataTable',
+
+  components: {
+    SelectionIcon
+  },
 
   props: {
     columns: {
@@ -70,25 +79,29 @@ export default {
       type: Boolean,
       default: false
     },
-    actionIcon: {
-      type: String,
-      default: ''
+    actions: {
+      type: Object,
+      default: null
     }
   },
 
   data () {
     return {
       currentSorting: null,
-      ascendingSorting: null
+      ascendingSorting: null,
+      sortedItems: this.items
     }
   },
 
   mounted () {
-    this.currentSorting = this.columns.find(col => col.defaultSorting)
+    this.currentSorting = this.columns.find(col => col.defaultSortingAscending !== undefined)
     if (this.currentSorting) {
-      this.ascendingSorting = this.currentSorting.defaultSorting !== 'desc'
+      this.ascendingSorting = this.currentSorting.defaultSortingAscending
       this.sortItems()
     }
+    this.items.forEach(item => {
+      item.isSelected = this.actions.initiallySelected(item)
+    })
   },
 
   methods: {
@@ -109,15 +122,15 @@ export default {
     },
     sortItems () {
       if (this.currentSorting.comparator) {
-        this.items.sort((a, b) => this.currentSorting.comparator(a[this.currentSorting.name], b[this.currentSorting.name]))
+        this.sortedItems.sort((a, b) => this.currentSorting.comparator(a[this.currentSorting.name], b[this.currentSorting.name]))
       } else {
-        this.items.sort((a, b) => {
+        this.sortedItems.sort((a, b) => {
           return a[this.currentSorting.name] < b[this.currentSorting.name]
         })
       }
 
       if (this.ascendingSorting) {
-        this.items.reverse()
+        this.sortedItems.reverse()
       }
     }
   }
