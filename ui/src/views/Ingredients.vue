@@ -13,7 +13,7 @@
 <script>
 import SearchBar from '@/components/SearchBar'
 import DataTable from '@/components/lists/DataTable'
-import { ingredients } from '@/data/ingredients'
+import { ingredients } from '@/js/data/ingredients'
 
 export default {
 

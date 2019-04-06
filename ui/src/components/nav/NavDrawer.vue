@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { navItems } from '@/data/navItems'
+import { navItems } from '@/js/data/navItems'
 import Nav from '@/components/nav/Nav'
 import { mapState } from 'vuex'
 

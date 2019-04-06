@@ -12,7 +12,7 @@
 <script>
 import SearchBar from '@/components/SearchBar'
 import GridList from '@/components/lists/GridList'
-import { recipes } from '@/data/recipes'
+import { recipes } from '@/js/data/recipes'
 
 export default {
 
