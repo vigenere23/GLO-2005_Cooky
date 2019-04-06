@@ -23,7 +23,7 @@
           :columns="columns"
           :items="ingredients"
           :small="true"
-          action-icon="add_circle"
+          :actions="actions"
         />
       </div>
       <div>
@@ -36,6 +36,8 @@
 
 <script>
 import DataTable from '@/components/lists/DataTable'
+import { ingredients } from '@/js/data/ingredients'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
 
@@ -45,43 +47,34 @@ export default {
     DataTable
   },
 
+  computed: {
+    ...mapGetters('user', ['cartContains']),
+    ...mapState('user', ['userId'])
+  },
+
   data () {
     return {
       title: 'Fruity smoothie bowl',
       user: {
         username: 'mscupcake352',
-        id: this.$store.state.userId
+        id: this.userId
       },
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       steps: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. Incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       columns: [
-        { name: 'name', text: 'Name' },
+        { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' }
       ],
-      ingredients: [
-        {
-          name: 'Orange',
-          quantity: '3/4 unit'
-        },
-        {
-          name: 'Natural whipped cream',
-          quantity: '10 mL'
-        },
-        {
-          name: 'Honey Bunches of Oats',
-          quantity: '1 cup'
-        },
-        {
-          name: 'Jasmine rice',
-          quantity: '2 cups'
-        },
-        {
-          name: 'Water',
-          quantity: '3 1/2 cups'
-        }
-      ]
+      ingredients: ingredients,
+      actions: {
+        isSelected: (item) => this.cartContains(item.id),
+        onSelection: (item) => this.addCartItem(item.id),
+        onDeselection: (item) => this.removeCartItem(item.id)
+      }
     }
-  }
+  },
+
+  methods: mapMutations('user', ['addCartItem', 'removeCartItem'])
 
 }
 </script>

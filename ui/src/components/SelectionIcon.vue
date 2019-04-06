@@ -14,46 +14,25 @@ export default {
   name: 'SelectionIcon',
 
   props: {
-    selected: {
-      type: Object,
+    isSelected: {
+      type: Boolean,
       required: true
-    },
-    deselected: {
-      type: Object,
-      required: true
-    },
-    initiallySelected: {
-      type: Function,
-      required: true
-    },
-    payload: {
-      type: Object,
-      required: true
-    }
-  },
-
-  data () {
-    return {
-      isSelected: this.initiallySelected(this.payload)
     }
   },
 
   computed: {
     icon () {
       return this.isSelected
-        ? this.selected.icon
-        : this.deselected.icon
+        ? 'add_circle_outline'
+        : 'add_circle'
     }
   },
 
   methods: {
     updateSelection () {
-      if (this.isSelected && this.deselected.action(this.payload)) {
-        this.isSelected = false
-        alert('unselected')
-      } else if (!this.isSelected && this.selected.action(this.payload)) {
-        this.isSelected = true
-      }
+      this.isSelected
+        ? this.$emit('deselection')
+        : this.$emit('selection')
     }
   }
 
@@ -61,11 +40,14 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@/assets/scss/variables';
+
 .selection-icon {
-  transform: all 2s ease-in-out;
+  display: block;
+  transition: transform 0.2s ease-in-out;
 
   &.selected {
-    transform: rotate(90deg);
+    transform: rotate(45deg);
   }
 }
 </style>
