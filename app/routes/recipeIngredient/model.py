@@ -5,5 +5,5 @@ class RecipeIngredientModel(BaseModel):
     self.id = id
     self.id_Recipe = id_Recipe
     self.id_Ingredient = id_Ingredient
-    self.id_Quantity = id_QuantityUnit
+    self.id_QuantityUnit = id_QuantityUnit
     self.totalQuantity = totalQuantity

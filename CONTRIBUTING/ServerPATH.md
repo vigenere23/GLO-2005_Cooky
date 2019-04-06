@@ -22,6 +22,9 @@
 ### return recipe from recipe id
 `GET /recipes/<id>`
 
+### return recipe from recipe name
+`GET /recipes/name/<name>`
+
 ### return all ingredients from recipe id
 `GET /recipes/<id>/ingredients`
 
@@ -79,6 +82,12 @@
 ### body : {
 ###   id_User: <id_User>,
 ###   name: <name>,
-###   directives: <directives>
+###   directives: <directives>,
+###   ingredients: {
+###      "id_Ingredient": [<firstIngredient>, <secondIngredient>, ..., <lastIngredient>],
+###      "id_QuantityUnit": [<firstQuantityUnit>, <secondQuantityUnit>, ..., <lastQuantityUnit>],
+###      "totalQuantity": [<firstTotalQuantity>, <secondTotalQuantity>, ..., <lastTotalQuantity>]
+###   }
 ###}
+### Note: always a string
 `Post /recipes`

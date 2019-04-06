@@ -12,6 +12,6 @@ def index():
 
 @routes.route('/<name>')
 @response.handleExceptions
-def getAllRecipesByUser(name):
+def getIngredientByName(name):
   data = ingredientDao.getIngredientByName(name)
   return response.success(data)

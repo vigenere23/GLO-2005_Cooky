@@ -10,7 +10,7 @@ from ..comment.dao import CommentDao
 from ..rating.model import RatingModel
 from ..rating.dao import RatingDao
 
-routes = Blueprint('recipes', __name__)
+routes = Blueprint('recipes', __name__) 
 recipeDao = RecipeDao()
 likeRecipeDao = LikeRecipeDao()
 commentDao = CommentDao()
@@ -35,7 +35,7 @@ def addRecipe():
   try: 
 
     recipeModel = RecipeModel(**data)
-    result = recipeDao.save(recipeModel)
+    result = recipeDao.save(recipeModel,  body['ingredients'])
     return response.success(result)
   except Exception as e:
     return response.error(e)
@@ -44,6 +44,12 @@ def addRecipe():
 @response.handleExceptions
 def getRecipeById(recipe_id):
   data = recipeDao.getRecipeById(recipe_id)
+  return response.success(data)
+
+@routes.route('/name/<name>')
+@response.handleExceptions
+def getRecipeByName(name):
+  data = recipeDao.getRecipeByName(name)
   return response.success(data)
 
 @routes.route('/<int:recipe_id>/ingredients')
