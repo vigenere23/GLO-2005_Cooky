@@ -61,10 +61,18 @@ export default {
     background-color: $grey100;
   }
 
+  &:active {
+    background-color: $grey200;
+  }
+
   &.nav-item_current {
     color: $primary-color;
-    background-color: rgba($primary-color, 0.2);
+    background-color: rgba($primary-color, 0.1);
     font-weight: 500;
+
+    &:active {
+      background-color: rgba($primary-color, 0.2);
+    }
   }
 
   .nav-item_icon {

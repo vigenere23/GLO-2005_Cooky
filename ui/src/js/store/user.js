@@ -4,12 +4,19 @@ export const userModule = {
 
   state: {
     cart: [],
-    userId: '87abdf9nf2903438'
+    userId: '87abdf9nf2903438',
+    avatar: ''
   },
 
   getters: {
     cartContains: (state) => (id) => {
       return state.cart.indexOf(id) !== -1
+    },
+    avatar: (state) => (user) => {
+      if (user) {
+        return user.avatar || `${process.env.BASE_URL}images/default-avatar.png`
+      }
+      return state.avatar || `${process.env.BASE_URL}images/default-avatar.png`
     }
   },
 

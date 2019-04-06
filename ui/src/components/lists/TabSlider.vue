@@ -80,8 +80,7 @@ export default {
       font-size: 16px;
       text-transform: capitalize;
       text-align: center;
-      transition: background-color 0.2s ease-in-out,
-                  color 0.2s ease-in-out;
+      transition: background-color 0.2s ease-in-out;
 
       &.current {
         border-bottom: solid 3px $primary-color;
@@ -90,11 +89,11 @@ export default {
       }
 
       &:hover {
-        @include primary-color-background(0.1);
+        background-color: rgba($primary-color, 0.1);
       }
 
       &:active {
-        @include primary-color-background(0.2);
+        background-color: rgba($primary-color, 0.2);
       }
     }
   }

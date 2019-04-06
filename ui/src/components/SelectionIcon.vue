@@ -2,7 +2,7 @@
   <a
     class="material-icons selection-icon"
     :class="{ 'selected': isSelected }"
-    @click="updateSelection"
+    @mousedown="updateSelection"
   >
     {{ icon }}
   </a>
