@@ -68,7 +68,7 @@ export default {
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' }
       ],
-      ingredients: ingredients,
+      ingredients: ingredients.slice(0, 5),
       comments: comments
     }
   },

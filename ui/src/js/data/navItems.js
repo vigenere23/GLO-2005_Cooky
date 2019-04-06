@@ -33,11 +33,6 @@ export const navItems = [
         link: `/account`
       },
       {
-        text: 'Settings',
-        icon: 'settings',
-        link: '/settings'
-      },
-      {
         text: 'Logout',
         icon: 'exit_to_app',
         link: '/logout'
