@@ -32,7 +32,7 @@ def addRecipe():
       'directives': body['directives']
   }
 
-  try: 
+  try:
 
     recipeModel = RecipeModel(**data)
     result = recipeDao.save(recipeModel,  body['ingredients'])
