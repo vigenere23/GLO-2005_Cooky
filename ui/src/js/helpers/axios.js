@@ -1,48 +1,32 @@
-import axios from 'axios';
+import axios from 'axios'
 
-export default {
-
-  async axiosGet(url, header = {}) {
-    try {
-      const response = await axios.get(url, header);
-      return response.data;
-    } catch (err) {
-      return null;
-    }
-  },
-
-  async axiosPost(url, body) {
-    try {
-      const response = await axios.post(url, body);
-      return response.data;
-    } catch (err) {
-      return null;
-    }
-  },
-
-  async axiosPut(url, body) {
-    try {
-      const response = await axios.put(url, body);
-      return response.data;
-    } catch (err) {
-      return null;
-    }
-  },
-
-  async axiosDelete(url) {
-    try {
-      const response = await axios.delete(url);
-      return response.data;
-    } catch (err) {
-      return null;
-    }
-  },
-
-  extractSingleResult(data) {
-    return data && data.results ? data.results[0] : {};
-  },
-
-  extractMultipleResults(data) {
-    return data ? data.results : [];
+async function parseErrors (request) {
+  try {
+    const response = await request()
+    return response.data
+  } catch (err) {
+    // TODO plug banner here
+    // do something with response.error.data ({ error: 'message' })
+    return null
   }
-};
+}
+
+export class AxiosHelper {
+
+  static axiosGet(url, options) {
+    return parseErrors(() => axios.get(url, options))
+  }
+
+  static axiosPost(url, body, options) {
+    return parseErrors(() => axios.post(url, body, options))
+  }
+
+  static axiosPut(url, body, options) {
+    return parseErrors(() => axios.put(url, body, options))
+  }
+
+  static axiosDelete(url, options) {
+    return parseErrors(() => axios.delete(url, body, options))
+  }
+
+}
