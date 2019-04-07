@@ -27,6 +27,7 @@
 <script>
 import SmallCard from '@/components/cards/SmallCard'
 import MediumCard from '@/components/cards/MediumCard'
+import { mapGetters } from 'vuex'
 
 export default {
 
@@ -52,11 +53,7 @@ export default {
     }
   },
 
-  computed: {
-    isPhone () {
-      return this.$store.getters.isPhone
-    }
-  }
+  computed: mapGetters('layout', ['isPhone'])
 
 }
 </script>

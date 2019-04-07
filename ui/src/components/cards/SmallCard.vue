@@ -54,7 +54,7 @@ export default {
 
   computed: {
     defaultImage () {
-      return '../../../static/default-recipe-image.png'
+      return `${process.env.BASE_URL}images/default-recipe-image.png`
     },
     background () {
       return FormatHelper.backgroundImageStyle(this.image || this.defaultImage)
