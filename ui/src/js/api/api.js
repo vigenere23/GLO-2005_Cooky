@@ -2,81 +2,81 @@ import { AxiosHelper } from '@/js/helpers/axios'
 const BASE_URL = ' http://127.0.0.1:5000'
 
 export class API {
-
-  static async getUserById() {
-
-  }
-
-  static async getRecipeByUser() {
+  static async getUserById () {
 
   }
 
-  static async getLikedRecipes() {
+  static async getRecipeByUser () {
 
   }
 
-  static async getProfile() {
+  static async getLikedRecipes () {
 
   }
 
-  static async getAllCart() {
+  static async getProfile () {
 
   }
 
-  static async getRecipe() {
+  static async getAllCart () {
 
   }
 
-  static async getRecipeById() {
+  static async getRecipe () {
 
   }
 
-  static async getIngredientFromIdRecipe() {
+  static getRecipeById (id) {
+    const url = `${BASE_URL}/recipes/${id}`
+    return AxiosHelper.axiosGet(url)
+  }
+
+  static async getIngredientFromIdRecipe (recipeId) {
+    const url = `${BASE_URL}/recipes/${recipeId}/ingredients`
+    return AxiosHelper.axiosGet(url)
+  }
+
+  static async getIngredients () {
 
   }
 
-  static async getIngredients() {
+  static async getIngredientByName () {
 
   }
 
-  static async getIngredientByName() {
+  static async getCartItem () {
 
   }
 
-  static async getCartItem() {
+  static async getCommandFromCart () {
 
   }
 
-  static async getCommandFromCart() {
+  static async addIngredientToCart () {
 
   }
 
-  static async addIngredientToCart() {
+  static async addRecipe () {
 
   }
 
-  static async addRecipe() {
+  static async addComment () {
 
   }
 
-  static async addComment() {
+  static async addLike () {
 
   }
 
-  static async addLike() {
+  static async addRating () {
 
   }
 
-  static async addRating() {
+  static async addNewCommand () {
 
   }
 
-  static async addNewCommand() {
+  static async addNewUser () {
 
   }
-
-  static async addNewUser() {
-
-  }
-
 }
