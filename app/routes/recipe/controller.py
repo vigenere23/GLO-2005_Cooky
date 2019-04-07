@@ -11,6 +11,7 @@ from ..rating.model import RatingModel
 from ..rating.dao import RatingDao
 from ..ingredient.dao import IngredientDao
 from ..quantityUnit.dao import QuantityUnitDao
+from ..users.dao import UserDao
 
 routes = Blueprint('recipes', __name__) 
 recipeDao = RecipeDao()
@@ -20,6 +21,7 @@ ratingDao = RatingDao()
 recipeIngredientDao = RecipeIngredientDao()
 ingredientDao = IngredientDao()
 quantityUnitDao = QuantityUnitDao()
+userDao = UserDao()
 
 @routes.route('', methods=['GET'])
 @response.handleExceptions
@@ -46,7 +48,14 @@ def addRecipe():
 @routes.route('/<int:recipe_id>', methods=['GET'])
 @response.handleExceptions
 def getRecipeById(recipe_id):
-  data = recipeDao.getById(recipe_id)
+  recipe = recipeDao.getById(recipe_id)
+  user = userDao.getById(recipe.id_User)
+  data = {
+    **recipe.serialize(),
+    'user': {
+      **user.serialize()
+    }
+  }
   return response.success(data)
 
 @routes.route('/<int:recipe_id>', methods=['DELETE'])
