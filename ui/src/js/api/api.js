@@ -27,7 +27,7 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
-  static async getRecipe () {
+  static async getRecipes () {
     const url = `${BASE_URL}/recipes`
     return AxiosHelper.axiosGet(url)
   }

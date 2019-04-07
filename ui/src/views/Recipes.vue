@@ -12,7 +12,7 @@
 <script>
 import SearchBar from '@/components/SearchBar'
 import GridList from '@/components/lists/GridList'
-import { recipes } from '@/js/data/recipes'
+import { API } from '@/js/api/api'
 
 export default {
 
@@ -25,7 +25,24 @@ export default {
 
   data () {
     return {
-      recipes: recipes
+      recipes: null,
+      defaultDesc: 'Lorem ipsum ipridus karem de la satuple como quiero salades par itadus. Lorem ipsum ipridus karem de la satuple como quiero salades par itadus.'
+    }
+  },
+
+  created () {
+    this.fetchData()
+  },
+
+  watch: {
+    '$route': 'fetchData'
+  },
+
+  methods: {
+    async fetchData () {
+      this.recipes = null
+      this.recipes = await API.getRecipes()
+      this.recipes.forEach(recipe => { recipe.description = recipe.description || this.defaultDesc })
     }
   }
 

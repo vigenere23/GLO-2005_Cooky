@@ -7,7 +7,7 @@
     <div class="recipe_intro">
       <img src="https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2017/04/main/dragon-fruit-smoothie-bowl-1704w.jpg">
       <p class="recipe_description">
-        {{ recipe.description }}
+        {{ recipe.description || defaultDesc }}
       </p>
       <p class="user">
         by
@@ -71,7 +71,8 @@ export default {
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' }
       ],
-      comments: comments
+      comments: comments,
+      defaultDesc: 'Lorem ipsum ipridus karem de la satuple como quiero salades par itadus. Lorem ipsum ipridus karem de la satuple como quiero salades par itadus.'
     }
   },
 

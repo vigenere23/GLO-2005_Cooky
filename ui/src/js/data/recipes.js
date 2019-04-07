@@ -8,8 +8,7 @@ export const recipes = [
   {
     id: 'sdfa4f05asdf',
     title: 'Greek vegetarian burger',
-    description: 'Lorem ipsum ipridus karem de la satuple como quiero salades par itadus. Lorem ipsum ipridus karem de la satuple como quiero salades par itadus.',
-    image: 'https://midwestfoodieblog.com/wp-content/uploads/2019/01/FINAL-greek-burger-1-4.jpg'
+    description: 'Lorem ipsum ipridus karem de la satuple como quiero salades par itadus. Lorem ipsum ipridus karem de la satuple como quiero salades par itadus.'
   },
   {
     id: 'rast78rtu',
