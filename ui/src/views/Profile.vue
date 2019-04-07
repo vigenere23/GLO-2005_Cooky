@@ -1,7 +1,13 @@
 <template>
-  <div class="user-page">
-    <h1>{{ username }}</h1>
-    <TabSlider :tabs="tabs">
+  <div
+    class="user-page"
+    v-if="user"
+  >
+    <h1>{{ user.username }}</h1>
+    <TabSlider
+      :tabs="tabs"
+      v-if="recipes && likes"
+    >
       <template #recipes>
         <GridList
           :items="recipes"
@@ -10,7 +16,7 @@
       </template>
       <template #likes>
         <GridList
-          :items="recipes"
+          :items="likes"
           baselink="/recipes"
         />
       </template>
@@ -21,7 +27,7 @@
 <script>
 import TabSlider from '@/components/lists/TabSlider'
 import GridList from '@/components/lists/GridList'
-import { recipes } from '@/js/data/recipes'
+import { API } from '@/js/api/api'
 
 export default {
 
@@ -34,12 +40,31 @@ export default {
 
   data () {
     return {
-      username: 'mscupcake352',
       tabs: [
         'recipes',
         'likes'
       ],
-      recipes: recipes
+      user: null,
+      recipes: null,
+      likes: null
+    }
+  },
+
+  created () {
+    this.fetchData()
+  },
+
+  watch: {
+    '$route': 'fetchData'
+  },
+
+  methods: {
+    async fetchData () {
+      this.user = this.recipes = this.likes = null
+      const id = this.$route.params.id
+      this.user = await API.getUserById(id)
+      this.recipes = await API.getRecipesByUser(id)
+      this.likes = await API.getLikedRecipesByUser(id)
     }
   }
 

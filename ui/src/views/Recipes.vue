@@ -25,8 +25,7 @@ export default {
 
   data () {
     return {
-      recipes: null,
-      defaultDesc: 'Lorem ipsum ipridus karem de la satuple como quiero salades par itadus. Lorem ipsum ipridus karem de la satuple como quiero salades par itadus.'
+      recipes: null
     }
   },
 
@@ -42,7 +41,6 @@ export default {
     async fetchData () {
       this.recipes = null
       this.recipes = await API.getRecipes()
-      this.recipes.forEach(recipe => { recipe.description = recipe.description || this.defaultDesc })
     }
   }
 

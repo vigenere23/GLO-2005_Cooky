@@ -64,7 +64,6 @@ export default {
 
   data () {
     return {
-      id: null,
       recipe: null,
       ingredients: null,
       columns: [
@@ -86,10 +85,10 @@ export default {
 
   methods: {
     async fetchData () {
-      this.id = this.recipe = this.ingredients = null
-      this.id = this.$route.params.id
-      this.recipe = await API.getRecipeById(this.id)
-      this.ingredients = await API.getIngredientFromIdRecipe(this.id)
+      this.recipe = this.ingredients = null
+      const id = this.$route.params.id
+      this.recipe = await API.getRecipeById(id)
+      this.ingredients = await API.getIngredientFromIdRecipe(id)
     }
   }
 

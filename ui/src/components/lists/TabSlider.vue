@@ -20,16 +20,24 @@
         v-for="(tab, i) in tabs"
         :key="i"
       >
-        <slot :name="tab" />
+        <slot :name="tab">
+          <NoContent />
+        </slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import NoContent from '@/components/NoContent'
+
 export default {
 
   name: 'Tabs',
+
+  components: {
+    NoContent
+  },
 
   props: {
     tabs: {
