@@ -46,7 +46,7 @@ def addRecipe():
 @routes.route('/<int:recipe_id>', methods=['GET'])
 @response.handleExceptions
 def getRecipeById(recipe_id):
-  data = recipeDao.getRecipeById(recipe_id)
+  data = recipeDao.getById(recipe_id)
   return response.success(data)
 
 @routes.route('/<int:recipe_id>', methods=['DELETE'])
@@ -72,6 +72,8 @@ def getIngredientsByRecipe(recipe_id):
     ingredient = ingredientDao.getById(recipeIngredient.id_Ingredient)
     quantityUnit = quantityUnitDao.getById(recipeIngredient.id_QuantityUnit)
     data.append({
+      'id': recipeIngredient.id,
+      'id_Ingredient': ingredient.id,
       'name': ingredient.name,
       'quantity': recipeIngredient.totalQuantity,
       'unit': quantityUnit.abbreviation,

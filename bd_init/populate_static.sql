@@ -30,7 +30,7 @@ INSERT INTO `QuantityUnit` (`id`,`id_QuantityType`,`name`,`abbreviation`) VALUES
 (NULL, 1, 'teaspoon', 'tsp'),
 (NULL, 1, 'tablespoon', 'tbsp'),
 (NULL, 1, 'fluid ounce', 'fl oz'),
-(NULL, 1, 'cup', 'c'),
+(NULL, 1, 'cup', 'cup'),
 (NULL, 1, 'pint', 'p'),
 (NULL, 1, 'quart', 'q'),
 (NULL, 1, 'gallon', 'g'),
