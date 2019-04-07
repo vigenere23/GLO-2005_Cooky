@@ -4,18 +4,17 @@
       <SmallCard
         v-for="(item, i) in items"
         :key="item.id || i"
-        :title="item.title"
+        :title="item.name"
         :description="item.description"
         :image="item.image"
         :link="`${baselink}/${item.id}`"
-        :add-margins="true"
       />
     </template>
     <template v-else>
       <MediumCard
         v-for="(item, i) in items"
         :key="item.id || i"
-        :title="item.title"
+        :title="item.name"
         :description="item.description"
         :image="item.image"
         :link="`${baselink}/${item.id}`"
@@ -71,16 +70,7 @@ export default {
 
   > * {
     grid-column: span 1;
-  }
-}
-
-@media screen and (max-width: $phone-max) {
-  .grid-list {
-    display: block;
-
-    > * {
-      width: 100%;
-    }
+    min-width: 100%;
   }
 }
 </style>

@@ -69,6 +69,7 @@ export default {
 
 .medium-card {
   display: block;
+  width: 100%;
   border-radius: 4px;
   border: $faded-border;
   @include mdElevationElement('card');
