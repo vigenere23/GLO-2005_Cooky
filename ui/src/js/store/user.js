@@ -4,7 +4,7 @@ export const userModule = {
 
   state: {
     cart: [],
-    userId: '87abdf9nf2903438',
+    userId: '1',
     avatar: ''
   },
 

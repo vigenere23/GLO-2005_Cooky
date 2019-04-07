@@ -7,13 +7,13 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
-  static async getRecipeByUser (id) {
-    const url = `${BASE_URL}/users/${id}/recipes`
+  static async getRecipesByUser (userId) {
+    const url = `${BASE_URL}/users/${userId}/recipes`
     return AxiosHelper.axiosGet(url)
   }
 
-  static async getLikedRecipes (id) {
-    const url = `${BASE_URL}/users/${id}/likes`
+  static async getLikedRecipesByUser (userId) {
+    const url = `${BASE_URL}/users/${userId}/likes`
     return AxiosHelper.axiosGet(url)
   }
 
