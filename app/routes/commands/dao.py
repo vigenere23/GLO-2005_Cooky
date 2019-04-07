@@ -15,4 +15,11 @@ class CommandsDao(BaseDao):
     def save(self, commandsModel):
         if not isinstance(commandsModel, CommandsModel):
             raise ValueError("commandsModel should be of type CommandsModel")
-        pass
+        
+        query = 'INSERT INTO Commands (id, id_Cart, creationDate, arrivalDate) VALUES (%s, %s, %s, %s)'
+        newCommand = db.insert(query, self._mapper.to_tuple(commandsModel))
+
+        if newCommand:
+            return self.getById(newCommand)
+        else:
+            raise Exception("Could not add newCommand")

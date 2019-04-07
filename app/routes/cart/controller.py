@@ -4,6 +4,7 @@ from ..cartItem.model import CartItemModel
 from .dao import CartDao
 from ..cartItem.dao import CartItemDao
 from ..commands.dao import CommandsDao
+from ..commands.model import CommandsModel
 
 routes = Blueprint('cart', __name__)
 cartDao = CartDao()
@@ -50,8 +51,21 @@ def deleteItemFromCart(id_Cart):
   cartItemDao.deleteIngredient(id_Cart, id_Ingredient) 
   return response.success("", status=204)
 
-@routes.route('/<int:id>/command')
+@routes.route('/<int:id>/command', methods=['GET'])
 @response.handleExceptions
 def getCommandsByCart(id):
   data = commandsDao.getCommandByCart(id)
+  return response.success(data)
+
+
+@routes.route('/<int:id>/command', methods=['POST'])
+@response.handleExceptions
+def addCommandFromCart(id):
+  data = {
+    'id_Cart': str(id),
+    'creationDate': 'NOW()',
+    'arrivalDate': 'NOW()'
+  }
+  commandsModel = CommandsModel(**data)
+  data = commandsDao.save(commandsModel)
   return response.success(data)

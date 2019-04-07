@@ -47,6 +47,12 @@
 ### body : {username: <username>}
 `Post /users`
 
+
+
+#### return new command
+`Post /cart/<cart_id>/command`
+
+
 ### return new cartItem
 ### body : {
 ###   id_Ingredient: <id_Ingredient>,
@@ -91,3 +97,14 @@
 ###}
 ### Note: always a string
 `Post /recipes`
+
+
+### body : {
+###    "id_Ingredient": <id_Ingredient>
+###}
+### Note: delete ingredient from current cart
+`Delete /cart/<id_cart>/cartItems`
+
+
+### Note: delete recipe
+`Delete /recipes/<id_recipe>`
