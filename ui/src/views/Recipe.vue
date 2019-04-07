@@ -23,6 +23,7 @@
       <div v-if="ingredients">
         <h2>Ingredients</h2>
         <IngredientsDataTable
+          id="id_Ingredient"
           :columns="columns"
           :items="ingredients"
           :small="true"
