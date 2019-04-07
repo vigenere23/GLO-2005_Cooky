@@ -10,7 +10,7 @@ cartDao = CartDao()
 cartItemDao = CartItemDao()
 commandsDao = CommandsDao()
 
-@routes.route('')
+@routes.route('/')
 @response.handleExceptions
 def index():
   return response.success(cartDao.getAll())

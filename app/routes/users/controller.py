@@ -14,12 +14,12 @@ likeRecipeDao = LikeRecipeDao()
 profileDao = ProfileDao()
 cartDao = CartDao()
 
-@routes.route('', methods=['GET'])
+@routes.route('/', methods=['GET'])
 @response.handleExceptions
 def index():
   return response.success(userDao.getAll())
 
-@routes.route('', methods=['POST'])
+@routes.route('/', methods=['POST'])
 @response.handleExceptions
 def createUser():
   body = request.get_json(force=True)

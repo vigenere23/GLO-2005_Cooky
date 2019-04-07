@@ -52,43 +52,88 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
-  static async getIngredientByName () {
-
+  static async getIngredientByName (name) {
+    const url = `${BASE_URL}/ingredients/${name}`
+    return AxiosHelper.axiosGet(url)
   }
 
-  static async getCartItem () {
-
+  static async getCartItem (id) {
+    const url = `${BASE_URL}/cart/${id}/cartItems`
+    return AxiosHelper.axiosGet(url)
   }
 
-  static async getCommandFromCart () {
-
+  static async getCommandFromCart (id) {
+    const url = `${BASE_URL}/cart/${id}/command`
+    return AxiosHelper.axiosGet(url)
   }
 
-  static async addIngredientToCart () {
-
+  static async addIngredientToCart (cartId, ingredientId, subCost) {
+    const body = {
+      'id_Ingredient': ingredientId,
+      'subCost': subCost
+    }
+    const url = `${BASE_URL}/cart/${cartId}/cartItems`
+    return AxiosHelper.axiosPost(url, body)
   }
 
-  static async addRecipe () {
-
+  static async addRecipe (userId, recipeName, instruction, ingredientList, quantityUnitList, totalQuantityList) {
+    const body = {
+      'id_User': userId,
+      'name': recipeName,
+      'directives': instruction,
+      'ingredients': {
+        'id_Ingredient': ingredientList,
+        'id_QuantityUnit': quantityUnitList,
+        'totalQuantity': totalQuantityList
+      }
+    }
+    const url = `${BASE_URL}/recipes`
+    return AxiosHelper.axiosPost(url, body)
   }
 
-  static async addComment () {
-
+  static async addComment (recipeId, userId, comment) {
+    const body = {
+      'id_User': userId,
+      'text': comment
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/comment`
+    return AxiosHelper.axiosPost(url, body)
   }
 
-  static async addLike () {
-
+  static async addLike (recipeId, userId) {
+    const body = {
+      'id_User': userId
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/like`
+    return AxiosHelper.axiosPost(url, body)
   }
 
-  static async addRating () {
+  static async addRating (recipeId, userId, mark) {
+    const body = {
+      'id_User': userId,
+      'value': mark
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/rate`
+    return AxiosHelper.axiosPost(url, body)
+  }
 
+  static async addNewUser (userName) {
+    const body = {
+      'username': userName
+    }
+    const url = `${BASE_URL}/users`
+    return AxiosHelper.axiosPost(url, body)
   }
 
   static async addNewCommand () {
 
   }
 
-  static async addNewUser () {
+  static async deleteItem () {
+
+  }
+
+  static async deleteRecipe () {
 
   }
 }

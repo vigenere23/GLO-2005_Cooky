@@ -23,13 +23,13 @@ ingredientDao = IngredientDao()
 quantityUnitDao = QuantityUnitDao()
 userDao = UserDao()
 
-@routes.route('', methods=['GET'])
+@routes.route('/', methods=['GET'])
 @response.handleExceptions
 def index():
   return response.success(recipeDao.getAll())
 
 
-@routes.route('', methods=['POST'])
+@routes.route('/', methods=['POST'])
 @response.handleExceptions
 def addRecipe():
   body = request.get_json(force=True)
