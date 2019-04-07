@@ -13,12 +13,22 @@
 
 <script>
 import DefaultLayout from '@/layouts/DefaultLayout'
+import { mapActions } from 'vuex'
 
 export default {
+
   name: 'App',
+
   components: {
     DefaultLayout
-  }
+  },
+
+  mounted () {
+    this.reloadCart()
+  },
+
+  methods: mapActions('user', ['reloadCart'])
+
 }
 </script>
 

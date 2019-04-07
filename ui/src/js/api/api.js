@@ -126,20 +126,18 @@ export class API {
   }
 
   static async addNewCommand (cartId) {
-    const body = {}
-    const url =  `${BASE_URL}/cart/${cartId}/command`
-    return AxiosHelper.axiosPost(url, body)
+    const url = `${BASE_URL}/cart/${cartId}/command`
+    return AxiosHelper.axiosPost(url)
   }
 
-  /// should not work 
+  /// should not work
   static async deleteIngredientFromCart (ingredientId) {
     const url = `${BASE_URL}/`
-    return AxiosHelper.axiosDelete()
+    return AxiosHelper.axiosDelete(url)
   }
 
   static async deleteRecipe (recipeId) {
-    const url =  `${BASE_URL}/recipes/${recipeId}`
+    const url = `${BASE_URL}/recipes/${recipeId}`
     return AxiosHelper.axiosDelete(url)
-
   }
 }
