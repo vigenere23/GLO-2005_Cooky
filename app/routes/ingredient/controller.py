@@ -7,7 +7,7 @@ routes = Blueprint('ingredients', __name__)
 ingredientDao = IngredientDao()
 quantityUnitDao = QuantityUnitDao()
 
-@routes.route('/')
+@routes.route('')
 @response.handleExceptions
 def index():
   populated_ingredients = []

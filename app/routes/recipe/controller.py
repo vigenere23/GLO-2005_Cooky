@@ -13,7 +13,7 @@ from ..ingredient.dao import IngredientDao
 from ..quantityUnit.dao import QuantityUnitDao
 from ..users.dao import UserDao
 
-routes = Blueprint('recipes', __name__) 
+routes = Blueprint('recipes', __name__)
 recipeDao = RecipeDao()
 likeRecipeDao = LikeRecipeDao()
 commentDao = CommentDao()
@@ -23,13 +23,13 @@ ingredientDao = IngredientDao()
 quantityUnitDao = QuantityUnitDao()
 userDao = UserDao()
 
-@routes.route('/', methods=['GET']) 
+@routes.route('', methods=['GET'])
 @response.handleExceptions
 def index():
   return response.success(recipeDao.getAll())
 
 
-@routes.route('/', methods=['POST'])
+@routes.route('', methods=['POST'])
 @response.handleExceptions
 def addRecipe():
   body = request.get_json(force=True)
@@ -62,7 +62,7 @@ def getRecipeById(recipe_id):
 @routes.route('/<int:recipe_id>', methods=['DELETE'])
 @response.handleExceptions
 def deleteRecipe(recipe_id):
-  recipeDao.deleteRecipe(recipe_id) 
+  recipeDao.deleteRecipe(recipe_id)
   return response.success('', status=204)
 
 # should be a query param in getAll (?name="asdasd")
@@ -83,7 +83,7 @@ def getIngredientsByRecipe(recipe_id):
     quantityUnit = quantityUnitDao.getById(recipeIngredient.id_QuantityUnit)
     quantity = str.format('{} {}', int(recipeIngredient.totalQuantity), quantityUnit.abbreviation)
     data.append({
-      'id': ingredient.id,
+      'id': recipeIngredient.id,
       'name': ingredient.name,
       'quantity': quantity
     })
@@ -136,7 +136,6 @@ def addCommentRecipe(recipe_id):
   }
 
   try:
-
     commentModel = CommentModel(**data)
     result = commentDao.save(commentModel)
     return response.success(result)
