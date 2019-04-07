@@ -37,20 +37,6 @@ class DB:
       self.__connection.rollback()
       raise e
 
-  # NOT TESTED YET. BETTER TO LOOP WITH SINGLE INSERT
-  def insertMany(self, query, data):
-    if (not isinstance(data, list)):
-      raise Exception("Data must be a list")
-
-    try:
-      results = self.__cursor.executeMany(query, data, multi=True)
-      self.__connection.commit()
-      return results
-
-    except Exception as e:
-      self.__connection.rollback()
-      raise e
-
   def select(self, query, data=None, limit=0):
     self.__cursor.execute(query, data)
     if limit == 1:

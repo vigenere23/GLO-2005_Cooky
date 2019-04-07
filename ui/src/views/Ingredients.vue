@@ -3,6 +3,7 @@
     <h1>Find ingredients</h1>
     <SearchBar />
     <IngredientsDataTable
+      v-if="ingredients"
       :columns="columns"
       :items="ingredients"
     />
@@ -12,7 +13,7 @@
 <script>
 import SearchBar from '@/components/SearchBar'
 import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
-import { ingredients } from '@/js/data/ingredients'
+import { API } from '@/js/api/api'
 
 export default {
 
@@ -30,7 +31,22 @@ export default {
         { name: 'quantity', text: 'Quantity' },
         { name: 'price', text: 'Price ($)', sortable: true }
       ],
-      ingredients: ingredients
+      ingredients: null
+    }
+  },
+
+  created () {
+    this.fetchData()
+  },
+
+  watch: {
+    '$route': 'fetchData'
+  },
+
+  methods: {
+    async fetchData () {
+      this.ingredients = null
+      this.ingredients = await API.getIngredients()
     }
   }
 

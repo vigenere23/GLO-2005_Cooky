@@ -52,48 +52,48 @@ export class API {
 
   }
 
-  static async getIngredients() {
+  static async getIngredients () {
+    const url = `${BASE_URL}/ingredients`
+    return AxiosHelper.axiosGet(url)
+  }
+
+  static async getIngredientByName () {
 
   }
 
-  static async getIngredientByName() {
+  static async getCartItem () {
 
   }
 
-  static async getCartItem() {
+  static async getCommandFromCart () {
 
   }
 
-  static async getCommandFromCart() {
+  static async addIngredientToCart () {
 
   }
 
-  static async addIngredientToCart() {
+  static async addRecipe () {
 
   }
 
-  static async addRecipe() {
+  static async addComment () {
 
   }
 
-  static async addComment() {
+  static async addLike () {
 
   }
 
-  static async addLike() {
+  static async addRating () {
 
   }
 
-  static async addRating() {
+  static async addNewCommand () {
 
   }
 
-  static async addNewCommand() {
+  static async addNewUser () {
 
   }
-
-  static async addNewUser() {
-
-  }
-
 }

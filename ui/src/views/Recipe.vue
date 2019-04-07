@@ -1,25 +1,29 @@
 <template>
-  <div class="recipe-page">
-    <h1>{{ title }}</h1>
+  <div
+    class="recipe-page"
+    v-if="recipe"
+  >
+    <h1>{{ recipe.name }}</h1>
     <div class="recipe_intro">
       <img src="https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2017/04/main/dragon-fruit-smoothie-bowl-1704w.jpg">
       <p class="recipe_description">
-        {{ description }}
+        {{ recipe.description }}
       </p>
       <p class="user">
         by
         <router-link
           tag="a"
-          :to="`/users/${user.id}`"
+          :to="`/users/${userId}`"
         >
-          {{ user.username }}
+          {{ recipe.user.username }}
         </router-link>
       </p>
     </div>
     <div class="recipe_content">
-      <div>
+      <div v-if="ingredients">
         <h2>Ingredients</h2>
         <IngredientsDataTable
+          id="id_Ingredient"
           :columns="columns"
           :items="ingredients"
           :small="true"
@@ -27,23 +31,25 @@
       </div>
       <div>
         <h2>Steps</h2>
-        <p>{{ steps }}</p>
+        <p>{{ recipe.directives }}</p>
       </div>
     </div>
-    <h2>Comments</h2>
-    <CommentList
-      :comments="comments"
-      :owner-id="user.id"
-    />
+    <div v-if="comments">
+      <h2>Comments</h2>
+      <CommentList
+        :comments="comments"
+        :owner-id="userId"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
 import CommentList from '@/components/comments/CommentList'
-import { ingredients } from '@/js/data/ingredients'
 import { comments } from '@/js/data/comments'
 import { mapState } from 'vuex'
+import { API } from '@/js/api/api'
 
 export default {
 
@@ -58,23 +64,32 @@ export default {
 
   data () {
     return {
-      title: 'Fruity smoothie bowl',
-      user: {
-        username: 'mscupcake352'
-      },
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      steps: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. Incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      id: null,
+      recipe: null,
+      ingredients: null,
       columns: [
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' }
       ],
-      ingredients: ingredients.slice(0, 5),
       comments: comments
     }
   },
 
-  mounted () {
-    this.user.id = this.userId
+  created () {
+    this.fetchData()
+  },
+
+  watch: {
+    '$route': 'fetchData'
+  },
+
+  methods: {
+    async fetchData () {
+      this.id = this.recipe = this.ingredients = null
+      this.id = this.$route.params.id
+      this.recipe = await API.getRecipeById(this.id)
+      this.ingredients = await API.getIngredientFromIdRecipe(this.id)
+    }
   }
 
 }

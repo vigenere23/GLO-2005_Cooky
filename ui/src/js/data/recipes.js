@@ -1,6 +1,6 @@
 export const recipes = [
   {
-    id: 'as4f6f4as65f',
+    id: '1',
     title: 'Fruity smoothie bowl',
     description: 'Wake up energic and be ready for the day. This smoothie will get you everything you need to be productive, bright and perseverant during the entire day.',
     image: 'https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2017/04/main/dragon-fruit-smoothie-bowl-1704w.jpg'
