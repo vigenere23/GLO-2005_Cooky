@@ -37,7 +37,8 @@ export class API {
   }
 
   static async getIngredients () {
-
+    const url = `${BASE_URL}/ingredients`
+    return AxiosHelper.axiosGet(url)
   }
 
   static async getIngredientByName () {

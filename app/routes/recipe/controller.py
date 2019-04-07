@@ -81,7 +81,6 @@ def getIngredientsByRecipe(recipe_id):
     ingredient = ingredientDao.getById(recipeIngredient.id_Ingredient)
     quantityUnit = quantityUnitDao.getById(recipeIngredient.id_QuantityUnit)
     quantity = str.format('{} {}', int(recipeIngredient.totalQuantity), quantityUnit.abbreviation)
-    if (recipeIngredient.totalQuantity > 1): quantity += 's'
     data.append({
       'id': recipeIngredient.id,
       'id_Ingredient': ingredient.id,
