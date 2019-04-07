@@ -130,9 +130,8 @@ export class API {
     return AxiosHelper.axiosPost(url)
   }
 
-  /// should not work
-  static async deleteIngredientFromCart (ingredientId) {
-    const url = `${BASE_URL}/`
+  static async deleteIngredientFromCart (cartId, ingredientId) {
+    const url = `${BASE_URL}/cart/${cartId}/cartItems/${ingredientId}/ingredient`
     return AxiosHelper.axiosDelete(url)
   }
 

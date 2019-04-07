@@ -43,6 +43,9 @@
 ### return the command from the cart id
 `GET /cart/<id>/command`
 
+### return new command from the cart id
+`Post /cart/<id>/command` 
+
 ### return the new userId and userName if created
 ### body : {username: <username>}
 `Post /users`
@@ -103,7 +106,7 @@
 ###    "id_Ingredient": <id_Ingredient>
 ###}
 ### Note: delete ingredient from current cart
-`Delete /cart/<id_cart>/cartItems`
+`Delete /cart/<id_cart>/cartItems/<id_ingredient>/ingredient`
 
 
 ### Note: delete recipe

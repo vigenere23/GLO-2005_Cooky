@@ -1,5 +1,6 @@
 from flask import Blueprint, request, json
 from app.helpers import response, exceptions, queries
+from datetime import datetime
 from ..cartItem.model import CartItemModel
 from .dao import CartDao
 from ..cartItem.dao import CartItemDao
@@ -41,11 +42,10 @@ def getItemByCart(id):
   data = cartItemDao.getItemByCart(id)
   return response.success(data)
 
-@routes.route('/<int:id_Cart>/cartItems', methods=['DELETE'])
+@routes.route('/<int:id_Cart>/cartItems/<int:id_Ingredient>/ingredient', methods=['DELETE'])
 @response.handleExceptions
-def deleteItemFromCart(id_Cart):
-  body = request.get_json(force=True)
-  id_Ingredient =  body['id_Ingredient'],
+def deleteItemFromCart(id_Cart, id_Ingredient):
+  id_Ingredient =  str(id_Ingredient),
   id_Cart = str(id_Cart)
     
   cartItemDao.deleteIngredient(id_Cart, id_Ingredient) 
@@ -55,7 +55,10 @@ def deleteItemFromCart(id_Cart):
 @response.handleExceptions
 def getCommandsByCart(id):
   data = commandsDao.getCommandByCart(id)
-  return response.success(data)
+  if (data):
+    return response.success(data)
+  else:
+    return response.error("This cart is not in command")
 
 
 @routes.route('/<int:id>/command', methods=['POST'])
@@ -63,8 +66,8 @@ def getCommandsByCart(id):
 def addCommandFromCart(id):
   data = {
     'id_Cart': str(id),
-    'creationDate': 'NOW()',
-    'arrivalDate': 'NOW()'
+    'creationDate': datetime.today().strftime('%Y-%m-%d'),
+    'arrivalDate': datetime.today().strftime('%Y-%m-%d')
   }
   commandsModel = CommandsModel(**data)
   data = commandsDao.save(commandsModel)
