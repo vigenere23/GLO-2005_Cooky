@@ -5,7 +5,7 @@ from .dao import IngredientDao
 routes = Blueprint('ingredients', __name__)
 ingredientDao = IngredientDao()
 
-@routes.route('')
+@routes.route('/')
 @response.handleExceptions
 def index():
   return response.success(ingredientDao.getAll())
