@@ -34,11 +34,21 @@ def addItemToCart(id):
   except Exception as e:
     return response.error(e)
 
-@routes.route('/<int:id>/cartItems')
+@routes.route('/<int:id>/cartItems', methods=['GET'])
 @response.handleExceptions
 def getItemByCart(id):
   data = cartItemDao.getItemByCart(id)
   return response.success(data)
+
+@routes.route('/<int:id_Cart>/cartItems', methods=['DELETE'])
+@response.handleExceptions
+def deleteItemFromCart(id_Cart):
+  body = request.get_json(force=True)
+  id_Ingredient =  body['id_Ingredient'],
+  id_Cart = str(id_Cart)
+    
+  cartItemDao.deleteIngredient(id_Cart, id_Ingredient) 
+  return response.success("", status=204)
 
 @routes.route('/<int:id>/command')
 @response.handleExceptions

@@ -38,6 +38,11 @@ class RecipeDao(BaseDao):
         query = 'SELECT * FROM Recipe WHERE id_User = %(id_User)s'
         results = db.select(query, {'id_User': id_User})
         return self.mapper.from_tuples(results)
+
+    
+    def deleteRecipe(self, id):
+        query = 'DELETE FROM Recipe WHERE id = %(id)s'
+        db.delete(query, {"id": id}) 
     
     def save(self, recipeModel, dataIngredient):
         if not isinstance(recipeModel, RecipeModel):

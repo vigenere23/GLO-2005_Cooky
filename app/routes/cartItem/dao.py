@@ -30,7 +30,11 @@ class CartItemDao(BaseDao):
         query = 'SELECT * FROM CartItem WHERE id_Cart = %(id_Cart)s'
         results = db.select(query, {'id_Cart': id_Cart})
         return self.mapper.from_tuples(results)
-    
+
+    def deleteIngredient(self, id_Cart, id_Ingredient):
+        query = 'DELETE FROM CartItem WHERE id_Cart = %(id_Cart)s AND id_Ingredient = %(id_Ingredient)s'
+        db.delete(query, {"id_Cart": id_Cart, "id_Ingredient": id_Ingredient})
+        
     def save(self, cartItemModel):
         if not isinstance(cartItemModel, CartItemModel):
             raise ValueError("cartItemModel should be of type CartItemModel")

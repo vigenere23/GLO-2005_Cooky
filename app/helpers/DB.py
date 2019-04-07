@@ -6,6 +6,27 @@ class DB:
     self.__connection = connect(**config)
     self.__cursor = self.__connection.cursor()
 
+
+  def delete(self, query, data):
+    try:
+      self.__cursor.execute(query, data)
+      self.__connection.commit()
+
+    except Exception as e:
+      self.__connection.rollback()
+      raise e
+
+  ####### NOT TESTED
+  def modify(self, query, data):
+    try:
+      self.__cursor.execute(query)
+      self.__connection.commit()
+      return self.__cursor.lastrowid
+
+    except Exception as e:
+      self.__connection.rollback()
+      raise e
+
   def insert(self, query, data):
     try:
       self.__cursor.execute(query, data)
