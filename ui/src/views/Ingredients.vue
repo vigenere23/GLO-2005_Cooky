@@ -1,7 +1,7 @@
 <template>
   <div class="ingredients-page">
     <h1>Find ingredients</h1>
-    <SearchBar />
+    <SearchBar @send="search" />
     <IngredientsDataTable
       v-if="ingredients"
       :columns="columns"
@@ -26,6 +26,7 @@ export default {
 
   data () {
     return {
+      searching: false,
       columns: [
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' },
@@ -47,6 +48,14 @@ export default {
     async fetchData () {
       this.ingredients = null
       this.ingredients = await API.getIngredients()
+    },
+    async search (name) {
+      if (!this.searching) {
+        this.searching = true
+        this.ingredients = null
+        this.ingredients = await API.getIngredientsByName(name)
+        this.searching = false
+      }
     }
   }
 

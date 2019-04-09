@@ -53,9 +53,10 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
-  static async getIngredientByName (name) {
-    const url = `${BASE_URL}/ingredients/${name}`
-    return AxiosHelper.axiosGet(url)
+  static async getIngredientsByName (name) {
+    const url = `${BASE_URL}/ingredients`
+    const params = { name }
+    return AxiosHelper.axiosGet(url, { params })
   }
 
   static async getCartItem (id) {

@@ -7,7 +7,7 @@ class IngredientDao(BaseDao):
     def __init__(self):
         super().__init__('Ingredient', IngredientModel)
     
-    def getIngredientByName(self, name):
+    def getIngredientsByName(self, name):
         query = 'SELECT * FROM Ingredient WHERE name = %(name)s'
         results = db.select(query, {'name': name})
         return self._mapper.from_tuples(results)
