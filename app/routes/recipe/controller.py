@@ -26,7 +26,11 @@ userDao = UserDao()
 @routes.route('/', methods=['GET'])
 @response.handleExceptions
 def index():
-  return response.success(recipeDao.getAll())
+  searched_name = request.args.get('name')
+  if (searched_name):
+    return response.success(recipeDao.getRecipesByName(searched_name))
+  else:
+    return response.success(recipeDao.getAll())
 
 
 @routes.route('/', methods=['POST'])
@@ -64,14 +68,6 @@ def getRecipeById(recipe_id):
 def deleteRecipe(recipe_id):
   recipeDao.deleteRecipe(recipe_id)
   return response.success('', status=204)
-
-# should be a query param in getAll (?name="asdasd")
-# should be like a search function, not absolute name
-@routes.route('/name/<name>')
-@response.handleExceptions
-def getRecipeByName(name):
-  data = recipeDao.getRecipeByName(name)
-  return response.success(data)
 
 @routes.route('/<int:recipe_id>/ingredients')
 @response.handleExceptions

@@ -11,7 +11,7 @@ class RecipeDao(BaseDao):
     def __init__(self):
         super().__init__('Recipe', RecipeModel)
 
-    def getRecipeByName(self, name):
+    def getRecipesByName(self, name):
         query = 'SELECT * FROM Recipe WHERE name = %(name)s'
         results = db.select(query, {'name': name})
         return self._mapper.from_tuples(results)

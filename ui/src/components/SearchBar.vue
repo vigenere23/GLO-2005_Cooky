@@ -2,7 +2,8 @@
   <div class="search-bar">
     <input
       type="text"
-      @input="emit('inout')"
+      v-model="search"
+      @keypress.enter="send"
     >
     <div class="search-icon">
       <i class="material-icons search-icon">search</i>
@@ -12,7 +13,20 @@
 
 <script>
 export default {
-  name: 'SearchBar'
+
+  name: 'SearchBar',
+
+  data () {
+    return {
+      search: ''
+    }
+  },
+
+  methods: {
+    send () {
+      this.$emit('send', this.search)
+    }
+  }
 }
 </script>
 

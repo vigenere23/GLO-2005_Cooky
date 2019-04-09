@@ -1,8 +1,9 @@
 <template>
   <div class="recipes-page">
     <h1>Explore recipes</h1>
-    <SearchBar />
+    <SearchBar @send="search" />
     <GridList
+      v-if="recipes"
       :items="recipes"
       baselink="/recipes"
     />
@@ -25,7 +26,8 @@ export default {
 
   data () {
     return {
-      recipes: null
+      recipes: null,
+      searching: false
     }
   },
 
@@ -41,6 +43,14 @@ export default {
     async fetchData () {
       this.recipes = null
       this.recipes = await API.getRecipes()
+    },
+    async search (search) {
+      if (!this.searching) {
+        this.searching = true
+        this.recipes = null
+        this.recipes = await API.getRecipesByName(search)
+        this.searching = false
+      }
     }
   }
 

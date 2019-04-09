@@ -37,9 +37,10 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
-  static async getRecipeByName (name) {
-    const url = `${BASE_URL}/recipes/name/{name}`
-    return AxiosHelper.axiosGet(url)
+  static async getRecipesByName (name) {
+    const url = `${BASE_URL}/recipes`
+    const params = { name }
+    return AxiosHelper.axiosGet(url, { params })
   }
 
   static async getIngredientFromIdRecipe (recipeId) {
