@@ -14,6 +14,17 @@ class RecipeDao(BaseDao):
         results = db.select(query)
         return self.mapper.from_tuples(results)
 
+    def getById(self, id):
+        if not id:
+            raise Exception("Id cannot be None")
+
+        query = 'SELECT * FROM Recipe WHERE id = %(id)s'
+        result = db.select(query, { 'id': id }, 1)
+        if result:
+            return self.mapper.from_tuple(result)
+        else:
+            raise NotFoundException(str.format("No recipe found with id '%d'", id))
+          
     def getRecipeById(self, id):
         if not id:
             raise Exception("Id cannot be None")
@@ -30,7 +41,14 @@ class RecipeDao(BaseDao):
         results = db.select(query, {'id_User': id_User})
         return self.mapper.from_tuples(results)
     
+
     def save(self, recipeModel):
         if not isinstance(recipeModel, RecipeModel):
             raise ValueError("recipeModel should be of type RecipeModel")
-        pass
+        query = 'INSERT INTO Recipe (id, id_User, name, directives) VALUES (%s, %s, %s, %s)'
+        recipeId = db.insert(query, self.mapper.to_tuple(recipeModel))
+        
+        if recipeId:
+            return self.getById(recipeId)
+        else:
+            raise Exception("Could not save recipe")
