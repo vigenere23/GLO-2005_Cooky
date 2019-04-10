@@ -84,11 +84,28 @@ export default {
     }
   },
 
+  computed: {
+    sortedItems () {
+      const sortedItems = this.items
+      if (this.currentSorting.comparator) {
+        sortedItems.sort((a, b) => this.currentSorting.comparator(a[this.currentSorting.name], b[this.currentSorting.name]))
+      } else {
+        sortedItems.sort((a, b) => {
+          return a[this.currentSorting.name] > b[this.currentSorting.name]
+        })
+      }
+
+      if (this.reverseSorting) {
+        sortedItems.reverse()
+      }
+      return sortedItems
+    }
+  },
+
   data () {
     return {
       currentSorting: null,
-      reverseSorting: null,
-      sortedItems: this.items
+      reverseSorting: null
     }
   },
 
@@ -112,21 +129,6 @@ export default {
           this.currentSorting = column
           this.reverseSorting = this.currentSorting.defaultSorting === 'desc'
         }
-
-        this.sortItems()
-      }
-    },
-    sortItems () {
-      if (this.currentSorting.comparator) {
-        this.sortedItems.sort((a, b) => this.currentSorting.comparator(a[this.currentSorting.name], b[this.currentSorting.name]))
-      } else {
-        this.sortedItems.sort((a, b) => {
-          return a[this.currentSorting.name] > b[this.currentSorting.name]
-        })
-      }
-
-      if (this.reverseSorting) {
-        this.sortedItems.reverse()
       }
     }
   }

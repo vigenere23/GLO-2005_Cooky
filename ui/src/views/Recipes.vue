@@ -2,7 +2,10 @@
   <div class="recipes-page">
     <h1>Explore recipes</h1>
     <FloatingButton link="/recipes/create" />
-    <SearchBar @send="search" />
+    <SearchBar
+      @input="search"
+      @send="search"
+    />
     <GridList
       v-if="recipes"
       :items="recipes"
@@ -48,12 +51,10 @@ export default {
       this.recipes = await API.getRecipes()
     },
     async search (search) {
-      if (!this.searching) {
-        this.searching = true
-        this.recipes = null
+      clearTimeout(this.searchTimeout)
+      this.searchTimeout = setTimeout(async () => {
         this.recipes = await API.getRecipesByName(search)
-        this.searching = false
-      }
+      }, 300)
     }
   }
 

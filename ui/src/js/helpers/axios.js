@@ -6,15 +6,20 @@ async function parseErrors (request) {
     const response = await request()
     return response.data
   } catch (error) {
-    const message = error.response.status === 404
-      ? 'Page not found'
-      : error.response.data.error
-        ? error.response.data.error
-        : error.response.data
+    const message = error.response.data.error
+      ? error.response.data.error
+      : error.response.data
     console.error(message)
-    EventBus.$emit('toast', { type: 'error', message })
-    if (error.status === 401 || error.status === 403) {
-      // return to login page
+    const status = error.reponse.status
+    if (error.response.status === 404) {
+      EventBus.$emit('toast', { type: 'error', message: 'Page not found' })
+    } else if (status === 500) {
+      EventBus.$emit('toast', { type: 'error', message: 'An unexpected error occured' })
+    } else if (status === 401 || status === 403) {
+      EventBus.$emit('toast', { type: 'error', message: "You don't have access to that page" })
+      // TODO return to login page
+    } else {
+      EventBus.$emit('toast', { type: 'error', message })
     }
     return null
   }

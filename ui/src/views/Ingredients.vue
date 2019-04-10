@@ -1,7 +1,10 @@
 <template>
   <div class="ingredients-page">
     <h1>Find ingredients</h1>
-    <SearchBar @send="search" />
+    <SearchBar
+      @input="search"
+      @send="search"
+    />
     <IngredientsDataTable
       v-if="ingredients"
       :columns="columns"
@@ -27,6 +30,7 @@ export default {
   data () {
     return {
       searching: false,
+      searchTimeout: null,
       columns: [
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' },
@@ -49,13 +53,11 @@ export default {
       this.ingredients = null
       this.ingredients = await API.getIngredients()
     },
-    async search (name) {
-      if (!this.searching) {
-        this.searching = true
-        this.ingredients = null
-        this.ingredients = await API.getIngredientsByName(name)
-        this.searching = false
-      }
+    async search (search) {
+      clearTimeout(this.searchTimeout)
+      this.searchTimeout = setTimeout(async () => {
+        this.ingredients = await API.getIngredientsByName(search)
+      }, 300)
     }
   }
 

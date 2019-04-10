@@ -3,6 +3,7 @@
     <input
       type="text"
       v-model="search"
+      @input="input"
       @keypress.enter="send"
     >
     <div class="search-icon">
@@ -25,6 +26,9 @@ export default {
   methods: {
     send () {
       this.$emit('send', this.search)
+    },
+    input () {
+      this.$emit('input', this.search)
     }
   }
 }
