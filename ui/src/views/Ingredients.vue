@@ -1,11 +1,54 @@
 <template>
   <div class="ingredients-page">
-    <h1>Ingredients page</h1>
+    <h1>Find ingredients</h1>
+    <SearchBar />
+    <IngredientsDataTable
+      v-if="ingredients"
+      :columns="columns"
+      :items="ingredients"
+    />
   </div>
 </template>
 
 <script>
+import SearchBar from '@/components/SearchBar'
+import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
+import { API } from '@/js/api/api'
+
 export default {
-  name: 'Ingredients'
+
+  name: 'Ingredients',
+
+  components: {
+    SearchBar,
+    IngredientsDataTable
+  },
+
+  data () {
+    return {
+      columns: [
+        { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
+        { name: 'quantity', text: 'Quantity' },
+        { name: 'price', text: 'Price ($)', sortable: true }
+      ],
+      ingredients: null
+    }
+  },
+
+  created () {
+    this.fetchData()
+  },
+
+  watch: {
+    '$route': 'fetchData'
+  },
+
+  methods: {
+    async fetchData () {
+      this.ingredients = null
+      this.ingredients = await API.getIngredients()
+    }
+  }
+
 }
 </script>

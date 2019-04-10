@@ -6,9 +6,20 @@ class DB:
     self.__connection = connect(**config)
     self.__cursor = self.__connection.cursor()
 
-  def insert(self, query, data):
+
+  def delete(self, query, data):
     try:
       self.__cursor.execute(query, data)
+      self.__connection.commit()
+
+    except Exception as e:
+      self.__connection.rollback()
+      raise e
+
+  ####### NOT TESTED
+  def modify(self, query, data):
+    try:
+      self.__cursor.execute(query)
       self.__connection.commit()
       return self.__cursor.lastrowid
 
@@ -16,15 +27,11 @@ class DB:
       self.__connection.rollback()
       raise e
 
-  # NOT TESTED YET. BETTER TO LOOP WITH SINGLE INSERT
-  def insertMany(self, query, data):
-    if (not isinstance(data, list)):
-      raise Exception("Data must be a list")
-
+  def insert(self, query, data):
     try:
-      results = self.__cursor.executeMany(query, data, multi=True)
+      self.__cursor.execute(query, data)
       self.__connection.commit()
-      return results
+      return self.__cursor.lastrowid
 
     except Exception as e:
       self.__connection.rollback()

@@ -1,26 +1,28 @@
 <template>
   <div
     id="drawer-screen"
-    @click="closeDrawer"
+    @mousedown="closeDrawer"
     :class="{ show }"
   />
 </template>
 
 <script>
-import { LayoutHelper } from '@/js/helpers'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 
 export default {
+
   name: 'DrawerScreen',
-  methods: {
-    closeDrawer () {
-      this.$store.commit('closeDrawer')
-    }
-  },
+
+  methods: mapMutations('layout', ['closeDrawer']),
+
   computed: {
+    ...mapState('layout', ['drawerClosed']),
+    ...mapGetters('layout', ['isTablet']),
     show () {
-      return !this.$store.state.drawerClosed && LayoutHelper.isSmallScreen()
+      return !this.drawerClosed && this.isTablet
     }
   }
+
 }
 </script>
 

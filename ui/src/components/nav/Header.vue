@@ -2,26 +2,27 @@
   <div id="header">
     <a
       class="material-icons hamburger"
-      @click="toggleDrawer"
+      @mousedown="toggleDrawer"
     >menu</a>
     <router-link
       class="project-name"
       to="/"
       tag="a"
     >
-      Project
+      <span>Cooky <i class="fas fa-cookie-bite">&nbsp;</i></span>
     </router-link>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
+
   name: 'Header',
-  methods: {
-    toggleDrawer () {
-      this.$store.commit('toggleDrawer')
-    }
-  }
+
+  methods: mapMutations('layout', ['toggleDrawer'])
+
 }
 </script>
 

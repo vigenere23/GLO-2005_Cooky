@@ -4,39 +4,61 @@
     <Header />
     <div class="main">
       <NavDrawer />
-      <div class="content">
-        <slot />
+      <div
+        class="wrapper"
+        :class="{ 'drawer-closed': drawerClosed }"
+      >
+        <div class="content">
+          <slot />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import DrawerScreen from '@/components/DrawerScreen'
-import Header from '@/components/Header'
-import NavDrawer from '@/components/NavDrawer'
-import { LayoutHelper } from '@/js/helpers'
+import DrawerScreen from '@/components/nav/DrawerScreen'
+import Header from '@/components/nav/Header'
+import NavDrawer from '@/components/nav/NavDrawer'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 
 export default {
+
   name: 'DefaultLayout',
+
   components: {
     DrawerScreen,
     Header,
     NavDrawer
   },
+
+  computed: {
+    ...mapState('layout', ['drawerClosed']),
+    ...mapGetters('layout', ['isTablet'])
+  },
+
   methods: {
+    ...mapMutations('layout', [
+      'updateScreenWidth',
+      'closeDrawer',
+      'openDrawer'
+    ]),
     handleResize () {
-      if (LayoutHelper.isSmallScreen()) {
-        this.$store.commit('closeDrawer')
+      this.updateScreenWidth(window.innerWidth)
+
+      if (this.isTablet) {
+        this.closeDrawer()
       } else {
-        this.$store.commit('openDrawer')
+        this.openDrawer()
       }
     }
   },
+
   mounted () {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
   }
+
 }
 </script>
 
@@ -45,15 +67,30 @@ export default {
 
 .default-layout {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  background-color: #fafafa;
 
   .main {
-    height: 100%;
-    padding-top: 64px;
-    display: flex;
+    min-height: 100%;
+    padding-top: $header-height;
 
-    .content {
-      padding: 16px;
+    .wrapper {
+      width: 100%;
+      min-height: 100%;
+      padding-left: $nav-drawer-width;
+      transition: padding-left 0.2s ease-in-out;
+
+      &.drawer-closed {
+        padding-left: 0;
+      }
+
+      .content {
+        padding: 32px;
+        min-height: 100%;
+        width: 100%;
+        max-width: 1000px;
+        margin: auto;
+      }
     }
   }
 }
@@ -61,7 +98,27 @@ export default {
 @media screen and (max-width: $tablet-max) {
   .default-layout {
     .main {
-      padding-top: 48px;
+      padding-top: $header-height-small;
+
+      .wrapper {
+        padding-left: 0;
+
+        .content {
+          padding: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $phone-max) {
+  .default-layout {
+    .main {
+      .wrapper {
+        .content {
+          padding: 16px;
+        }
+      }
     }
   }
 }

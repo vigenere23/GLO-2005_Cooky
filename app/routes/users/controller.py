@@ -14,12 +14,12 @@ likeRecipeDao = LikeRecipeDao()
 profileDao = ProfileDao()
 cartDao = CartDao()
 
-@routes.route('', methods=['GET'])
+@routes.route('/', methods=['GET'])
 @response.handleExceptions
 def index():
   return response.success(userDao.getAll())
 
-@routes.route('', methods=['POST'])
+@routes.route('/', methods=['POST'])
 @response.handleExceptions
 def createUser():
   body = request.get_json(force=True)
@@ -46,11 +46,19 @@ def getAllRecipesByUser(id):
   data = recipeDao.getAllRecipesByUser(id)
   return response.success(data)
 
-@routes.route('/<int:id>/likeRecipes')
+@routes.route('/<int:id>/likes')
 @response.handleExceptions
 def getLikeRecipes(id):
-  data = likeRecipeDao.getLikeRecipeByUser(id)
-  return response.success(data)
+  recipes = []
+  likes = likeRecipeDao.getLikeRecipeByUser(id)
+  for like in likes:
+    recipe = recipeDao.getById(like.id_Recipe)
+    recipes.append({
+      'id': recipe.id,
+      'name': recipe.name
+    })
+
+  return response.success(recipes)
 
 @routes.route('/<int:id>/profile')
 @response.handleExceptions

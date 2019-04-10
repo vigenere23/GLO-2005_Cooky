@@ -3,21 +3,14 @@
     id="navigation-drawer"
     :class="{ closed: drawerClosed }"
   >
-    <div class="profile">
-      <img
-        class="profile-picture"
-        src="../../static/default-avatar.png"
-      >
-      <span class="username">mscupcake352</span>
-    </div>
-    <Nav :items="items" />
+    <Nav :items="navItems" />
   </div>
 </template>
 
 <script>
-import { NavItems } from '@/js/items'
+import { navItems } from '@/js/data/navItems'
+import Nav from '@/components/nav/Nav'
 import { mapState } from 'vuex'
-import Nav from '@/components/Nav'
 
 export default {
   name: 'NavigationDrawer',
@@ -26,10 +19,15 @@ export default {
   },
   data () {
     return {
-      items: NavItems
+      navItems: navItems
     }
   },
-  computed: mapState([ 'drawerClosed', 'userId' ])
+  computed: {
+    ...mapState('layout', ['drawerClosed']),
+    isCurrent () {
+      return this.$route.path === this.link
+    }
+  }
 }
 </script>
 
@@ -37,35 +35,21 @@ export default {
 @import '~@/assets/scss/variables';
 
 #navigation-drawer {
+  position: fixed;
   height: 100%;
-  width: 240px;
-  flex-basis: 240px;
+  width: $nav-drawer-width;
   max-width: calc(100% - 32px);
   padding: 8px;
   border-right: solid 1px $divider-color;
-  flex-shrink: 0;
   font-size: 14px;
   font-weight: 500;
   color: $secondary-text-color;
+  background-color: white;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-
-  .profile {
-    height: 56px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-
-    .profile-picture {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      margin-left: 8px;
-      margin-right: 16px;
-    }
-  }
+  z-index: 40;
 }
 
 @media screen and (min-width: $desktop-min) {
@@ -84,11 +68,9 @@ export default {
 @media screen and (max-width: $tablet-max) {
   #navigation-drawer {
     padding: 8px;
-    position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
-    background-color: white;
     transition: all 0.3s ease-in-out;
     @include mdElevationElement('nav-drawer');
 

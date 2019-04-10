@@ -3,12 +3,11 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-export default new Router({
+export const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: require('@/views/Home.vue').default
+      redirect: '/recipes'
     },
     {
       path: '/signup',
@@ -31,6 +30,11 @@ export default new Router({
       component: () => import('@/views/Recipe.vue')
     },
     {
+      path: '/recipes/:id/edit',
+      name: 'RecipeEdit',
+      component: () => import('@/views/private/RecipeEdit.vue')
+    },
+    {
       path: '/ingredients',
       name: 'Ingredients',
       component: () => import('@/views/Ingredients.vue')
@@ -42,23 +46,8 @@ export default new Router({
     },
     {
       path: '/users/:id',
-      name: 'User',
-      component: () => import('@/views/User.vue')
-    },
-    {
-      path: '/users/:id/edit',
-      name: 'UserEdit',
-      component: () => import('@/views/private/UserEdit.vue')
-    },
-    {
-      path: '/users/:id/recipes',
-      name: 'UserRecipes',
-      component: () => import('@/views/UserRecipes.vue')
-    },
-    {
-      path: '/users/:id/likes',
-      name: 'UserLikes',
-      component: () => import('@/views/UserLikes.vue')
+      name: 'Profile',
+      component: () => import('@/views/Profile.vue')
     },
     {
       path: '/cart',
@@ -71,9 +60,14 @@ export default new Router({
       component: () => import('@/views/private/Commands.vue')
     },
     {
-      path: '/settings',
-      name: 'Settings',
-      component: () => import('@/views/private/Settings.vue')
+      path: '/account',
+      name: 'Account',
+      component: () => import('@/views/private/Account.vue')
+    },
+    {
+      path: '/account/edit',
+      name: 'AccountEdit',
+      component: () => import('@/views/private/AccountEdit.vue')
     },
     {
       path: '/logout',
@@ -85,5 +79,12 @@ export default new Router({
       name: 'PageNotFound',
       component: () => import('@/views/PageNotFound.vue')
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({ x: 0, y: 0 })
+      }, 200)
+    })
+  }
 })

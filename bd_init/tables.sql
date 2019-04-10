@@ -318,7 +318,7 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 -- ('','','','','');
 -- INSERT INTO `RecipeIngredient` (`id`,`id_Recipe`,`id_Ingredient`,`id_QuantityUnit`,`quantity`) VALUES
 -- ('','','','','');
--- INSERT INTO `Like` (`id`,`id_Recipe`,`id_User`) VALUES
+-- INSERT INTO `LikeRecipe` (`id`,`id_Recipe`,`id_User`) VALUES
 -- ('','','');
 -- INSERT INTO `Account` (`id`,`id_User`,`id_Address`,`firstName`,`lastName`,`email`,`password`) VALUES
 -- ('','','','','','','');

@@ -2,30 +2,25 @@
   <router-link
     class="nav-item"
     :to="link"
-    tag="a"
-    :class="{ 'nav-item__current': isCurrent }"
-    @click.native="closeDrawer"
+    :class="{ 'nav-item_current': isCurrent }"
+    @click.native="tryCloseDrawer"
   >
     <span
       v-if="icon"
-      class="material-icons nav-item__icon"
+      class="material-icons nav-item_icon"
     >
       {{ icon }}
     </span>
-    <span class="nav-item__text">{{ text }}</span>
+    <slot class="nav-item_text" />
   </router-link>
 </template>
 
 <script>
-import { LayoutHelper } from '@/js/helpers'
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   name: 'NavItem',
   props: {
-    text: {
-      type: String,
-      required: true
-    },
     icon: {
       type: String,
       default: ''
@@ -36,14 +31,16 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('layout', ['isTablet']),
     isCurrent () {
       return this.$route.path === this.link
     }
   },
   methods: {
-    closeDrawer () {
-      if (LayoutHelper.isSmallScreen()) {
-        this.$store.commit('closeDrawer')
+    ...mapMutations('layout', ['closeDrawer']),
+    tryCloseDrawer () {
+      if (this.isTablet) {
+        this.closeDrawer()
       }
     }
   }
@@ -64,13 +61,21 @@ export default {
     background-color: $grey100;
   }
 
-  &.nav-item__current {
-    color: $primary-color;
-    background-color: rgba($primary-color, 0.2);
-    font-weight: 500;
+  &:active {
+    background-color: $grey200;
   }
 
-  .nav-item__icon {
+  &.nav-item_current {
+    color: $primary-color;
+    background-color: rgba($primary-color, 0.1);
+    font-weight: 500;
+
+    &:active {
+      background-color: rgba($primary-color, 0.2);
+    }
+  }
+
+  .nav-item_icon {
     margin-left: 8px;
     margin-right: 24px;
   }
