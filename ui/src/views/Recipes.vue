@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import SearchBar from '@/components/SearchBar'
+import SearchBar from '@/components/inputs/SearchBar'
 import GridList from '@/components/lists/GridList'
 import { API } from '@/js/api/api'
 

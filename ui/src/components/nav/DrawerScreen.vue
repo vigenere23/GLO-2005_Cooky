@@ -31,7 +31,7 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  z-index: 90;
+  z-index: 89;
   visibility: hidden;
   transition: background-color 0.3s ease-in-out, visibility 0s linear 0.3s;
 

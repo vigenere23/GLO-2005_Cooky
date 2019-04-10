@@ -1,5 +1,6 @@
 <template>
   <div class="default-layout">
+    <Toaster />
     <DrawerScreen />
     <Header />
     <div class="main">
@@ -17,6 +18,7 @@
 </template>
 
 <script>
+import Toaster from '@/components/toaster/Toaster'
 import DrawerScreen from '@/components/nav/DrawerScreen'
 import Header from '@/components/nav/Header'
 import NavDrawer from '@/components/nav/NavDrawer'
@@ -27,6 +29,7 @@ export default {
   name: 'DefaultLayout',
 
   components: {
+    Toaster,
     DrawerScreen,
     Header,
     NavDrawer

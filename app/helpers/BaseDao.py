@@ -19,7 +19,7 @@ class BaseDao:
     if result:
       return self._mapper.from_tuple(result)
     else:
-      raise NotFoundException(str.format("No %s found with id '%d'", self._tableName, id))
+      raise NotFoundException("No {} found with id '{:d}'".format(self._tableName, id))
 
   def save(self, data):
     raise NotImplementedError()
