@@ -60,11 +60,11 @@ export default {
     color: white;
 
     &:hover {
-      background-color: rgba($primary-color, 0.9);
+      background-color: lighten($primary-color, 5%);
     }
 
     &:active {
-      background-color: rgba($primary-color, 0.8);
+      background-color: lighten($primary-color, 10%);
     }
   }
 }

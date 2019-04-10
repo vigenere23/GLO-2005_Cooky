@@ -1,13 +1,21 @@
 import axios from 'axios'
+import { EventBus } from '@/js/eventbus'
 
 async function parseErrors (request) {
   try {
     const response = await request()
     return response.data
-  } catch (err) {
-    console.error(err)
-    // TODO plug banner here
-    // do something with response.error.data ({ error: 'message' })
+  } catch (error) {
+    const message = error.response.status === 404
+      ? 'Page not found'
+      : error.response.data.error
+        ? error.response.data.error
+        : error.response.data
+    console.error(message)
+    EventBus.$emit('toast', { type: 'error', message })
+    if (error.status === 401 || error.status === 403) {
+      // return to login page
+    }
     return null
   }
 }

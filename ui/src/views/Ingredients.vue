@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import SearchBar from '@/components/SearchBar'
+import SearchBar from '@/components/inputs/SearchBar'
 import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
 import { API } from '@/js/api/api'
 
