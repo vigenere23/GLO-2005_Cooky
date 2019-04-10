@@ -1,6 +1,7 @@
 <template>
   <div class="recipes-page">
     <h1>Explore recipes</h1>
+    <FloatingButton link="/recipes/create" />
     <SearchBar @send="search" />
     <GridList
       v-if="recipes"
@@ -11,6 +12,7 @@
 </template>
 
 <script>
+import FloatingButton from '@/components/buttons/FloatingButton'
 import SearchBar from '@/components/inputs/SearchBar'
 import GridList from '@/components/lists/GridList'
 import { API } from '@/js/api/api'
@@ -20,6 +22,7 @@ export default {
   name: 'Recipes',
 
   components: {
+    FloatingButton,
     SearchBar,
     GridList
   },
