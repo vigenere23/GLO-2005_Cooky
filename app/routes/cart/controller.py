@@ -51,6 +51,14 @@ def deleteItemFromCart(id_Cart, id_Ingredient):
   cartItemDao.deleteIngredient(id_Cart, id_Ingredient) 
   return response.success("", status=204)
 
+@routes.route('/<int:id_Cart>/cartItems/<int:id_Ingredient>/ingredient', methods=['PUT'])
+@response.handleExceptions
+def modifyRecipeName(id_Cart, id_Ingredient):
+  body = request.get_json(force=True)
+  result = cartItemDao.modifyQuantity(body['multiplier'], id_Cart, id_Ingredient)
+  return response.success(result)
+
+
 @routes.route('/<int:id>/command', methods=['GET'])
 @response.handleExceptions
 def getCommandsByCart(id):

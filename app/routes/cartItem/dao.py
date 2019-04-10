@@ -15,6 +15,11 @@ class CartItemDao(BaseDao):
     def deleteIngredient(self, id_Cart, id_Ingredient):
         query = 'DELETE FROM CartItem WHERE id_Cart = %(id_Cart)s AND id_Ingredient = %(id_Ingredient)s'
         db.delete(query, {"id_Cart": id_Cart, "id_Ingredient": id_Ingredient})
+
+    def modifyQuantity(self, multiplier, id_Cart, id_Ingredient):
+        query = 'UPDATE CartItem SET multiplier = \'{}\' WHERE id_Cart = {} AND id_Ingredient = {}'.format(multiplier, id_Cart, id_Ingredient)
+        db.modify(query, {'id_Cart': id_Cart, 'id_Ingredient': id_Ingredient, "multiplier": multiplier})
+        return {'id_Cart': id_Cart, 'id_Ingredient': id_Ingredient, "multiplier": multiplier}
         
     def save(self, cartItemModel):
         if not isinstance(cartItemModel, CartItemModel):

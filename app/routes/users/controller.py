@@ -7,6 +7,7 @@ from ..likeRecipe.dao import LikeRecipeDao
 from ..profile.dao import ProfileDao
 from ..cart.dao import CartDao
 from ..account.dao import AccountDao
+from ..address.dao import AddressDao
 
 routes = Blueprint('users', __name__)
 userDao = UserDao()
@@ -15,6 +16,7 @@ likeRecipeDao = LikeRecipeDao()
 profileDao = ProfileDao()
 cartDao = CartDao()
 accountDao = AccountDao()
+addressDao = AddressDao()
 
 @routes.route('/', methods=['GET'])
 @response.handleExceptions
@@ -125,4 +127,12 @@ def getProfileByUser(id):
 @routes.route('/<int:id>/cart')
 def getCart(id):
   data = cartDao.getCartByUser(id)
+  return response.success(data)
+
+#todo find user addres
+@routes.route('/<int:id>/address')
+def getAddress(id):
+ # userData =  accountDao.getAccount(id)
+  #address = userData['id_Address']
+  data = addressDao.getAddress(id)
   return response.success(data)

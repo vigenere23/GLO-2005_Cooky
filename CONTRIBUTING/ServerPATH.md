@@ -17,6 +17,9 @@
 ### return profile from user id
 `GET /users/<id>/profile`
 
+### return address from user id
+`GET /users/<id>/address`
+
 ### return all cart from user id
 `GET /users/<id>/cart`
 
@@ -142,22 +145,28 @@
 `PUT /users/<id_User>`
 
 ### body : {
-###   name: <name>,
+###   "name": <name>,
 ###}
 ### Note: modify name
 `Put /recipes/<id_recipe>/name`
 
 ### body : {
-###   directives: <directives>,
+###   "directives": <directives>,
 ###}
 ### Note: modify directives
 `Put /recipes/<id_recipe>/directives`
 
 ### body : {
-###     id_Ingredient: <id_Ingredient>,
-###     totalQuantity: <totalQuantity>
+###     "id_Ingredient": <id_Ingredient>,
+###     "totalQuantity": <totalQuantity>
 ###}
 ### Note: modify ingredientQuantity from recipe
 `Put /recipes/<id_recipe>/ingredientQuantity`
+
+### body : {
+###    "multiplier": <multiplier>
+###}
+### Note: modify the quantity from an ingredient in the cart
+`Put /cart/<id_cart>/cartItems/<id_Ingredient>/ingredient`
 
 

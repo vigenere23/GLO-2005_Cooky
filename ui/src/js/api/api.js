@@ -27,6 +27,11 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
+  static async getAddress (id) {
+    const url = `${BASE_URL}/users/${id}/address`
+    return AxiosHelper.axiosGet(url)
+  }
+
   static async getAllCartFromUserId (id) {
     const url = `${BASE_URL}/users/${id}/cart`
     return AxiosHelper.axiosGet(url)
@@ -201,6 +206,14 @@ export class API {
       'password': password
     }
     const url = `${BASE_URL}/users/${userId}/password`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyQuantityCartItems (cartId, ingredientId, multiplier) {
+    const body = {
+      'multiplier': multiplier
+    }
+    const url = `${BASE_URL}/cart/${cartId}/cartItems/${ingredientId}/ingredient`
     return AxiosHelper.axiosPut(url, body)
   }
 }
