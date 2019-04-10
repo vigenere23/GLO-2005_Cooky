@@ -5,6 +5,7 @@
       <LabelInput
         label="name"
         v-model="name"
+        :validate="(value) => !!value"
       />
       <LabelInput
         label="description"
@@ -16,6 +17,7 @@
         label="directives"
         type="textarea"
         v-model="directives"
+        :validate="(value) => !!value"
       />
       <Button
         accent
@@ -58,8 +60,11 @@ export default {
   },
 
   methods: {
-    submit () {
-      API.addRecipe(this.userId, this.name, this.directives, this.ingredients)
+    async submit () {
+      const response = await API.addRecipe(this.userId, this.name, this.directives, this.ingredients)
+      if (response) {
+        this.$router.push(`/recipes/${response.id}`)
+      }
     }
   }
 

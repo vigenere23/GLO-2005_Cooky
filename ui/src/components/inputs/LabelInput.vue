@@ -49,9 +49,9 @@ export default {
       type: String,
       default: ''
     },
-    allowEmpty: {
-      type: Boolean,
-      default: false
+    validate: {
+      type: Function,
+      default: () => true
     }
   },
   data () {
@@ -64,9 +64,13 @@ export default {
     focus () { this.focused = true },
     blur () {
       this.focused = false
-      this.error = this.allowEmpty ? false : !this.value
+      this.error = !this.validate(this.value)
     },
-    input (e) { this.$emit('input', e.target.value) }
+    input (e) {
+      if (this.validate(e.target.value)) {
+        this.$emit('input', e.target.value)
+      }
+    }
   }
 }
 </script>

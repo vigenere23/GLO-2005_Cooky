@@ -47,10 +47,11 @@ export default {
   font-weight: 500;
   background-color: white;
   border-radius: 4px;
-  cursor: pointer;
   transition: all 0.2s ease-in-out;
 
   &:not([disable]) {
+    cursor: pointer;
+
     &:hover {
       background-color: darken(white, 3%);
     }
