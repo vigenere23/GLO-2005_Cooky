@@ -3,7 +3,18 @@
     class="label-input"
     :class="{ focused, error }"
   >
+    <textarea
+      v-if="type === 'textarea'"
+      @focus="focus"
+      @blur="blur"
+      @input="input"
+      :placeholder="placeholder"
+      :name="label"
+      :value="value"
+      maxlength="500"
+    />
     <input
+      v-else
       @focus="focus"
       @blur="blur"
       @input="input"
@@ -37,6 +48,10 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    allowEmpty: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -49,7 +64,7 @@ export default {
     focus () { this.focused = true },
     blur () {
       this.focused = false
-      this.error = !this.value
+      this.error = this.allowEmpty ? false : !this.value
     },
     input (e) { this.$emit('input', e.target.value) }
   }
@@ -63,7 +78,7 @@ export default {
   margin: 16px 0;
   width: 100%;
 
-  input {
+  input, textarea {
     display: block;
     width: 100%;
     font-size: 18px;
@@ -80,7 +95,7 @@ export default {
   }
 
   &.focused {
-    input {
+    input, textarea {
       border-color: #1e88e5;
     }
 
@@ -90,7 +105,7 @@ export default {
   }
 
   &:not(.focused).error {
-    input {
+    input, textarea {
       border-color: #d32c2c;
     }
 
