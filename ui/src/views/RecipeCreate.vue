@@ -19,8 +19,10 @@
         v-model="directives"
         :validate="(value) => !!value"
       />
+      <IngredientEditor @change="updateIngredients" />
       <Button
         accent
+        right
         :disable="!enableButton"
         @click="submit"
       />
@@ -30,6 +32,7 @@
 
 <script>
 import LabelInput from '@/components/inputs/LabelInput'
+import IngredientEditor from '@/components/ingredients/IngredientEditor'
 import Button from '@/components/buttons/Button'
 import { API } from '@/js/api/api'
 import { mapState } from 'vuex'
@@ -40,6 +43,7 @@ export default {
 
   components: {
     LabelInput,
+    IngredientEditor,
     Button
   },
 
@@ -65,6 +69,9 @@ export default {
       if (response) {
         this.$router.push(`/recipes/${response.id}`)
       }
+    },
+    updateIngredients (ingredients) {
+      this.ingredients = ingredients
     }
   }
 

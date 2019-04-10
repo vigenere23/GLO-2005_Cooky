@@ -51,7 +51,7 @@
 
 <script>
 import FloatingButton from '@/components/buttons/FloatingButton'
-import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
+import IngredientsDataTable from '@/components/ingredients/IngredientsDataTable'
 import CommentList from '@/components/comments/CommentList'
 import { comments } from '@/js/data/comments'
 import { mapState } from 'vuex'

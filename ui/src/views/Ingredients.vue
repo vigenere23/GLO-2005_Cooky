@@ -15,7 +15,7 @@
 
 <script>
 import SearchBar from '@/components/inputs/SearchBar'
-import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
+import IngredientsDataTable from '@/components/ingredients/IngredientsDataTable'
 import { API } from '@/js/api/api'
 
 export default {

@@ -1,7 +1,7 @@
 <template>
   <div
     class="button"
-    :class="{ accent, invert, flat }"
+    :class="{ accent, invert, flat, right }"
     :disable="disable"
     @click="$emit('click')"
   >
@@ -30,6 +30,10 @@ export default {
     disable: {
       type: Boolean,
       default: false
+    },
+    right: {
+      type: Boolean,
+      default: false
     }
   }
 
@@ -48,6 +52,10 @@ export default {
   background-color: white;
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
+
+  &.right {
+    float: right;
+  }
 
   &:not([disable]) {
     cursor: pointer;
