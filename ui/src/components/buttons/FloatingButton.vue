@@ -55,7 +55,20 @@ export default {
   }
 
   span.material-icons {
-    font-size: 32px;
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: $phone-max) {
+  .floating-button {
+    width: 52px;
+    height: 52px;
+    bottom: 16px;
+    right: 16px;
+
+    span.material-icons {
+      font-size: 24px;
+    }
   }
 }
 </style>
