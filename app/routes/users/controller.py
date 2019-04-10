@@ -41,7 +41,7 @@ def createUser():
 @routes.route('/<int:id>/account', methods=['GET'])
 @response.handleExceptions
 def getAccount(id):
-   return response.success(accountDao.getAccount(id))
+   return response.success(accountDao.getAccountByUserId(id))
 
 @routes.route('/<int:id>/firstName', methods=['PUT'])
 @response.handleExceptions
@@ -132,7 +132,9 @@ def getCart(id):
 #todo find user addres
 @routes.route('/<int:id>/address')
 def getAddress(id):
- # userData =  accountDao.getAccount(id)
-  #address = userData['id_Address']
-  data = addressDao.getAddress(id)
-  return response.success(data)
+  userData = accountDao.getAccountByUserId(id)
+  print(type(userData))
+  address = userData.id_Address
+  print(address)
+  #data = addressDao.getAddress(address)
+  return response.success(userData)

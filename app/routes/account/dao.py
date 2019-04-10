@@ -7,10 +7,10 @@ class AccountDao(BaseDao):
     def __init__(self):
         super().__init__('Account', AccountModel)
 
-    def getAccount(self, id_User):
+    def getAccountByUserId(self, id_User):
         query = 'SELECT * FROM Account WHERE id_User = %(id_User)s'
-        results = db.select(query, {'id_User': id_User})
-        return self._mapper.from_tuples(results)
+        result = db.select(query, {'id_User': id_User}, limit=1)
+        return self._mapper.from_tuple(result)
 
     def modifyFirstName(self, firstName, id_User):
         query = 'UPDATE Account SET firstName = \'{}\' WHERE id_User = {}'.format(firstName, id_User)
