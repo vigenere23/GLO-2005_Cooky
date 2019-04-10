@@ -26,7 +26,11 @@ userDao = UserDao()
 @routes.route('/', methods=['GET'])
 @response.handleExceptions
 def index():
-  return response.success(recipeDao.getAll())
+  searched_name = request.args.get('name')
+  if (searched_name):
+    return response.success(recipeDao.getRecipesByName(searched_name))
+  else:
+    return response.success(recipeDao.getAll())
 
 
 @routes.route('/', methods=['POST'])
@@ -34,17 +38,14 @@ def index():
 def addRecipe():
   body = request.get_json(force=True)
   data = {
-      'id_User': body['id_User'],
-      'name': body['name'],
-      'directives': body['directives']
+    'id_User': body['id_User'],
+    'name': body['name'],
+    'directives': body['directives']
   }
 
-  try:
-    recipeModel = RecipeModel(**data)
-    result = recipeDao.save(recipeModel,  body['ingredients'])
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
+  recipeModel = RecipeModel(**data)
+  result = recipeDao.save(recipeModel, body['ingredients'])
+  return response.success(result)
 
 @routes.route('/<int:recipe_id>', methods=['GET'])
 @response.handleExceptions
@@ -65,13 +66,37 @@ def deleteRecipe(recipe_id):
   recipeDao.deleteRecipe(recipe_id)
   return response.success('', status=204)
 
-# should be a query param in getAll (?name="asdasd")
-# should be like a search function, not absolute name
-@routes.route('/name/<name>')
+
+@routes.route('/<int:recipe_id>/name', methods=['PUT'])
 @response.handleExceptions
-def getRecipeByName(name):
-  data = recipeDao.getRecipeByName(name)
-  return response.success(data)
+def modifyRecipeName(recipe_id):
+  body = request.get_json(force=True)
+  try:
+    result = recipeDao.modifyRecipeName(body['name'], recipe_id)
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:recipe_id>/directives', methods=['PUT'])
+@response.handleExceptions
+def modifyRecipeDirective(recipe_id):
+  body = request.get_json(force=True)
+  try:
+    result = recipeDao.modifyRecipeDirective(body['directives'], recipe_id)
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:recipe_id>/ingredientQuantity', methods=['PUT'])
+@response.handleExceptions
+def modifyIngredientQuantity(recipe_id):
+  body = request.get_json(force=True)
+  
+  try: 
+    result = recipeIngredientDao.modifyQuantity(recipe_id, body['id_Ingredient'], body['totalQuantity'])
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
 
 @routes.route('/<int:recipe_id>/ingredients')
 @response.handleExceptions
@@ -141,4 +166,6 @@ def addCommentRecipe(recipe_id):
     return response.success(result)
   except Exception as e:
     return response.error(e)
+
+  
 

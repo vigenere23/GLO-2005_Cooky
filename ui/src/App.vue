@@ -13,7 +13,6 @@
 
 <script>
 import DefaultLayout from '@/layouts/DefaultLayout'
-import { mapActions } from 'vuex'
 
 export default {
 
@@ -21,13 +20,7 @@ export default {
 
   components: {
     DefaultLayout
-  },
-
-  mounted () {
-    this.reloadCart()
-  },
-
-  methods: mapActions('user', ['reloadCart'])
+  }
 
 }
 </script>

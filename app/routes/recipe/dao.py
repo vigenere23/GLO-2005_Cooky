@@ -1,5 +1,4 @@
 from app import db
-from random import *
 from .model import RecipeModel
 from app.helpers.BaseDao import BaseDao
 from ..recipeIngredient.model import RecipeIngredientModel
@@ -12,9 +11,9 @@ class RecipeDao(BaseDao):
     def __init__(self):
         super().__init__('Recipe', RecipeModel)
 
-    def getRecipeByName(self, name):
-        query = 'SELECT * FROM Recipe WHERE name = %(name)s'
-        results = db.select(query, {'name': name})
+    def getRecipesByName(self, name):
+        query = 'SELECT * FROM Recipe WHERE LOWER(name) LIKE LOWER(%(name)s)'
+        results = db.select(query, {'name': '%{}%'.format(name)})
         return self._mapper.from_tuples(results)
 
 
@@ -23,21 +22,43 @@ class RecipeDao(BaseDao):
         results = db.select(query, {'id_User': id_User})
         return self._mapper.from_tuples(results)
 
+    def modifyRecipeName(self, name, id):
+        query = 'UPDATE Recipe SET name = \'{}\' WHERE id = {}'.format(name, id)
+        db.modify(query, {'id': id, 'name': name})
+        return {"id": id, "name": name}
+
+    def modifyRecipeDirective(self, directives, id):
+        query = 'UPDATE Recipe SET directives = \'{}\' WHERE id = {}'.format(directives, id)
+        db.modify(query, {'directives': directives})
+        return {"id": id, "directives": directives}
+
     
     def deleteRecipe(self, id):
         query = 'DELETE FROM Recipe WHERE id = %(id)s'
-        db.delete(query, {"id": id}) 
+        db.delete(query, {"id": id})
     
-    def save(self, recipeModel, dataIngredient):
+    def save(self, recipeModel, ingredients):
         if not isinstance(recipeModel, RecipeModel):
             raise ValueError("recipeModel should be of type RecipeModel")
 
         query = 'INSERT INTO Recipe (id, id_User, name, directives) VALUES (%s, %s, %s, %s)'
-        newRecipeId = db.insert(query, self._mapper.to_tuple(recipeModel))
-        if newRecipeId:
-            for elem in dataIngredient:
-                recipeIngredientModel = RecipeIngredientModel(id=None, id_Recipe=newRecipeId, id_Ingredient=elem.id, id_QuantityUnit=elem.id_QuantityUnit, totalQuantity=(randint(1,5)))
+        recipeId = db.insert(query, self._mapper.to_tuple(recipeModel))
+        if recipeId:
+            for ingredient in ingredients:
+                recipeIngredientModel = None
+                if (isinstance(ingredient, RecipeIngredientModel)):
+                    recipeIngredientModel = ingredient
+                    recipeIngredientModel.id_Recipe = recipeId
+                else:
+                    data = {
+                        'id_Recipe': recipeId,
+                        'id_Ingredient': ingredient['id_Ingredient'],
+                        'id_QuantityUnit': ingredient['id_QuantityUnit'],
+                        'totalQuantity': ingredient['totalQuantity']
+                    }
+                    recipeIngredientModel = RecipeIngredientModel(**data)
+
                 recipeIngredientDao.save(recipeIngredientModel)
-            return self.getById(newRecipeId)
+            return self.getById(recipeId)
         else:
             raise Exception("Could not save recipe")

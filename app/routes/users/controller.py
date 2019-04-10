@@ -5,12 +5,16 @@ from .model import UserModel
 from ..recipe.dao import RecipeDao
 from ..likeRecipe.dao import LikeRecipeDao
 from ..cart.dao import CartDao
+from ..account.dao import AccountDao
+from ..address.dao import AddressDao
 
 routes = Blueprint('users', __name__)
 userDao = UserDao()
 recipeDao = RecipeDao()
 likeRecipeDao = LikeRecipeDao()
 cartDao = CartDao()
+accountDao = AccountDao()
+addressDao = AddressDao()
 
 @routes.route('/', methods=['GET'])
 @response.handleExceptions
@@ -32,11 +36,64 @@ def createUser():
     except Exception as e:
       return response.error(e)
 
+@routes.route('/<int:id>/account', methods=['GET'])
+@response.handleExceptions
+def getAccount(id):
+   return response.success(accountDao.getAccount(id))
+
+@routes.route('/<int:id>/firstName', methods=['PUT'])
+@response.handleExceptions
+def modifyFirstName(id):
+  body = request.get_json(force=True)
+  try:
+    result = accountDao.modifyFirstName(body['firstName'], id)
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:id>/lastName', methods=['PUT'])
+@response.handleExceptions
+def modifyLastName(id):
+  body = request.get_json(force=True)
+  try:
+    result = accountDao.modifyLastName(body['lastName'], id)
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:id>/email', methods=['PUT'])
+@response.handleExceptions
+def modifyEmail(id):
+  body = request.get_json(force=True)
+  try:
+    result = accountDao.modifyEmail(body['email'], id) 
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:id>/password', methods=['PUT'])
+@response.handleExceptions
+def modifyPassword(id):
+  body = request.get_json(force=True)
+  try:
+    accountDao.modifyPassword(body['password'], id)
+    return response.success('')
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:id>', methods=['PUT'])
+@response.handleExceptions
+def modifyUser(id):
+  body = request.get_json(force=True)
+  data = userDao.modifyUser(id, body['username'])
+  return response.success(data)
+
 @routes.route('/<int:id>')
 @response.handleExceptions
 def getOne(id):
   data = userDao.getById(id)
   return response.success(data)
+
 
 @routes.route('/<int:id>/recipes')
 @response.handleExceptions
@@ -62,4 +119,12 @@ def getLikeRecipes(id):
 @routes.route('/<int:id>/cart')
 def getCart(id):
   data = cartDao.getCartByUser(id)
+  return response.success(data)
+
+#todo find user addres
+@routes.route('/<int:id>/address')
+def getAddress(id):
+ # userData =  accountDao.getAccount(id)
+  #address = userData['id_Address']
+  data = addressDao.getAddress(id)
   return response.success(data)

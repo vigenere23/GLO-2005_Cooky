@@ -16,6 +16,12 @@ class UserDao(BaseDao):
     else:
       raise NotFoundException(str.format("No user found with username '%s'", username))
 
+  def modifyUser(self, id, newUsername):
+    query = 'UPDATE User SET username = \'{}\' Where id = {}'.format(newUsername, id)
+    db.modify(query, {'id': id, 'username': newUsername})
+    return {"id": id, "username": newUsername}
+
+ 
   def save(self, userModel):
     if not isinstance(userModel, UserModel):
       raise ValueError("userModel should be of type UserModel")

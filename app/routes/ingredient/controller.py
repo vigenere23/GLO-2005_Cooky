@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from app.helpers import response, exceptions, queries
 from .dao import IngredientDao
 from ..quantityUnit.dao import QuantityUnitDao
@@ -11,7 +11,14 @@ quantityUnitDao = QuantityUnitDao()
 @response.handleExceptions
 def index():
   populated_ingredients = []
-  ingredients = ingredientDao.getAll()
+  ingredients = []
+
+  search_name = request.args.get('name')
+  if (search_name):
+    ingredients = ingredientDao.getIngredientsByName(search_name)
+  else:
+    ingredients = ingredientDao.getAll()
+
   for ingredient in ingredients:
     quantity_unit = quantityUnitDao.getById(ingredient.id_QuantityUnit)
     quantity = str.format('{} {}', int(ingredient.baseQuantity), quantity_unit.abbreviation)
@@ -26,5 +33,5 @@ def index():
 @routes.route('/<name>')
 @response.handleExceptions
 def getIngredientByName(name):
-  data = ingredientDao.getIngredientByName(name)
+  data = ingredientDao.getIngredientsByName(name)
   return response.success(data)

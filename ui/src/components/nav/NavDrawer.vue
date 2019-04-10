@@ -70,7 +70,7 @@ export default {
     padding: 8px;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 90;
     transition: all 0.3s ease-in-out;
     @include mdElevationElement('nav-drawer');
 

@@ -3,6 +3,11 @@
     class="recipe-page"
     v-if="recipe"
   >
+    <FloatingButton
+      v-if="recipe"
+      icon="edit"
+      :link="`/recipes/${$route.params.id}/edit`"
+    />
     <h1>{{ recipe.name }}</h1>
     <div class="recipe_intro">
       <img src="https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2017/04/main/dragon-fruit-smoothie-bowl-1704w.jpg">
@@ -45,7 +50,8 @@
 </template>
 
 <script>
-import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
+import FloatingButton from '@/components/buttons/FloatingButton'
+import IngredientsDataTable from '@/components/ingredients/IngredientsDataTable'
 import CommentList from '@/components/comments/CommentList'
 import { comments } from '@/js/data/comments'
 import { mapState } from 'vuex'
@@ -56,6 +62,7 @@ export default {
   name: 'Recipe',
 
   components: {
+    FloatingButton,
     IngredientsDataTable,
     CommentList
   },

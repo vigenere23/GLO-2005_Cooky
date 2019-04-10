@@ -1,6 +1,10 @@
 ### return all users
 `GET /users`
 
+### return user account
+`GET /users/<id>/account`
+
+
 ### return user by id
 `GET /users/<id>`
 
@@ -12,6 +16,9 @@
 
 ### return profile from user id
 `GET /users/<id>/profile`
+
+### return address from user id
+`GET /users/<id>/address`
 
 ### return all cart from user id
 `GET /users/<id>/cart`
@@ -111,3 +118,55 @@
 
 ### Note: delete recipe
 `Delete /recipes/<id_recipe>`
+
+### body: {
+### "firstName": <firstName>    
+###}
+`PUT /users/<id_User>/firstName`
+
+### body: {
+### "lastName": <lastName>    
+###}
+`PUT /users/<id_User>/lastName`
+
+### body: {
+### "email": <email>    
+###}
+`PUT /users/<id_User>/email`
+
+### body: {
+### "password": <password>    
+###}
+`PUT /users/<id_User>/password`
+
+### body: {
+### "username": <newUsername>    
+###}
+`PUT /users/<id_User>`
+
+### body : {
+###   "name": <name>,
+###}
+### Note: modify name
+`Put /recipes/<id_recipe>/name`
+
+### body : {
+###   "directives": <directives>,
+###}
+### Note: modify directives
+`Put /recipes/<id_recipe>/directives`
+
+### body : {
+###     "id_Ingredient": <id_Ingredient>,
+###     "totalQuantity": <totalQuantity>
+###}
+### Note: modify ingredientQuantity from recipe
+`Put /recipes/<id_recipe>/ingredientQuantity`
+
+### body : {
+###    "multiplier": <multiplier>
+###}
+### Note: modify the quantity from an ingredient in the cart
+`Put /cart/<id_cart>/cartItems/<id_Ingredient>/ingredient`
+
+

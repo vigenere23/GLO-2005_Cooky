@@ -1,7 +1,10 @@
 <template>
   <div class="ingredients-page">
     <h1>Find ingredients</h1>
-    <SearchBar />
+    <SearchBar
+      @input="search"
+      @send="search"
+    />
     <IngredientsDataTable
       v-if="ingredients"
       :columns="columns"
@@ -11,8 +14,8 @@
 </template>
 
 <script>
-import SearchBar from '@/components/SearchBar'
-import IngredientsDataTable from '@/components/wrappers/IngredientsDataTable'
+import SearchBar from '@/components/inputs/SearchBar'
+import IngredientsDataTable from '@/components/ingredients/IngredientsDataTable'
 import { API } from '@/js/api/api'
 
 export default {
@@ -26,6 +29,8 @@ export default {
 
   data () {
     return {
+      searching: false,
+      searchTimeout: null,
       columns: [
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' },
@@ -47,6 +52,12 @@ export default {
     async fetchData () {
       this.ingredients = null
       this.ingredients = await API.getIngredients()
+    },
+    async search (search) {
+      clearTimeout(this.searchTimeout)
+      this.searchTimeout = setTimeout(async () => {
+        this.ingredients = await API.getIngredientsByName(search)
+      }, 300)
     }
   }
 

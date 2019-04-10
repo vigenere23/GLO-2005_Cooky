@@ -1,0 +1,91 @@
+<template>
+  <div class="recipe-create-page">
+    <h1>Create a recipe</h1>
+    <div class="form">
+      <LabelInput
+        label="name"
+        v-model="name"
+        :validate="(value) => !!value"
+      />
+      <LabelInput
+        label="description"
+        type="textarea"
+        allow-empty
+        v-model="description"
+      />
+      <LabelInput
+        label="directives"
+        type="textarea"
+        v-model="directives"
+        :validate="(value) => !!value"
+      />
+      <IngredientEditor @change="updateIngredients" />
+      <Button
+        accent
+        right
+        :disable="!enableButton"
+        @click="submit"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import LabelInput from '@/components/inputs/LabelInput'
+import IngredientEditor from '@/components/ingredients/IngredientEditor'
+import Button from '@/components/buttons/Button'
+import { API } from '@/js/api/api'
+import { mapState } from 'vuex'
+
+export default {
+
+  name: 'RecipeCreate',
+
+  components: {
+    LabelInput,
+    IngredientEditor,
+    Button
+  },
+
+  computed: {
+    ...mapState('user', ['userId']),
+    enableButton () {
+      return this.name && this.directives && this.ingredients
+    }
+  },
+
+  data () {
+    return {
+      name: '',
+      description: '',
+      directives: '',
+      ingredients: []
+    }
+  },
+
+  methods: {
+    async submit () {
+      const response = await API.addRecipe(this.userId, this.name, this.directives, this.ingredients)
+      if (response) {
+        this.$router.push(`/recipes/${response.id}`)
+      }
+    },
+    updateIngredients (ingredients) {
+      this.ingredients = ingredients
+    }
+  }
+
+}
+</script>
+
+<style lang="scss">
+@import '~@/assets/scss/variables';
+
+.recipe-create-page {
+  .form {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+  }
+}
+</style>

@@ -3,6 +3,7 @@
     class="user-page"
     v-if="user"
   >
+    <FloatingButton link="/recipes/create" />
     <h1>{{ user.username }}</h1>
     <TabSlider
       :tabs="tabs"
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+import FloatingButton from '@/components/buttons/FloatingButton'
 import TabSlider from '@/components/lists/TabSlider'
 import GridList from '@/components/lists/GridList'
 import { API } from '@/js/api/api'
@@ -34,6 +36,7 @@ export default {
   name: 'User',
 
   components: {
+    FloatingButton,
     TabSlider,
     GridList
   },

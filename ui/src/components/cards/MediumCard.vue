@@ -77,7 +77,6 @@ export default {
   display: block;
   width: 100%;
   border-radius: 4px;
-  border: $faded-border;
   @include mdElevationElement('card');
 
   &.add-margins {
@@ -87,6 +86,7 @@ export default {
   .medium-card_image {
     width: 100%;
     padding-bottom: calc(100% / 16 * 9);
+    border-radius: 4px 4px 0 0;
     @include background();
   }
 
