@@ -17,26 +17,49 @@
         type="textarea"
         v-model="directives"
       />
+      <Button
+        accent
+        :disable="!enableButton"
+        @click="submit"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import LabelInput from '@/components/inputs/LabelInput'
+import Button from '@/components/buttons/Button'
+import { API } from '@/js/api/api'
+import { mapState } from 'vuex'
 
 export default {
 
   name: 'RecipeCreate',
 
   components: {
-    LabelInput
+    LabelInput,
+    Button
+  },
+
+  computed: {
+    ...mapState('user', ['userId']),
+    enableButton () {
+      return this.name && this.directives && this.ingredients
+    }
   },
 
   data () {
     return {
       name: '',
       description: '',
-      directives: ''
+      directives: '',
+      ingredients: []
+    }
+  },
+
+  methods: {
+    submit () {
+      API.addRecipe(this.userId, this.name, this.directives, this.ingredients)
     }
   }
 

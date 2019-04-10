@@ -1,7 +1,8 @@
 <template>
   <div
     class="button"
-    :class="{ accent: accent, invert: invert }"
+    :class="{ accent, invert, flat }"
+    :disable="disable"
     @click="$emit('click')"
   >
     <slot>Submit</slot>
@@ -21,6 +22,14 @@ export default {
     invert: {
       type: Boolean,
       default: false
+    },
+    flat: {
+      type: Boolean,
+      default: false
+    },
+    disable: {
+      type: Boolean,
+      default: false
     }
   }
 
@@ -37,35 +46,50 @@ export default {
   font-size: 16px;
   font-weight: 500;
   background-color: white;
-  border: $faded-border;
   border-radius: 4px;
   cursor: pointer;
-  @include mdElevationElement('raised-button');
   transition: all 0.2s ease-in-out;
 
-  &:hover {
-    background-color: $grey100;
-  }
-
-  &:active {
-    background-color: $grey200;
-  }
-
-  &.invert {
-    color: $primary-color;
-  }
-
-  &.accent {
-    background-color: $primary-color;
-    color: white;
-
+  &:not([disable]) {
     &:hover {
-      background-color: lighten($primary-color, 5%);
+      background-color: darken(white, 3%);
     }
 
     &:active {
-      background-color: lighten($primary-color, 10%);
+      background-color: darken(white, 5%);
+    }
+
+    &.invert {
+      color: $primary-color;
+    }
+
+    &:not(.accent).flat {
+      border: $faded-border;
+      border-width: 2px;
+    }
+
+    &:not(.flat) {
+      @include mdElevationElement('raised-button');
+    }
+
+    &.accent {
+      background-color: $primary-color;
+      color: white;
+
+      &:hover {
+        background-color: lighten($primary-color, 5%);
+      }
+
+      &:active {
+        background-color: lighten($primary-color, 10%);
+      }
     }
   }
+
+  &[disable] {
+    background-color: darken(white, 5%);
+    color: $disabled-text-color;
+  }
+
 }
 </style>

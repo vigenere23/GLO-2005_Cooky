@@ -35,24 +35,24 @@ class RecipeDao(BaseDao):
     
     def deleteRecipe(self, id):
         query = 'DELETE FROM Recipe WHERE id = %(id)s'
-        db.delete(query, {"id": id}) 
+        db.delete(query, {"id": id})
     
-    def save(self, recipeModel, dataIngredient):
+    def save(self, recipeModel, ingredients):
         if not isinstance(recipeModel, RecipeModel):
             raise ValueError("recipeModel should be of type RecipeModel")
 
         query = 'INSERT INTO Recipe (id, id_User, name, directives) VALUES (%s, %s, %s, %s)'
-        newRecipeId = db.insert(query, self._mapper.to_tuple(recipeModel))
-        if newRecipeId:
-            for i in range(len(dataIngredient['id_Ingredient'])):
-                data = { 
-                    'id_Recipe': newRecipeId,
-                    'id_Ingredient': dataIngredient['id_Ingredient'][i],
-                    'id_QuantityUnit': dataIngredient['id_QuantityUnit'][i],
-                    'totalQuantity': dataIngredient['totalQuantity'][i]
+        recipeId = db.insert(query, self._mapper.to_tuple(recipeModel))
+        if recipeId:
+            for ingredient in ingredients:
+                data = {
+                    'id_Recipe': recipeId,
+                    'id_Ingredient': ingredient['id_Ingredient'],
+                    'id_QuantityUnit': ingredient['id_QuantityUnit'],
+                    'totalQuantity': ingredient['totalQuantity']
                 }
                 recipeIngredientModel = RecipeIngredientModel(**data)
                 recipeIngredientDao.save(recipeIngredientModel)
-            return self.getById(newRecipeId)
+            return self.getById(recipeId)
         else:
             raise Exception("Could not save recipe")
