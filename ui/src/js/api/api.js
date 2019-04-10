@@ -17,6 +17,11 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
+  static async getAccount (id) {
+    const url = `${BASE_URL}/users/${id}/account`
+    return AxiosHelper.axiosGet(url)
+  }
+
   static async getProfile (id) {
     const url = `${BASE_URL}/users/${id}/profile`
     return AxiosHelper.axiosGet(url)
@@ -167,5 +172,35 @@ export class API {
     return AxiosHelper.axiosPut(url, body)
   }
 
-  
+  static async modifyFirstName (userId, firstName) {
+    const body = {
+      'firstName': firstName
+    }
+    const url = `${BASE_URL}/users/${userId}/firstName`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyLastName (userId, lastName) {
+    const body = {
+      'lastName': lastName
+    }
+    const url = `${BASE_URL}/users/${userId}/lastName`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyEmail (userId, email) {
+    const body = {
+      'email': email
+    }
+    const url = `${BASE_URL}/users/${userId}/email`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyPassword (userId, password) {
+    const body = {
+      'password': password
+    }
+    const url = `${BASE_URL}/users/${userId}/password`
+    return AxiosHelper.axiosPut(url, body)
+  }
 }

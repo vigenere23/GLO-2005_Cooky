@@ -6,6 +6,7 @@ from ..recipe.dao import RecipeDao
 from ..likeRecipe.dao import LikeRecipeDao
 from ..profile.dao import ProfileDao
 from ..cart.dao import CartDao
+from ..account.dao import AccountDao
 
 routes = Blueprint('users', __name__)
 userDao = UserDao()
@@ -13,6 +14,7 @@ recipeDao = RecipeDao()
 likeRecipeDao = LikeRecipeDao()
 profileDao = ProfileDao()
 cartDao = CartDao()
+accountDao = AccountDao()
 
 @routes.route('/', methods=['GET'])
 @response.handleExceptions
@@ -33,6 +35,51 @@ def createUser():
       return response.success(result)
     except Exception as e:
       return response.error(e)
+
+@routes.route('/<int:id>/account', methods=['GET'])
+@response.handleExceptions
+def getAccount(id):
+   return response.success(accountDao.getAccount(id))
+
+@routes.route('/<int:id>/firstName', methods=['PUT'])
+@response.handleExceptions
+def modifyFirstName(id):
+  body = request.get_json(force=True)
+  try:
+    result = accountDao.modifyFirstName(body['firstName'], id)
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:id>/lastName', methods=['PUT'])
+@response.handleExceptions
+def modifyLastName(id):
+  body = request.get_json(force=True)
+  try:
+    result = accountDao.modifyLastName(body['lastName'], id)
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:id>/email', methods=['PUT'])
+@response.handleExceptions
+def modifyEmail(id):
+  body = request.get_json(force=True)
+  try:
+    result = accountDao.modifyEmail(body['email'], id) 
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:id>/password', methods=['PUT'])
+@response.handleExceptions
+def modifyPassword(id):
+  body = request.get_json(force=True)
+  try:
+    accountDao.modifyPassword(body['password'], id)
+    return response.success('')
+  except Exception as e:
+    return response.error(e)
 
 @routes.route('/<int:id>', methods=['PUT'])
 @response.handleExceptions

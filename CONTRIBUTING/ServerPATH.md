@@ -1,6 +1,10 @@
 ### return all users
 `GET /users`
 
+### return user account
+`GET /users/<id>/account`
+
+
 ### return user by id
 `GET /users/<id>`
 
@@ -111,6 +115,26 @@
 
 ### Note: delete recipe
 `Delete /recipes/<id_recipe>`
+
+### body: {
+### "firstName": <firstName>    
+###}
+`PUT /users/<id_User>/firstName`
+
+### body: {
+### "lastName": <lastName>    
+###}
+`PUT /users/<id_User>/lastName`
+
+### body: {
+### "email": <email>    
+###}
+`PUT /users/<id_User>/email`
+
+### body: {
+### "password": <password>    
+###}
+`PUT /users/<id_User>/password`
 
 ### body: {
 ### "username": <newUsername>    

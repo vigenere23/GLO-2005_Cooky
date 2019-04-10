@@ -20,8 +20,8 @@ class UserDao(BaseDao):
     query = 'UPDATE User SET username = \'{}\' Where id = {}'.format(newUsername, id)
     db.modify(query, {'id': id, 'username': newUsername})
     return {"id": id, "username": newUsername}
-   
 
+ 
   def save(self, userModel):
     if not isinstance(userModel, UserModel):
       raise ValueError("userModel should be of type UserModel")
