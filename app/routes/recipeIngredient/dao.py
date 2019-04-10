@@ -12,6 +12,11 @@ class RecipeIngredientDao(BaseDao):
         querry = 'SELECT * FROM RecipeIngredient WHERE id_Recipe = %(id_Recipe)s'
         results = db.select(querry, {'id_Recipe': id_Recipe})
         return self._mapper.from_tuples(results)
+
+    def modifyQuantity(self, id_Recipe, id_Ingredient, totalQuantity):
+        query = 'UPDATE RecipeIngredient SET totalQuantity = \'{}\' Where id_Recipe = {} AND id_Ingredient = {}'.format(totalQuantity, id_Recipe, id_Ingredient)
+        db.modify(query, {'id_Recipe': id_Recipe, 'id_Ingredient': id_Ingredient, 'totalQuantity': totalQuantity})
+        return {'id_Recipe': id_Recipe, 'id_Ingredient': id_Ingredient, 'totalQuantity': totalQuantity}
     
     def save(self, recipeIngredientModel):
         if not isinstance(recipeIngredientModel, RecipeIngredientModel):

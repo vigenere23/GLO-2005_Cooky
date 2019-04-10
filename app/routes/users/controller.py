@@ -34,11 +34,19 @@ def createUser():
     except Exception as e:
       return response.error(e)
 
+@routes.route('/<int:id>', methods=['PUT'])
+@response.handleExceptions
+def modifyUser(id):
+  body = request.get_json(force=True)
+  data = userDao.modifyUser(id, body['username'])
+  return response.success(data)
+
 @routes.route('/<int:id>')
 @response.handleExceptions
 def getOne(id):
   data = userDao.getById(id)
   return response.success(data)
+
 
 @routes.route('/<int:id>/recipes')
 @response.handleExceptions

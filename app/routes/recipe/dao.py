@@ -22,6 +22,16 @@ class RecipeDao(BaseDao):
         results = db.select(query, {'id_User': id_User})
         return self._mapper.from_tuples(results)
 
+    def modifyRecipeName(self, name, id):
+        query = 'UPDATE Recipe SET name = \'{}\' WHERE id = {}'.format(name, id)
+        db.modify(query, {'id': id, 'name': name})
+        return {"id": id, "name": name}
+
+    def modifyRecipeDirective(self, directives, id):
+        query = 'UPDATE Recipe SET directives = \'{}\' WHERE id = {}'.format(directives, id)
+        db.modify(query, {'directives': directives})
+        return {"id": id, "directives": directives}
+
     
     def deleteRecipe(self, id):
         query = 'DELETE FROM Recipe WHERE id = %(id)s'

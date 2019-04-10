@@ -69,6 +69,38 @@ def deleteRecipe(recipe_id):
   recipeDao.deleteRecipe(recipe_id)
   return response.success('', status=204)
 
+
+@routes.route('/<int:recipe_id>/name', methods=['PUT'])
+@response.handleExceptions
+def modifyRecipeName(recipe_id):
+  body = request.get_json(force=True)
+  try:
+    result = recipeDao.modifyRecipeName(body['name'], recipe_id)
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:recipe_id>/directives', methods=['PUT'])
+@response.handleExceptions
+def modifyRecipeDirective(recipe_id):
+  body = request.get_json(force=True)
+  try:
+    result = recipeDao.modifyRecipeDirective(body['directives'], recipe_id)
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
+@routes.route('/<int:recipe_id>/ingredientQuantity', methods=['PUT'])
+@response.handleExceptions
+def modifyIngredientQuantity(recipe_id):
+  body = request.get_json(force=True)
+  
+  try: 
+    result = recipeIngredientDao.modifyQuantity(recipe_id, body['id_Ingredient'], body['totalQuantity'])
+    return response.success(result)
+  except Exception as e:
+    return response.error(e)
+
 @routes.route('/<int:recipe_id>/ingredients')
 @response.handleExceptions
 def getIngredientsByRecipe(recipe_id):
@@ -137,4 +169,6 @@ def addCommentRecipe(recipe_id):
     return response.success(result)
   except Exception as e:
     return response.error(e)
+
+  
 

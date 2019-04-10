@@ -111,3 +111,29 @@
 
 ### Note: delete recipe
 `Delete /recipes/<id_recipe>`
+
+### body: {
+### "username": <newUsername>    
+###}
+`PUT /users/<id_User>`
+
+### body : {
+###   name: <name>,
+###}
+### Note: modify name
+`Put /recipes/<id_recipe>/name`
+
+### body : {
+###   directives: <directives>,
+###}
+### Note: modify directives
+`Put /recipes/<id_recipe>/directives`
+
+### body : {
+###     id_Ingredient: <id_Ingredient>,
+###     totalQuantity: <totalQuantity>
+###}
+### Note: modify ingredientQuantity from recipe
+`Put /recipes/<id_recipe>/ingredientQuantity`
+
+

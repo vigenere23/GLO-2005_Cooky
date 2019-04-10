@@ -141,4 +141,31 @@ export class API {
     const url = `${BASE_URL}/recipes/${recipeId}`
     return AxiosHelper.axiosDelete(url)
   }
+
+  static async modifyRecipeName (recipeId, recipeName) {
+    const body = {
+      'name': recipeName
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/name`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyRecipeDirectives (recipeId, directives) {
+    const body = {
+      'directives': directives
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/directives`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyRecipeIngredientQuantity (recipeId, ingredientId, totalQuantity) {
+    const body = {
+      'id_Ingredient': ingredientId,
+      'totalQuantity': totalQuantity
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/ingredientQuantity`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  
 }
