@@ -42,11 +42,11 @@ def generateIngredients():
   ingredientDao = IngredientDao()
   for i in range(100):
     ingredientModel = IngredientModel(
-      id_IngredientType=(random.randint(1, 13)),
-      id_QuantityUnit=(random.randint(1,20)),
+      id_IngredientType=random.randint(1, 13),
+      id_QuantityUnit=random.randint(1,20),
       name=words[i],
-      baseCost=(random.randint(0, 15)),
-      baseQuantity=(random.randint(0,4))
+      baseCost=random.randint(0, 15),
+      baseQuantity=random.randint(0,4)
     )
     ingredientDao.save(ingredientModel)
 
@@ -70,7 +70,7 @@ def generateRecipes():
       ingredients.append(recipeIngredientModel)
 
     recipeModel = RecipeModel(
-      id_User=(random.randint(1, 100)),
+      id_User=random.randint(1, 100),
       name=words[i],
       directives=lorem
     )
@@ -80,8 +80,8 @@ def generateCart():
   cartDao = CartDao()
   for _ in range(100):
     cartModel = CartModel(
-      id_User=(random.randint(1, 100)),
-      totalCost=(random.randint(20, 250))
+      id_User=random.randint(1, 100),
+      totalCost=random.randint(20, 250)
     )
     cartDao.save(cartModel)
 
@@ -89,9 +89,9 @@ def generateRating():
   ratingDao = RatingDao()
   for _ in range(100):
     ratingModel = RatingModel(
-      id_Recipe=(random.randint(1, 100)),
-      id_User=(random.randint(1, 100)),
-      value=(random.randint(0, 5))
+      id_Recipe=random.randint(1, 100),
+      id_User=random.randint(1, 100),
+      value=random.randint(0, 5)
     )
     ratingDao.save(ratingModel)
 
@@ -99,8 +99,8 @@ def generateComment():
   commentDao = CommentDao()
   for _ in range(100):
     commentModel = CommentModel(
-      id_Recipe=(random.randint(1, 100)),
-      id_User=(random.randint(1, 100)),
+      id_Recipe=random.randint(1, 100),
+      id_User=random.randint(1, 100),
       text=lorem
     )
     commentDao.save(commentModel)
@@ -116,7 +116,7 @@ def generateAdress():
   for _ in range(100):
     apartment = None if (random.randint(1,4) % 2 == 0) else (random.randint(0, 1000))
     addressModel = AddressModel(
-      number=(random.randint(1, 99)),
+      number=random.randint(1, 99),
       apartment=apartment,
       street=random.choice(words) + " " + random.choice(addr),
       city=random.choice(words),
@@ -130,8 +130,8 @@ def generateAccount():
       lastName = random.choice(words)
       firstName = random.choice(words)
       accountModel = AccountModel(
-        id_User=(random.randint(1, 100)),
-        id_Address=(random.randint(1, 100)),
+        id_User=random.randint(1, 100),
+        id_Address=random.randint(1, 100),
         firstName=firstName,
         lastName=lastName,
         email=firstName + "." + lastName + "@gmail.com",
