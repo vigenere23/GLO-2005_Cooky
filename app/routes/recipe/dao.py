@@ -41,7 +41,7 @@ class RecipeDao(BaseDao):
         if not isinstance(recipeModel, RecipeModel):
             raise ValueError("recipeModel should be of type RecipeModel")
 
-        query = 'INSERT INTO Recipe (id, id_User, name, directives) VALUES (%s, %s, %s, %s)'
+        query = 'INSERT INTO Recipe (id, id_User, name, description, directives) VALUES (%s, %s, %s, %s, %s)'
         recipeId = db.insert(query, self._mapper.to_tuple(recipeModel))
         if recipeId:
             for ingredient in ingredients:

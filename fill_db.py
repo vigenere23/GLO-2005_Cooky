@@ -43,10 +43,10 @@ def generateIngredients():
   for i in range(100):
     ingredientModel = IngredientModel(
       id_IngredientType=random.randint(1, 13),
-      id_QuantityUnit=random.randint(1,20),
+      id_QuantityUnit=random.randint(1, 16),
       name=words[i],
-      baseCost=random.randint(0, 15),
-      baseQuantity=random.randint(0,4)
+      baseCost=round(random.random() * 15, 2),
+      baseQuantity=random.randint(1, 12)
     )
     ingredientDao.save(ingredientModel)
 
@@ -64,7 +64,7 @@ def generateRecipes():
       ingredient_ids.append(ingredient_id)
       recipeIngredientModel = RecipeIngredientModel(
         id_Ingredient=ingredient_id,
-        id_QuantityUnit=random.randint(1,10), # À CHANGER!
+        id_QuantityUnit=random.randint(1,10), # TODO À CHANGER!
         totalQuantity=random.randint(1, 10)
       )
       ingredients.append(recipeIngredientModel)
@@ -72,7 +72,8 @@ def generateRecipes():
     recipeModel = RecipeModel(
       id_User=random.randint(1, 100),
       name=words[i],
-      directives=lorem
+      directives=lorem,
+      description=lorem
     )
     recipeDao.save(recipeModel, ingredients)
 

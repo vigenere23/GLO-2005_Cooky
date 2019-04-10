@@ -33,6 +33,7 @@ CREATE TABLE `Recipe` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_User` INTEGER NOT NULL,
   `name` VARCHAR(50) NOT NULL,
+  `description` MEDIUMTEXT NULL DEFAULT NULL,
   `directives` MEDIUMTEXT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`name`)
@@ -48,7 +49,7 @@ DROP TABLE IF EXISTS `Cart`;
 CREATE TABLE `Cart` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_User` INTEGER NOT NULL,
-  `totalCost` DECIMAL NOT NULL,
+  `totalCost` DOUBLE NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -64,8 +65,8 @@ CREATE TABLE `Ingredient` (
   `id_IngredientType` INTEGER NOT NULL,
   `id_QuantityUnit` INTEGER NOT NULL,
   `name` VARCHAR(30) NOT NULL,
-  `baseCost` DECIMAL NOT NULL,
-  `baseQuantity` DECIMAL NOT NULL,
+  `baseCost` DOUBLE NOT NULL,
+  `baseQuantity` INTEGER NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`name`)
 );
@@ -112,7 +113,7 @@ CREATE TABLE `CartItem` (
   `id_Ingredient` INTEGER NOT NULL,
   `id_Cart` INTEGER NOT NULL,
   `multiplier` INT NOT NULL,
-  `subCost` DECIMAL NOT NULL,
+  `subCost` DOUBLE NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -128,7 +129,7 @@ CREATE TABLE `RecipeIngredient` (
   `id_Recipe` INTEGER NOT NULL,
   `id_Ingredient` INTEGER NOT NULL,
   `id_QuantityUnit` INTEGER NOT NULL,
-  `totalQuantity` DECIMAL NOT NULL,
+  `totalQuantity` INTEGER NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -290,8 +291,8 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 
 -- INSERT INTO `User` (`id`,`username`,`bio`) VALUES
 -- ('','','');
--- INSERT INTO `Recipe` (`id`,`id_User`,`name`,`directives`) VALUES
--- ('','','','');
+-- INSERT INTO `Recipe` (`id`,`id_User`,`name`,`description`,`directives`) VALUES
+-- ('','','','','');
 -- INSERT INTO `Cart` (`id`,`id_User`,`totalCost`) VALUES
 -- ('','','');
 -- INSERT INTO `Ingredient` (`id`,`id_IngredientType`,`id_QuantityUnit`,`name`,`baseCost`,`baseQuantity`) VALUES

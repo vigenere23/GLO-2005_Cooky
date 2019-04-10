@@ -22,7 +22,6 @@ INSERT INTO `IngredientType` (`id`,`name`) VALUES
 INSERT INTO `QuantityType` (`id`,`name`) VALUES
 (NULL, 'Volume'),
 (NULL, 'Weight'),
-(NULL, 'Length'),
 (NULL, 'Unit');
 
 
@@ -42,8 +41,4 @@ INSERT INTO `QuantityUnit` (`id`,`id_QuantityType`,`name`,`abbreviation`) VALUES
 (NULL, 2, 'miligram', 'mg'),
 (NULL, 2, 'gram', 'g'),
 (NULL, 2, 'kilogram', 'kg'),
-(NULL, 3, 'milimeter', 'mm'),
-(NULL, 3, 'centimeter', 'cm'),
-(NULL, 3, 'meter', 'm'),
-(NULL, 3, 'inch', 'in'),
-(NULL, 4, 'unit', '');
+(NULL, 3, 'unit', '');

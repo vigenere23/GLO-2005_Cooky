@@ -15,7 +15,7 @@
           {{ title }}
         </p>
         <p class="small-card_description hide-text">
-          {{ description || defaultDesc }}
+          {{ description }}
         </p>
       </div>
     </router-link>
@@ -58,12 +58,6 @@ export default {
     },
     background () {
       return FormatHelper.backgroundImageStyle(this.image || this.defaultImage)
-    }
-  },
-
-  data () {
-    return {
-      defaultDesc: 'Lorem ipsum ipridus karem de la satuple como quiero salades par itadus. Lorem ipsum ipridus karem de la satuple como quiero salades par itadus.'
     }
   }
 

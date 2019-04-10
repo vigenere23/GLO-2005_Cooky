@@ -86,19 +86,23 @@ export default {
 
   computed: {
     sortedItems () {
-      const sortedItems = this.items
-      if (this.currentSorting.comparator) {
-        sortedItems.sort((a, b) => this.currentSorting.comparator(a[this.currentSorting.name], b[this.currentSorting.name]))
+      if (this.currentSorting) {
+        const sortedItems = this.items
+        if (this.currentSorting.comparator) {
+          sortedItems.sort((a, b) => this.currentSorting.comparator(a[this.currentSorting.name], b[this.currentSorting.name]))
+        } else {
+          sortedItems.sort((a, b) => {
+            return a[this.currentSorting.name] > b[this.currentSorting.name]
+          })
+        }
+  
+        if (this.reverseSorting) {
+          sortedItems.reverse()
+        }
+        return sortedItems
       } else {
-        sortedItems.sort((a, b) => {
-          return a[this.currentSorting.name] > b[this.currentSorting.name]
-        })
+        return this.items
       }
-
-      if (this.reverseSorting) {
-        sortedItems.reverse()
-      }
-      return sortedItems
     }
   },
 
@@ -113,7 +117,6 @@ export default {
     this.currentSorting = this.columns.find(col => col.initiallySorted)
     if (this.currentSorting) {
       this.reverseSorting = this.currentSorting.defaultSorting === 'desc'
-      this.sortItems()
     }
   },
 
