@@ -74,7 +74,7 @@ def generateAdress():
         adressDao = AddressDao()
         for i in range(100):
                 tmp = None if (randint(1,4) % 2 == 0) else (randint(0, 1000))
-                adressDao.save(AddressModel(id=None, number=(randint(1, 99)), apartment=tmp, street=choice(listeMot) + choice(addr), city=choice(listeMot), country=choice(listeMot)))
+                adressDao.save(AddressModel(id=None, number=(randint(1, 99)), apartment=tmp, street=choice(listeMot) + " " + choice(addr), city=choice(listeMot), country=choice(listeMot)))
 
 def generateAccount():
         accountDao = AccountDao()
