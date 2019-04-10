@@ -95,8 +95,7 @@ export class API {
       directives,
       ingredients
     }
-    console.log(body)
-    const url = `${BASE_URL}/recipes`
+    const url = `${BASE_URL}/recipes/`
     return AxiosHelper.axiosPost(url, body)
   }
 
