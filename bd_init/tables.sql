@@ -10,13 +10,14 @@
 -- Quick user infos.
 -- ---
 
-USE projet;
+use projet;
 
 DROP TABLE IF EXISTS `User`;
 		
 CREATE TABLE `User` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(20) NOT NULL,
+  `bio` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`username`)
 ) COMMENT 'Quick user infos.';
@@ -47,7 +48,7 @@ DROP TABLE IF EXISTS `Cart`;
 CREATE TABLE `Cart` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_User` INTEGER NOT NULL,
-  `totalCost` FLOAT NOT NULL,
+  `totalCost` DECIMAL NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -63,8 +64,8 @@ CREATE TABLE `Ingredient` (
   `id_IngredientType` INTEGER NOT NULL,
   `id_QuantityUnit` INTEGER NOT NULL,
   `name` VARCHAR(30) NOT NULL,
-  `baseCost` FLOAT NOT NULL,
-  `baseQuantity` FLOAT NOT NULL,
+  `baseCost` DECIMAL NOT NULL,
+  `baseQuantity` DECIMAL NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`name`)
 );
@@ -111,7 +112,7 @@ CREATE TABLE `CartItem` (
   `id_Ingredient` INTEGER NOT NULL,
   `id_Cart` INTEGER NOT NULL,
   `multiplier` INT NOT NULL,
-  `subCost` FLOAT NOT NULL,
+  `subCost` DECIMAL NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -127,7 +128,7 @@ CREATE TABLE `RecipeIngredient` (
   `id_Recipe` INTEGER NOT NULL,
   `id_Ingredient` INTEGER NOT NULL,
   `id_QuantityUnit` INTEGER NOT NULL,
-  `totalQuantity` FLOAT NOT NULL,
+  `totalQuantity` DECIMAL NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -173,8 +174,8 @@ DROP TABLE IF EXISTS `Commands`;
 CREATE TABLE `Commands` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_Cart` INTEGER NOT NULL,
-  `creationDate` DATE NOT NULL,
-  `arrivalDate` DATE NOT NULL,
+  `creationDate` DATETIME NOT NULL,
+  `arrivalDate` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -210,21 +211,6 @@ CREATE TABLE `Address` (
 );
 
 -- ---
--- Table 'Profile'
--- Other users public infos. To be shared publicly on his wall.
--- ---
-
-DROP TABLE IF EXISTS `Profile`;
-		
-CREATE TABLE `Profile` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `id_User` INTEGER NOT NULL,
-  `bio` MEDIUMTEXT NULL DEFAULT NULL,
-  `backgroundPicture` BLOB NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) COMMENT 'Other users public infos. To be shared publicly on his wall.';
-
--- ---
 -- Table 'QuantityUnit'
 -- Register all mesure units (like mL, cups, g, table spoon, etc.). Contains both the name and the abbreviation. 
 -- ---
@@ -236,7 +222,8 @@ CREATE TABLE `QuantityUnit` (
   `id_QuantityType` INTEGER NOT NULL,
   `name` VARCHAR(20) NOT NULL,
   `abbreviation` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`name`, `abbreviation`)
 ) COMMENT 'Register all mesure units (like mL, cups, g, table spoon, et';
 
 -- ---
@@ -249,7 +236,8 @@ DROP TABLE IF EXISTS `QuantityType`;
 CREATE TABLE `QuantityType` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`name`)
 ) COMMENT 'Contains the type of mesure (weight, volume, units, etc.)';
 
 -- ---
@@ -274,7 +262,6 @@ ALTER TABLE `LikeRecipe` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_Address) REFERENCES `Address` (`id`);
 ALTER TABLE `Commands` ADD FOREIGN KEY (id_Cart) REFERENCES `Cart` (`id`);
-ALTER TABLE `Profile` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `QuantityType` (`id`);
 
 -- ---
@@ -289,12 +276,11 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 -- ALTER TABLE `Comment` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `CartItem` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `RecipeIngredient` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Like` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `LikeRecipe` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `Account` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `Commands` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `IngredientType` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `Address` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Profile` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `QuantityUnit` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `QuantityType` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -302,8 +288,8 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 -- Test Data
 -- ---
 
--- INSERT INTO `User` (`id`,`username`) VALUES
--- ('','');
+-- INSERT INTO `User` (`id`,`username`,`bio`) VALUES
+-- ('','','');
 -- INSERT INTO `Recipe` (`id`,`id_User`,`name`,`directives`) VALUES
 -- ('','','','');
 -- INSERT INTO `Cart` (`id`,`id_User`,`totalCost`) VALUES
@@ -316,7 +302,7 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 -- ('','','','');
 -- INSERT INTO `CartItem` (`id`,`id_Ingredient`,`id_Cart`,`multiplier`,`subCost`) VALUES
 -- ('','','','','');
--- INSERT INTO `RecipeIngredient` (`id`,`id_Recipe`,`id_Ingredient`,`id_QuantityUnit`,`quantity`) VALUES
+-- INSERT INTO `RecipeIngredient` (`id`,`id_Recipe`,`id_Ingredient`,`id_QuantityUnit`,`totalQuantity`) VALUES
 -- ('','','','','');
 -- INSERT INTO `LikeRecipe` (`id`,`id_Recipe`,`id_User`) VALUES
 -- ('','','');
@@ -328,8 +314,6 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 -- ('','');
 -- INSERT INTO `Address` (`id`,`number`,`apartment`,`street`,`city`,`country`) VALUES
 -- ('','','','','','');
--- INSERT INTO `Profile` (`id`,`id_User`,`bio`,`backgroundPicture`) VALUES
--- ('','','','');
 -- INSERT INTO `QuantityUnit` (`id`,`id_QuantityType`,`name`,`abbreviation`) VALUES
 -- ('','','','');
 -- INSERT INTO `QuantityType` (`id`,`name`) VALUES

@@ -2,9 +2,9 @@ USE projet;
 
 /*---------- TEST DATA ----------*/
 
-INSERT INTO `User` (`id`,`username`) VALUES
-(NULL, 'Test'),
-(NULL, 'test2');
+INSERT INTO `User` (`id`,`username`,`bio`) VALUES
+(NULL, 'Test', 'I love to cook'),
+(NULL, 'test2', 'Cooking is my life');
 
 INSERT INTO `Ingredient` (`id`,`id_IngredientType`,`id_QuantityUnit`,`name`,`baseCost`,`baseQuantity`) VALUES
 (NULL, 3, 15, 'Apple', 3.20, 1);
@@ -12,14 +12,14 @@ INSERT INTO `Ingredient` (`id`,`id_IngredientType`,`id_QuantityUnit`,`name`,`bas
 INSERT INTO `Recipe` (`id`,`id_User`,`name`,`directives`) VALUES
 (NULL, 1,'Best Recepie','1 - edfffseff 2 - fesfsgfsf 3 - sfffffwfw');
 
- INSERT INTO `Cart` (`id`,`id_User`,`totalCost`) VALUES
-(Null, 1, 300);
+INSERT INTO `Cart` (`id`,`id_User`,`totalCost`) VALUES
+(NULL, 1, 300);
 
- INSERT INTO `Rating` (`id`,`id_Recipe`,`id_User`,`value`) VALUES
-(Null,1, 1, 4);
+INSERT INTO `Rating` (`id`,`id_Recipe`,`id_User`,`value`) VALUES
+(NULL,1, 1, 4);
 
- INSERT INTO `Comment` (`id`,`id_Recipe`,`id_User`,`text`) VALUES
-(Null, 1, 1,'Very good');
+INSERT INTO `Comment` (`id`,`id_Recipe`,`id_User`,`text`) VALUES
+(NULL, 1, 1,'Very good');
 
 INSERT INTO `CartItem` (`id`,`id_Ingredient`,`id_Cart`,`multiplier`,`subCost`) VALUES
 (NULL, 1, 1, 4, 12.80);
@@ -30,13 +30,10 @@ INSERT INTO `LikeRecipe` (`id`,`id_Recipe`,`id_User`) VALUES
 INSERT INTO `Address` (`id`,`number`,`apartment`,`street`,`city`,`country`) VALUES
 (NULL,'15', NULL,'Laurier','QC','Canada');
 
- INSERT INTO `Account` (`id`,`id_User`,`id_Address`,`firstName`,`lastName`,`email`,`password`) VALUES
+INSERT INTO `Account` (`id`,`id_User`,`id_Address`,`firstName`,`lastName`,`email`,`password`) VALUES
 (NULL, 1, 1, 'Jhon', 'Pro','jhonPro47@gmail.com','12345');
 
-INSERT INTO `Profile` (`id`,`id_User`,`bio`,`backgroundPicture`) VALUES
-(NULL, 1,'Big Jhon', NULL);
-
- INSERT INTO `RecipeIngredient` (`id`,`id_Recipe`,`id_Ingredient`,`id_QuantityUnit`,`totalQuantity`) VALUES
+INSERT INTO `RecipeIngredient` (`id`,`id_Recipe`,`id_Ingredient`,`id_QuantityUnit`,`totalQuantity`) VALUES
 (NULL, 1, 1, 4, 1);
 
 INSERT INTO `Commands` (`id`,`id_Cart`, `creationDate`, `arrivalDate`) VALUES
@@ -52,7 +49,7 @@ CREATE PROCEDURE insertValueUser(IN numRows INTEGER)
         DECLARE i INTEGER;
         SET i = 1;
         WHILE i <= numRows DO
-            INSERT INTO `User` VALUES (NULL, i);
+            INSERT INTO `User` VALUES (NULL, i, 'I love pickels');
             SET i = i + 1;
         END WHILE;
     END$$
@@ -168,18 +165,6 @@ CREATE PROCEDURE insertValueAccount(IN numRows INTEGER)
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE insertValueProfile(IN numRows INTEGER)
-    BEGIN
-        DECLARE i INTEGER;
-        SET i = 1;
-        WHILE i <= numRows DO
-            INSERT INTO `Profile` VALUES (NULL, i, "small phil", NULL);
-            SET i = i + 1;
-        END WHILE;
-    END$$
-DELIMITER ;
-
-DELIMITER $$
 CREATE PROCEDURE insertValueRecipeIngredient(IN numRows INTEGER)
     BEGIN
         DECLARE i INTEGER;
@@ -214,6 +199,5 @@ CALL insertValueCartItem(100);
 CALL insertValueLikeRecipe(100);
 CALL insertValueAddress(100);
 CALL insertValueAccount(100);
-CALL insertValueProfile(100);
 CALL insertValueRecipeIngredient(100);
 CALL insertValueCommands(100);

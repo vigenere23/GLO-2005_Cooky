@@ -25,7 +25,7 @@ class UserDao(BaseDao):
   def save(self, userModel):
     if not isinstance(userModel, UserModel):
       raise ValueError("userModel should be of type UserModel")
-    query = 'INSERT INTO User (id, username) VALUES (%s, %s)'
+    query = 'INSERT INTO User (id, username, bio) VALUES (%s, %s, %s)'
     userId = db.insert(query, self._mapper.to_tuple(userModel))
       
     if userId:

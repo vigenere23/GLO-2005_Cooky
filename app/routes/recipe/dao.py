@@ -45,13 +45,19 @@ class RecipeDao(BaseDao):
         recipeId = db.insert(query, self._mapper.to_tuple(recipeModel))
         if recipeId:
             for ingredient in ingredients:
-                data = {
-                    'id_Recipe': recipeId,
-                    'id_Ingredient': ingredient['id_Ingredient'],
-                    'id_QuantityUnit': ingredient['id_QuantityUnit'],
-                    'totalQuantity': ingredient['totalQuantity']
-                }
-                recipeIngredientModel = RecipeIngredientModel(**data)
+                recipeIngredientModel = None
+                if (isinstance(ingredient, RecipeIngredientModel)):
+                    recipeIngredientModel = ingredient
+                    recipeIngredientModel.id_Recipe = recipeId
+                else:
+                    data = {
+                        'id_Recipe': recipeId,
+                        'id_Ingredient': ingredient['id_Ingredient'],
+                        'id_QuantityUnit': ingredient['id_QuantityUnit'],
+                        'totalQuantity': ingredient['totalQuantity']
+                    }
+                    recipeIngredientModel = RecipeIngredientModel(**data)
+
                 recipeIngredientDao.save(recipeIngredientModel)
             return self.getById(recipeId)
         else:

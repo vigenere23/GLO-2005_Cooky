@@ -13,6 +13,6 @@ echo "4/5  Filling static tables..."
 docker exec -i mysql1 mysql < bd_init/populate_static.sql
 
 echo "5/5  Filling other tables..."
-docker exec -i mysql1 mysql < bd_init/populate.sql
+python3 fill_db.py
 
 echo "Done!"

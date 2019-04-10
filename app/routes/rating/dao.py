@@ -8,6 +8,7 @@ class RatingDao(BaseDao):
         super().__init__('Rating', RatingModel)
     
     def save(self, ratingModel):
+
         if not isinstance(ratingModel, RatingModel):
             raise ValueError("ratingModel should be of type RatingModel")
 
