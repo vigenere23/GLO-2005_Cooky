@@ -16,3 +16,4 @@ build/
 mysql/
 .vscode/
 node_modules
+codacy-coverage-reporter-6.0.0-assembly.jar
