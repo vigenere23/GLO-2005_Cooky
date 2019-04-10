@@ -38,17 +38,14 @@ def index():
 def addRecipe():
   body = request.get_json(force=True)
   data = {
-      'id_User': body['id_User'],
-      'name': body['name'],
-      'directives': body['directives']
+    'id_User': body['id_User'],
+    'name': body['name'],
+    'directives': body['directives']
   }
 
-  try:
-    recipeModel = RecipeModel(**data)
-    result = recipeDao.save(recipeModel,  body['ingredients'])
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
+  recipeModel = RecipeModel(**data)
+  result = recipeDao.save(recipeModel, body['ingredients'])
+  return response.success(result)
 
 @routes.route('/<int:recipe_id>', methods=['GET'])
 @response.handleExceptions

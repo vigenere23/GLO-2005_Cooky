@@ -88,17 +88,14 @@ export class API {
     return AxiosHelper.axiosPost(url, body)
   }
 
-  static async addRecipe (userId, recipeName, instruction, ingredientList, quantityUnitList, totalQuantityList) {
+  static async addRecipe (userId, name, directives, ingredients) {
     const body = {
       'id_User': userId,
-      'name': recipeName,
-      'directives': instruction,
-      'ingredients': {
-        'id_Ingredient': ingredientList,
-        'id_QuantityUnit': quantityUnitList,
-        'totalQuantity': totalQuantityList
-      }
+      name,
+      directives,
+      ingredients
     }
+    console.log(body)
     const url = `${BASE_URL}/recipes`
     return AxiosHelper.axiosPost(url, body)
   }
