@@ -4,17 +4,15 @@
     <IngredientEditorItem
       v-for="(ingredient, i) in ingredients"
       :key="ingredient.id || i"
-      :initial-name="ingredient.name"
-      :initial-mesure="ingredient.mesure"
-      :initial-quantity="ingredient.quantity"
+      :initial-ingredient="ingredient"
       @remove="removeIngredient(i)"
-      @change="updateIngredient"
+      @change="(ingredient) => updateIngredient(i, ingredient)"
     />
     <Button
       accent
       @click="addIngredient"
     >
-      Add ingredient
+      New ingredient
     </Button>
   </div>
 </template>
@@ -48,16 +46,17 @@ export default {
   methods: {
     addIngredient () {
       this.ingredients.push({
-        name: '',
-        mesure: '',
-        quantity: ''
+        id_Ingredient: null,
+        id_QuantityUnit: null,
+        totalQuantity: null
       })
     },
     removeIngredient (index) {
       // const index = this.ingredients.findIndex(x => x.id === id)
       this.ingredients.splice(index, 1)
     },
-    updateIngredient (ingredient) {
+    updateIngredient (i, ingredient) {
+      this.ingredients[i] = ingredient
       this.$emit('change', this.ingredients)
     }
   },

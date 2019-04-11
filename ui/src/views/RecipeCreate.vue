@@ -4,17 +4,20 @@
     <div class="form">
       <LabelInput
         label="name"
+        placeholder="Fresh orange juice"
         v-model="name"
         :validate="(value) => !!value"
       />
       <LabelInput
         label="description"
+        placeholder="Just the best orange juice in town!"
         type="textarea"
         allow-empty
         v-model="description"
       />
       <LabelInput
         label="directives"
+        placeholder="Step 1 : crush the orange inside the recipient."
         type="textarea"
         v-model="directives"
         :validate="(value) => !!value"
@@ -50,7 +53,7 @@ export default {
   computed: {
     ...mapState('user', ['userId']),
     enableButton () {
-      return this.name && this.directives && this.ingredients
+      return this.name && this.directives && this.ingredients.length
     }
   },
 

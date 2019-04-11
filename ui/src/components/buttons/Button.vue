@@ -46,6 +46,7 @@ export default {
 .button {
   padding: 12px 16px;
   margin: 4px;
+  margin-top: 16px;
   width: max-content;
   font-size: 16px;
   font-weight: 500;

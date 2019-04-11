@@ -95,7 +95,7 @@ export default {
             return a[this.currentSorting.name] > b[this.currentSorting.name]
           })
         }
-  
+
         if (this.reverseSorting) {
           sortedItems.reverse()
         }

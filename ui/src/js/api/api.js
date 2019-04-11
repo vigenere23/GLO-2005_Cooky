@@ -69,6 +69,11 @@ export class API {
     return AxiosHelper.axiosGet(url, { params })
   }
 
+  static async getQuantityUnitsOfIngredient (ingredientId) {
+    const url = `${BASE_URL}/ingredients/${ingredientId}/mesures`
+    return AxiosHelper.axiosGet(url)
+  }
+
   static async getCartItem (id) {
     const url = `${BASE_URL}/cart/${id}/cartItems`
     return AxiosHelper.axiosGet(url)

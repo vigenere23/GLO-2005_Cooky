@@ -30,8 +30,10 @@ def index():
     })
   return response.success(populated_ingredients)
 
-@routes.route('/<name>')
+@routes.route('/<int:id>/mesures')
 @response.handleExceptions
-def getIngredientByName(name):
-  data = ingredientDao.getIngredientsByName(name)
-  return response.success(data)
+def getMesures(id):
+  ingredientModel = ingredientDao.getById(id)
+  quantityUnitModel = quantityUnitDao.getById(ingredientModel.id_QuantityUnit)
+  quantityUnits = quantityUnitDao.getAllQuantityUnitsOfSameType(quantityUnitModel)
+  return response.success(quantityUnits)

@@ -43,7 +43,7 @@ def generateIngredients():
   for i in range(100):
     ingredientModel = IngredientModel(
       id_IngredientType=random.randint(1, 13),
-      id_QuantityUnit=random.randint(1, 16),
+      id_QuantityUnit=random.randint(1, 13),
       name=words[i],
       baseCost=round(random.random() * 15, 2),
       baseQuantity=random.randint(1, 12)

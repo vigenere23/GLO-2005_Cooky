@@ -3,6 +3,9 @@
     class="label-input"
     :class="{ focused, error }"
   >
+    <span class="label">
+      {{ label }}
+    </span>
     <textarea
       v-if="type === 'textarea'"
       @focus="focus"
@@ -23,9 +26,6 @@
       :name="label"
       :value="value"
     >
-    <span class="label">
-      {{ label }}
-    </span>
   </div>
 </template>
 
@@ -67,9 +67,7 @@ export default {
       this.error = !this.validate(this.value)
     },
     input (e) {
-      if (this.validate(e.target.value)) {
-        this.$emit('input', e.target.value)
-      }
+      this.$emit('input', e.target.value)
     }
   }
 }
@@ -85,7 +83,8 @@ export default {
   input, textarea {
     display: block;
     width: 100%;
-    font-size: 18px;
+    font-family: 'Roboto';
+    font-size: 16px;
     line-height: 1.2em;
     padding: 8px 12px;
     padding-right: 48px;
