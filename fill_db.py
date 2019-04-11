@@ -9,6 +9,7 @@ from app.routes.recipe.model import RecipeModel
 from app.routes.recipe.dao import RecipeDao
 from app.routes.recipeIngredient.dao import RecipeIngredientDao
 from app.routes.recipeIngredient.model import RecipeIngredientModel
+from app.routes.quantityUnit.dao import QuantityUnitDao
 from app.routes.cart.model import CartModel
 from app.routes.cart.dao import CartDao
 from app.routes.rating.model import RatingModel
@@ -57,6 +58,7 @@ def generateIngredients():
 def generateRecipes():
   print('...generating recipes')
   recipeDao = RecipeDao()
+  quantityUnitDao = QuantityUnitDao()
 
   for i in range(100):
     ingredients = []
@@ -65,11 +67,14 @@ def generateRecipes():
       ingredient_id = random.randint(1, 100)
       while ingredient_id in ingredient_ids:
         ingredient_id = random.randint(1, 100)
-
       ingredient_ids.append(ingredient_id)
+
+      quantities = quantityUnitDao.getAllQuantityUnitsByIngredientId(ingredient_id)
+      quantity_ids = [q.id for q in quantities]
+
       recipeIngredientModel = RecipeIngredientModel(
         id_Ingredient=ingredient_id,
-        id_QuantityUnit=random.randint(1,10), # TODO À CHANGER!
+        id_QuantityUnit=random.choice(quantity_ids),
         totalQuantity=random.randint(1, 10)
       )
       ingredients.append(recipeIngredientModel)

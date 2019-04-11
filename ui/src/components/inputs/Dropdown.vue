@@ -10,7 +10,7 @@
       class="selected-item"
       @click="toggle"
     >
-      <span>{{ selectedItemText }}</span>
+      <span>{{ itemText(selectedItem) }}</span>
     </div>
     <div
       class="dropdown-items"
@@ -22,7 +22,7 @@
         :key="item.id || i"
         @click="selectItem(item)"
       >
-        <span>{{ item[textAttribute] || item }}</span>
+        <span>{{ itemText(item) }}</span>
       </div>
     </div>
   </div>
@@ -49,14 +49,6 @@ export default {
     label: {
       type: String,
       default: ' '
-    }
-  },
-
-  computed: {
-    selectedItemText () {
-      return this.selectedItem
-        ? this.selectedItem[this.textAttribute] || this.selectedItem
-        : ''
     }
   },
 
@@ -88,6 +80,13 @@ export default {
     },
     reset () {
       this.selectedItem = null
+    },
+    itemText (item) {
+      return item
+        ? item[this.textAttribute] !== undefined
+          ? item[this.textAttribute]
+          : item
+        : ''
     }
   }
 

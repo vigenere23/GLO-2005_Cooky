@@ -33,7 +33,5 @@ def index():
 @routes.route('/<int:id>/mesures')
 @response.handleExceptions
 def getMesures(id):
-  ingredientModel = ingredientDao.getById(id)
-  quantityUnitModel = quantityUnitDao.getById(ingredientModel.id_QuantityUnit)
-  quantityUnits = quantityUnitDao.getAllQuantityUnitsOfSameType(quantityUnitModel)
+  quantityUnits = quantityUnitDao.getAllQuantityUnitsByIngredientId(id)
   return response.success(quantityUnits)

@@ -38,4 +38,4 @@ INSERT INTO `QuantityUnit` (`id`,`id_QuantityType`,`name`,`abbreviation`) VALUES
 (NULL, 2, 'miligram', 'mg'),
 (NULL, 2, 'gram', 'g'),
 (NULL, 2, 'kilogram', 'kg'),
-(NULL, 3, 'unit', '');
+(NULL, 3, 'unit', 'unit');
