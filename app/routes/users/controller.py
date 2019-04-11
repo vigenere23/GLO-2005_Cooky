@@ -110,7 +110,8 @@ def getLikeRecipes(id):
     recipe = recipeDao.getById(like.id_Recipe)
     recipes.append({
       'id': recipe.id,
-      'name': recipe.name
+      'name': recipe.name,
+      'description': recipe.description
     })
 
   return response.success(recipes)

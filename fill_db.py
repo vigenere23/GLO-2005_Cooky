@@ -29,7 +29,7 @@ loremBio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
 words = ["Hogym", "Celloggimbur", "Laglesgim", "Sylcyllis", "Morbir", "Limgem", "Silgimculnir", "Narmar", "Solgamberthi", "Cyllig", "Thalomorn", "Rluggum", "Ornbar", "Merhosyl", "Callisthunir", "Thaligber", "Limbarmar", "Lishalllumcal", "Berthe", "Hathulemhe", "Colmorhi", "Salthalegorn", "Birmircyl", "Bermor", "Morlag", "Barbirorn", "Burmir", "Humarhamur", "Leglam", "Hugimirn", "Berburthamur", "Lasloglum", "Gomlamthi", "Narmarborern", "Lomlos", "Urnlasho", "Hical", "Hisol", "Leshe", "Gumsalculsil", "Morcalsul", "Barlugha", "Salhu", "Celmorgember", "Byrhebyr", "Birhogim", "Helisloshi", "Syllas", "Gymcalhober", "Gimcullegirn", "Borlessil", "Thitha", "Cylcelnor", "Borbyrhulys", "Loglistha", "Silbartha", "Orncilbirgom", "Lasnormer", "Lumsolthalig", "Burlyscul", "Murgomhellhi", "Thatheluslag", "Lyshallluslam", "Mirborcil", "Nircalbur", "Barlugarn", "Gimcul", "Thulam", "Hecolha", "Ornmur", "Lamber", "Sulleshe", "Lomlember", "Loscal", "Calornthilog", "Limlesgam", "Thigomcul", "Laglyslomlis", "Erngomlig", "Gamlusmorcol", "Syllag", "Hothoirnlug", "Hesolmar", "Lugcul", "Thicolthu", "Narlescul", "Nirmersolurn", "Logcel", "Lasloglag", "Lessellamyrn", "Gymlys", "Thasal", "Silurnsellag", "Hallloslysbur", "Ligbir", "Burcylcel", "Narlisho" ,"Hosal","Liscal", "Sulbarmornar", "Tyfoxe", "Xusini", "Kidoxa", "Piphafy", "Chirra", "Rrobysu", "Jasu", "Quacy", "Laqui", "Nophe", "Mmyjyhe", "Quelli", "Jazo", "Mmichera", "Rroky", "Mmelli", "Girre", "Kibi", "Zafu", "Nowomi", "Dunummo", "Phasone", "Gipho", "Kyjado", "Senoze", "Gocahy", "Mmoha", "Mata", "Vupo", "Lochu", "Zeto", "Cycaci", "Llollace", "Cuphiwa", "Thexe", "Billu", "Matuko", "Rruxigu", "Bogu", "Vesi", "Wetu", "Jegi", "Gake", "Chullene", "Rruno", "Hyza", "Poru", "Nyxichi", "Fadylu", "Lajyse", "Phuxu", "Thehyko", "Quovavu", "Lleji", "Kynugy", "Mmyte", "Pakufa", "Sychecha", "Thine", "Sidemi", "Mmeka", "Jyfybo", "Mmuquoby", "Vuci", "Raci", "Zyhi", "Sujytho", "Cukemo", "Mixevo", "Thyxuwu", "Muphaba", "Pehide", "Thaserra", "Byjuwi", "Geka", "Zurruca", "Hymmy", "Thuju", "Rydu", "Jeduty", "Lluzali", "Rroce", "Sala", "Sipehu", "Pazasi", "Hagyga", "Nophy", "Rrammyca", "Kevygu", "Hellu", "Jimiru", "Llommiga", "Fasopy", "Navede", "Wireju", "Kotherru", "Cuphu", "Lloto", "Lledagy", "Syqua", "Zajerry", "Wipugo", "Sixare", "Gyka", "Bibowo", "Poje", "Mechiwi", "Juzuke", "Nyjige", "Zycu", "Govopy", "Nibo", "Tysy", "Viri", "Mmoxuby", "Boxemmi", "Xathe", "Mmocho", "Rycho", "Pijoly", "Mexo", "Thytha", "Gequo", "Rycypy", "Boquirri", "Zapu", "Gichu", "Rethu", "Gully", "Quoquafa", "Vozella", "Fibonu", "Dodyra", "Theky", "Sozawy", "Cehypy", "Rrotyhu", "Mowe", "Chusuny", "Pyru", "Dypu", "Juhuta", "Polo", "Phikotho", "Polymmo", "Hyse", "Suquajo", "Lletyjo", "Phata", "Fille", "Medy", "Cephellu", "Wogaha", "Quarrythy", "Mmanure", "Tumu", "Rothe", "Hapha", "Loxocho", "Coquawi", "Bonephe", "Suchu", "Mmiweso", "Mallyzy", "Wimma", "Rriwufi", "Nopho", "Pima", "Gyki"]
 addr = ["St", "Ave", "Blvd", "Rd"]
 
-def generateUser():
+def generateUsers():
   userDao = UserDao()
   for i in range(100):
     userModel = UserModel(
@@ -77,7 +77,7 @@ def generateRecipes():
     )
     recipeDao.save(recipeModel, ingredients)
 
-def generateCart():
+def generateCarts():
   cartDao = CartDao()
   for _ in range(100):
     cartModel = CartModel(
@@ -86,7 +86,7 @@ def generateCart():
     )
     cartDao.save(cartModel)
 
-def generateRating():
+def generateRatings():
   ratingDao = RatingDao()
   for _ in range(100):
     ratingModel = RatingModel(
@@ -96,7 +96,7 @@ def generateRating():
     )
     ratingDao.save(ratingModel)
 
-def generateComment():
+def generateComments():
   commentDao = CommentDao()
   for _ in range(100):
     commentModel = CommentModel(
@@ -106,13 +106,16 @@ def generateComment():
     )
     commentDao.save(commentModel)
 
-def generateLike():
+def generateLikes():
   likeRecipeDao = LikeRecipeDao()
   for _ in range(100):
-    likeRecipeModel = LikeRecipeModel(id_Recipe=(random.randint(1, 100)))
+    likeRecipeModel = LikeRecipeModel(
+      id_Recipe=random.randint(1, 100),
+      id_User=random.randint(1, 100)
+    )
     likeRecipeDao.save(likeRecipeModel)
 
-def generateAdress():
+def generateAdresses():
   adressDao = AddressDao()
   for _ in range(100):
     apartment = None if (random.randint(1,4) % 2 == 0) else (random.randint(0, 1000))
@@ -125,7 +128,7 @@ def generateAdress():
     )
     adressDao.save(addressModel)
 
-def generateAccount():
+def generateAccounts():
     accountDao = AccountDao()
     for _ in range(100):
       lastName = random.choice(words)
@@ -140,7 +143,7 @@ def generateAccount():
       )
       accountDao.save(accountModel)
 
-def generateCommand():
+def generateCommands():
   commandDao = CommandsDao()
   for _ in range(100):
     current_time = datetime.datetime.now()
@@ -153,12 +156,13 @@ def generateCommand():
 
 
 if __name__ == "__main__":
-  generateUser()
+  generateUsers()
   generateIngredients()
   generateRecipes()
-  generateCart()
-  generateRating()
-  generateComment()
-  generateAdress()
-  generateAccount()
-  generateCommand()
+  generateCarts()
+  generateRatings()
+  generateLikes()
+  generateComments()
+  generateAdresses()
+  generateAccounts()
+  generateCommands()
