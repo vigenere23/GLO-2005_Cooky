@@ -131,17 +131,16 @@ export class API {
   }
 
   static async addNewUser (firstname, lastname, email, userName, password,
-    number, appartement, street, city, country) {
+    number, apartment, street, city, country) {
     const body = {
       'username': userName
     }
     const url = `${BASE_URL}/users/`
-    const data = AxiosHelper.axiosPost(url, body)
+    let data = await AxiosHelper.axiosPost(url, body)
 
-    const dataAddress = this.addAddress(number, appartement, street, city, country)
+    const dataAddress = await this.addAddress(number, apartment, street, city, country)
 
-    console.log(data.id)
-    this.addAccount(firstname, lastname, email, password, data.id, dataAddress.id)
+    setTimeout(() => { this.addAccount(firstname, lastname, email, password, data.id, dataAddress.id) }, 10000)
     return data
   }
 
@@ -158,6 +157,7 @@ export class API {
   }
 
   static async addAccount (firstname, lastname, email, password, userId, addressId) {
+    console.log(addressId)
     const body = {
       'id_Address': addressId,
       'firstName': firstname,

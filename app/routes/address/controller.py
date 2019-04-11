@@ -14,7 +14,6 @@ def index():
 @routes.route('/', methods=['POST'])
 @response.handleExceptions
 def addAddress():
-  print("jme rend pas la")
   body = request.get_json(force=True)
   data = {
     "number": body['number'],

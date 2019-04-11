@@ -33,7 +33,7 @@
       </div>
       <div>
         <input
-          type="password"
+          type="text"
           placeholder="Door number"
           v-model="number"
         >
@@ -41,8 +41,8 @@
       <div>
         <input
           type="text"
-          placeholder="appartement"
-          v-model="appartement"
+          placeholder="apartment"
+          v-model="apartment"
         >
       </div>
       <div>
@@ -120,8 +120,12 @@ export default {
 
   methods: {
     async signUp () {
-      API.addNewUser(this.firstname, this.lastname, this.email,
-        this.username, this.password, this.number, this.apartement, this.street, this.city, this.country)
+      if (this.password === this.confirmPassword) {
+        API.addNewUser(this.firstname, this.lastname, this.email,
+          this.username, this.password, this.number, this.apartment, this.street, this.city, this.country)
+      } else {
+        this.confirmPassword = ''
+      }
     }
   }
 }

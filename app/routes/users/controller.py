@@ -46,6 +46,7 @@ def getAccount(id):
 @routes.route('/<int:id>/account', methods=['POST'])
 @response.handleExceptions
 def addAccount(id):
+  print("j'ai été call")
   body = request.get_json(force=True)
   data = {
     'id_User': str(id),
@@ -142,7 +143,7 @@ def getCart(id):
   data = cartDao.getCartByUser(id)
   return response.success(data)
 
-#todo find user addres
+
 @routes.route('/<int:id>/address', methods=['GET'])
 @response.handleExceptions
 def getAddress(id):
