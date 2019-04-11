@@ -30,7 +30,9 @@ words = ["Hogym", "Celloggimbur", "Laglesgim", "Sylcyllis", "Morbir", "Limgem", 
 addr = ["St", "Ave", "Blvd", "Rd"]
 
 def generateUsers():
+  print('...generating users')
   userDao = UserDao()
+
   for i in range(100):
     userModel = UserModel(
       username=words[i],
@@ -39,7 +41,9 @@ def generateUsers():
     userDao.save(userModel)
 
 def generateIngredients():
+  print('...generating ingredients')
   ingredientDao = IngredientDao()
+
   for i in range(100):
     ingredientModel = IngredientModel(
       id_IngredientType=random.randint(1, 13),
@@ -51,6 +55,7 @@ def generateIngredients():
     ingredientDao.save(ingredientModel)
 
 def generateRecipes():
+  print('...generating recipes')
   recipeDao = RecipeDao()
 
   for i in range(100):
@@ -78,7 +83,9 @@ def generateRecipes():
     recipeDao.save(recipeModel, ingredients)
 
 def generateCarts():
+  print('...generating carts')
   cartDao = CartDao()
+
   for _ in range(100):
     cartModel = CartModel(
       id_User=random.randint(1, 100),
@@ -87,17 +94,28 @@ def generateCarts():
     cartDao.save(cartModel)
 
 def generateRatings():
+  print('...generating ratings')
   ratingDao = RatingDao()
-  for _ in range(100):
-    ratingModel = RatingModel(
-      id_Recipe=random.randint(1, 100),
-      id_User=random.randint(1, 100),
-      value=random.randint(0, 5)
-    )
-    ratingDao.save(ratingModel)
+
+  for i in range(1, 101):
+    rated_recipes = []
+    for _ in range(random.randint(0, 10)):
+      recipe_id = random.randint(1, 100)
+      while recipe_id in rated_recipes:
+        recipe_id = random.randint(1, 100)
+      rated_recipes.append(recipe_id)
+
+      ratingModel = RatingModel(
+        id_Recipe=recipe_id,
+        id_User=i,
+        value=random.randint(1, 5)
+      )
+      ratingDao.save(ratingModel)
 
 def generateComments():
+  print('...generating comments')
   commentDao = CommentDao()
+
   for _ in range(100):
     commentModel = CommentModel(
       id_Recipe=random.randint(1, 100),
@@ -107,16 +125,27 @@ def generateComments():
     commentDao.save(commentModel)
 
 def generateLikes():
+  print('...generating likes')
   likeRecipeDao = LikeRecipeDao()
-  for _ in range(100):
-    likeRecipeModel = LikeRecipeModel(
-      id_Recipe=random.randint(1, 100),
-      id_User=random.randint(1, 100)
-    )
-    likeRecipeDao.save(likeRecipeModel)
+
+  for i in range(1, 101):
+    added_recipes = []
+    for _ in range(random.randint(0, 10)):
+      recipe_id = random.randint(1, 100)
+      while recipe_id in added_recipes:
+        recipe_id = random.randint(1, 100)
+      added_recipes.append(recipe_id)
+
+      likeRecipeModel = LikeRecipeModel(
+        id_Recipe=recipe_id,
+        id_User=i
+      )
+      likeRecipeDao.save(likeRecipeModel)
 
 def generateAdresses():
+  print('...generating adresses')
   adressDao = AddressDao()
+
   for _ in range(100):
     apartment = None if (random.randint(1,4) % 2 == 0) else (random.randint(0, 1000))
     addressModel = AddressModel(
@@ -129,22 +158,26 @@ def generateAdresses():
     adressDao.save(addressModel)
 
 def generateAccounts():
-    accountDao = AccountDao()
-    for _ in range(100):
-      lastName = random.choice(words)
-      firstName = random.choice(words)
-      accountModel = AccountModel(
-        id_User=random.randint(1, 100),
-        id_Address=random.randint(1, 100),
-        firstName=firstName,
-        lastName=lastName,
-        email=firstName + "." + lastName + "@gmail.com",
-        password=random.choice(words)+random.choice(words)+random.choice(words)
-      )
-      accountDao.save(accountModel)
+  print('...generating accounts')
+  accountDao = AccountDao()
+  
+  for _ in range(100):
+    lastName = random.choice(words)
+    firstName = random.choice(words)
+    accountModel = AccountModel(
+      id_User=random.randint(1, 100),
+      id_Address=random.randint(1, 100),
+      firstName=firstName,
+      lastName=lastName,
+      email=firstName + "." + lastName + "@gmail.com",
+      password=random.choice(words)+random.choice(words)+random.choice(words)
+    )
+    accountDao.save(accountModel)
 
 def generateCommands():
+  print('...generating commands')
   commandDao = CommandsDao()
+
   for _ in range(100):
     current_time = datetime.datetime.now()
     commandModel = CommandsModel(
