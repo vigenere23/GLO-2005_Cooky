@@ -120,11 +120,24 @@ export default {
 
   methods: {
     async signUp () {
-      if (this.password === this.confirmPassword) {
-        API.addNewUser(this.firstname, this.lastname, this.email,
-          this.username, this.password, this.number, this.apartment, this.street, this.city, this.country)
+      if (parseInt(this.number).isNaN) {
+        window.alert('door number must be a number')
+      } else if (this.firstname.length === 0 || this.lastname.length === 0 || this.email.length === 0 || this.username.length === 0 || this.password === 0 ||
+        this.number.length === 0 || this.street.length === 0 || this.city.length === 0 || this.country.length === 0) {
+        window.alert('there is an empty field')
       } else {
-        this.confirmPassword = ''
+        if (this.password === this.confirmPassword) {
+          const data = API.addNewUser(this.firstname, this.lastname, this.email,
+            this.username, this.password, this.number, this.apartment, this.street, this.city, this.country)
+          if (!data) {
+            window.alert('username already used')
+          } else {
+            // Login and set cookie
+          }
+        } else {
+          this.confirmPassword = ''
+          window.alert('password and confirm password are not the same')
+        }
       }
     }
   }

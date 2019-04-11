@@ -145,9 +145,13 @@ export class API {
   }
 
   static async addAddress (number, apartment, street, city, country) {
+    let apart = apartment
+    if (apart.length < 1) {
+      apart = null
+    }
     const body = {
       'number': number,
-      'apartment': apartment,
+      'apartment': apart,
       'street': street,
       'city': city,
       'country': country
@@ -165,7 +169,7 @@ export class API {
       'email': email,
       'password': password
     }
-    const url = `${BASE_URL}/users/${userId}/account/`
+    const url = `${BASE_URL}/users/${userId}/account`
     return AxiosHelper.axiosPost(url, body)
   }
 
