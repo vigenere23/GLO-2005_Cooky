@@ -89,7 +89,7 @@ export class API {
       'id_Ingredient': ingredientId,
       'subCost': subCost
     }
-    const url = `${BASE_URL}/cart/${cartId}/cartItems`
+    const url = `${BASE_URL}/cart/${cartId}/cartItems/`
     return AxiosHelper.axiosPost(url, body)
   }
 
@@ -109,7 +109,7 @@ export class API {
       'id_User': userId,
       'text': comment
     }
-    const url = `${BASE_URL}/recipes/${recipeId}/comment`
+    const url = `${BASE_URL}/recipes/${recipeId}/comment/`
     return AxiosHelper.axiosPost(url, body)
   }
 
@@ -117,7 +117,7 @@ export class API {
     const body = {
       'id_User': userId
     }
-    const url = `${BASE_URL}/recipes/${recipeId}/like`
+    const url = `${BASE_URL}/recipes/${recipeId}/like/`
     return AxiosHelper.axiosPost(url, body)
   }
 
@@ -126,20 +126,51 @@ export class API {
       'id_User': userId,
       'value': mark
     }
-    const url = `${BASE_URL}/recipes/${recipeId}/rate`
+    const url = `${BASE_URL}/recipes/${recipeId}/rate/`
     return AxiosHelper.axiosPost(url, body)
   }
 
-  static async addNewUser (userName) {
+  static async addNewUser (firstname, lastname, email, userName, password,
+    number, appartement, street, city, country) {
     const body = {
       'username': userName
     }
-    const url = `${BASE_URL}/users`
+    const url = `${BASE_URL}/users/`
+    const data = AxiosHelper.axiosPost(url, body)
+
+    const dataAddress = this.addAddress(number, appartement, street, city, country)
+
+    console.log(data.id)
+    this.addAccount(firstname, lastname, email, password, data.id, dataAddress.id)
+    return data
+  }
+
+  static async addAddress (number, apartment, street, city, country) {
+    const body = {
+      'number': number,
+      'apartment': apartment,
+      'street': street,
+      'city': city,
+      'country': country
+    }
+    const url = `${BASE_URL}/address/`
+    return AxiosHelper.axiosPost(url, body)
+  }
+
+  static async addAccount (firstname, lastname, email, password, userId, addressId) {
+    const body = {
+      'id_Address': addressId,
+      'firstName': firstname,
+      'lastName': lastname,
+      'email': email,
+      'password': password
+    }
+    const url = `${BASE_URL}/users/${userId}/account/`
     return AxiosHelper.axiosPost(url, body)
   }
 
   static async addNewCommand (cartId) {
-    const url = `${BASE_URL}/cart/${cartId}/command`
+    const url = `${BASE_URL}/cart/${cartId}/command/`
     return AxiosHelper.axiosPost(url)
   }
 

@@ -62,6 +62,26 @@
 #### return new command
 `Post /cart/<cart_id>/command`
 
+### return new cartItem
+### body : {
+###   id_Address: <id_Address>,
+###   firstName: <firstName>,
+###   lastName: <lastName>,
+###   email: <email>,
+###   password: <password>
+###}
+### Note : create new account
+`Post /users/<id>/account`
+
+### return new address
+### body : {
+###   number: <number>,
+###   apartment: <apartment>,
+###   street: <street>,
+###   city: <city>,
+###   country: <country>
+###}
+`Post /address`
 
 ### return new cartItem
 ### body : {

@@ -10,6 +10,11 @@ export const router = new Router({
       redirect: '/recipes'
     },
     {
+      path: '/home',
+      name: 'Home',
+      component: () => import('@/views/home.vue')
+    },
+    {
       path: '/signup',
       name: 'Signup',
       component: () => import('@/views/Signup.vue')

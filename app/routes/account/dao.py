@@ -37,4 +37,11 @@ class AccountDao(BaseDao):
     def save(self, accountModel):
         if not isinstance(accountModel, AccountModel):
             raise ValueError("accountModel should be of type AccountModel")
-        pass
+
+        query = 'INSERT INTO Account (id, id_User, id_Address, firstName, lastName, email, password) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+        newAccount = db.insert(query, self._mapper.to_tuple(accountModel))
+       
+        if newAccount:
+            return self.getById(newAccount)
+        else:
+            raise Exception("Could not save rate")

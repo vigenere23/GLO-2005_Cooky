@@ -5,8 +5,10 @@ from .model import UserModel
 from ..recipe.dao import RecipeDao
 from ..likeRecipe.dao import LikeRecipeDao
 from ..cart.dao import CartDao
+from ..account.model import AccountModel
 from ..account.dao import AccountDao
 from ..address.dao import AddressDao
+from ..address.model import AddressModel
 
 routes = Blueprint('users', __name__)
 userDao = UserDao()
@@ -40,6 +42,23 @@ def createUser():
 @response.handleExceptions
 def getAccount(id):
    return response.success(accountDao.getAccountByUserId(id))
+  
+@routes.route('/<int:id>/account', methods=['POST'])
+@response.handleExceptions
+def addAccount(id):
+  body = request.get_json(force=True)
+  data = {
+    'id_User': str(id),
+    'id_Address': body['id_Address'],
+    'firstName': body['firstName'],
+    'lastName': body['lastName'],
+    'email': body['email'],
+    'password': body['password']
+  }
+
+  accountModel = AccountModel(**data)
+  result = accountDao.save(accountModel)
+  return response.success(result)
 
 @routes.route('/<int:id>/firstName', methods=['PUT'])
 @response.handleExceptions
@@ -118,16 +137,15 @@ def getLikeRecipes(id):
 
 
 @routes.route('/<int:id>/cart')
+@response.handleExceptions
 def getCart(id):
   data = cartDao.getCartByUser(id)
   return response.success(data)
 
 #todo find user addres
-@routes.route('/<int:id>/address')
+@routes.route('/<int:id>/address', methods=['GET'])
+@response.handleExceptions
 def getAddress(id):
   userData = accountDao.getAccountByUserId(id)
-  print(type(userData))
   address = userData.id_Address
-  print(address)
-  #data = addressDao.getAddress(address)
-  return response.success(userData)
+  return response.success(addressDao.getAddress(address))
