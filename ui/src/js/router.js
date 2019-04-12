@@ -7,7 +7,7 @@ export const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/recipes'
+      redirect: '/home'
     },
     {
       path: '/home',

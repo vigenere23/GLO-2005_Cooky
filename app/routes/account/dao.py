@@ -31,7 +31,7 @@ class AccountDao(BaseDao):
         query = 'UPDATE Account SET password = \'{}\' WHERE id_User = {}'.format(password, id_User)
         db.modify(query, {'id_User': id_User, 'password': password})
         return {"id_User": id_User, "password": password}
-
+        
 
 
     def save(self, accountModel):

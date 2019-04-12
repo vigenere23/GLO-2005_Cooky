@@ -23,13 +23,6 @@
 export default {
   name: 'Home',
 
-  components: {
-  },
-
-  data () {
-
-  },
-
   methods: {
     goToLogIn () {
       this.$router.push({ path: '/login' })

@@ -7,6 +7,11 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
+  static async getUserByUsername (username) {
+    const url = `${BASE_URL}/users/${username}`
+    return AxiosHelper.axiosGet(url).id
+  }
+
   static async getRecipesByUser (userId) {
     const url = `${BASE_URL}/users/${userId}/recipes`
     return AxiosHelper.axiosGet(url)
@@ -166,7 +171,6 @@ export class API {
   }
 
   static async addAccount (firstname, lastname, email, password, userId, addressId) {
-    console.log(addressId)
     const body = {
       'id_Address': addressId,
       'firstName': firstname,
@@ -174,8 +178,9 @@ export class API {
       'email': email,
       'password': password
     }
-    const url = `${BASE_URL}/users/${userId}/account`
-    return AxiosHelper.axiosPost(url, body)
+    const url = `${BASE_URL}/users/${userId}/account/`
+    let data = AxiosHelper.axiosPost(url, body)
+    console.log(data)
   }
 
   static async addNewCommand (cartId) {
@@ -251,5 +256,19 @@ export class API {
     }
     const url = `${BASE_URL}/cart/${cartId}/cartItems/${ingredientId}/ingredient/`
     return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async login (username, password) {
+    const url = `${BASE_URL}/users/${username}`
+    let userData = await AxiosHelper.axiosGet(url)
+
+    const urlAccount = `${BASE_URL}/users/${userData.id}/password`
+    let passwordData = await AxiosHelper.axiosGet(urlAccount)
+
+    if (passwordData.password === password) {
+      return userData.id
+    } else {
+      return false
+    }
   }
 }

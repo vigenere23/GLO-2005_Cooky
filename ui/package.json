@@ -10,6 +10,10 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",
     "axios": "^0.18.0",
+    "crypto-js": "^3.1.9-1",
+    "js-cookie": "^2.2.0",
+    "password-hash": "^1.2.2",
+    "simple-crypto-js": "^2.0.2",
     "typeface-noto-serif": "^0.0.72",
     "typeface-roboto": "^0.0.54",
     "vue": "^2.6.6",

@@ -91,6 +91,12 @@ def modifyEmail(id):
   except Exception as e:
     return response.error(e)
 
+@routes.route('/<int:id>/password', methods=['GET'])
+@response.handleExceptions
+def getUserPassword(id):
+  data= accountDao.getAccountByUserId(id)
+  return response.success({"password": data.password})
+
 @routes.route('/<int:id>/password/', methods=['PUT'])
 @response.handleExceptions
 def modifyPassword(id):

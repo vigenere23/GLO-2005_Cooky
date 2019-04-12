@@ -94,6 +94,7 @@
 
 <script>
 import { API } from '@/js/api/api'
+import * as Cookies from 'js-cookie'
 
 export default {
   name: 'Signup',
@@ -132,7 +133,11 @@ export default {
           if (!data) {
             window.alert('username already used')
           } else {
-            // Login and set cookie
+            console.log('user created')
+            await Cookies.set('cookyUsername', this.username)
+            await Cookies.set('cookyPassword', this.password)
+            const userId = await API.getUserByUsername(this.username)
+            this.$router.push({ path: `/users/${userId}` })
           }
         } else {
           this.confirmPassword = ''
