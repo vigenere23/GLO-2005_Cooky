@@ -30,7 +30,7 @@ BEGIN
 END;
 //
 
-CREATE TRIGGER `CalculateSubCostCartItemOnUpdate`
+CREATE TRIGGER `UpdateSubCostCartItemOnUpdate`
 BEFORE UPDATE ON `CartItem`
 FOR EACH ROW
 BEGIN
@@ -39,7 +39,7 @@ BEGIN
 END;
 //
 
-CREATE TRIGGER `CalculateSubCostCartItemOnInsert`
+CREATE TRIGGER `UpdateSubCostCartItemOnInsert`
 BEFORE INSERT ON `CartItem`
 FOR EACH ROW
 BEGIN
@@ -48,7 +48,7 @@ BEGIN
 END;
 //
 
-CREATE TRIGGER `CalculateTotalCostCartOnUpdate`
+CREATE TRIGGER `UpdateTotalCostCartOnCartItemUpdate`
 AFTER UPDATE ON `CartItem`
 FOR EACH ROW
 BEGIN
@@ -57,7 +57,7 @@ BEGIN
 END;
 //
 
-CREATE TRIGGER `CalculateTotalCostCartOnInsert`
+CREATE TRIGGER `UpdateTotalCostCartOnCartItemInsert`
 AFTER INSERT ON `CartItem`
 FOR EACH ROW
 BEGIN
@@ -66,7 +66,16 @@ BEGIN
 END;
 //
 
-CREATE TRIGGER `PreventModificationOfCommands`
+CREATE TRIGGER `UpdateTotalCostCartOnCartItemDelete`
+AFTER DELETE ON `CartItem`
+FOR EACH ROW
+BEGIN
+  SET @totalCost := IFNULL((SELECT SUM(C.subCost) FROM CartItem C WHERE C.id_Cart = OLD.id_Cart), 0);
+  UPDATE Cart C SET C.totalCost := @totalCost WHERE C.id = OLD.id_Cart;
+END;
+//
+
+CREATE TRIGGER `PreventUpdateOfCartItemIfIsCommand`
 BEFORE UPDATE ON `CartItem`
 FOR EACH ROW
 BEGIN

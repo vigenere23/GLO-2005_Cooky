@@ -10,8 +10,8 @@ from app.routes.recipe.model import RecipeModel
 from app.routes.recipeIngredient.dao import RecipeIngredientDao
 from app.routes.recipeIngredient.model import RecipeIngredientModel
 from app.routes.quantityUnit.dao import QuantityUnitDao
-from app.routes.cart.model import CartModel
-from app.routes.cart.dao import CartDao
+from app.routes.carts.model import CartModel
+from app.routes.carts.dao import CartDao
 from app.routes.cartItem.model import CartItemModel
 from app.routes.cartItem.dao import CartItemDao
 from app.routes.rating.model import RatingModel
