@@ -53,6 +53,7 @@ export default {
         'recipes',
         'likes'
       ],
+      id: null,
       user: null,
       recipes: null,
       likes: null
@@ -68,12 +69,21 @@ export default {
   },
 
   methods: {
-    async fetchData () {
-      this.user = this.recipes = this.likes = null
-      const id = this.$route.params.id
-      this.user = await API.getUserById(id)
-      this.recipes = await API.getRecipesByUser(id)
-      this.likes = await API.getLikedRecipesByUser(id)
+    fetchData () {
+      this.id = this.user = this.recipes = this.likes = null
+      this.id = this.$route.params.id
+      this.fetchUser()
+      this.fetchRecipes()
+      this.fetchLikes()
+    },
+    async fetchUser () {
+      this.user = await API.getUserById(this.id)
+    },
+    async fetchRecipes () {
+      this.recipes = await API.getRecipesByUser(this.id)
+    },
+    async fetchLikes () {
+      this.likes = await API.getUserLikes(this.id)
     }
   }
 

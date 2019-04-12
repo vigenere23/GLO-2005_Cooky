@@ -9,6 +9,25 @@
       :link="`/recipes/${$route.params.id}/edit`"
     />
     <h1>{{ recipe.name }}</h1>
+    <div class="actions">
+      <div class="like">
+        <span
+          class="material-icons"
+          v-if="liked"
+          @click="unlike"
+        >
+          favorite
+        </span>
+        <span
+          class="material-icons"
+          v-else
+          @click="like"
+        >
+          favorite_outline
+        </span>
+      </div>
+      <Rating :initial-rating="3" />
+    </div>
     <div class="recipe_intro">
       <img src="https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2017/04/main/dragon-fruit-smoothie-bowl-1704w.jpg">
       <p class="recipe_description">
@@ -54,6 +73,7 @@
 import FloatingButton from '@/components/buttons/FloatingButton'
 import DataTable from '@/components/lists/DataTable'
 import CommentList from '@/components/comments/CommentList'
+import Rating from '@/components/inputs/Rating'
 import { comments } from '@/js/data/comments'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import { API } from '@/js/api/api'
@@ -65,7 +85,8 @@ export default {
   components: {
     FloatingButton,
     DataTable,
-    CommentList
+    CommentList,
+    Rating
   },
 
   computed: {
@@ -75,6 +96,7 @@ export default {
 
   data () {
     return {
+      id: null,
       recipe: null,
       ingredients: null,
       columns: [
@@ -82,6 +104,7 @@ export default {
         { name: 'quantity', text: 'Quantity' }
       ],
       comments: comments,
+      liked: false,
       actions: {
         isSelected: (recipeIngredient) => {
           return this.cartContains(recipeIngredient.id_Ingredient)
@@ -106,10 +129,31 @@ export default {
 
   methods: {
     async fetchData () {
-      this.recipe = this.ingredients = null
-      const id = this.$route.params.id
-      this.recipe = await API.getRecipeById(id)
-      this.ingredients = await API.getIngredientFromIdRecipe(id)
+      this.id = this.recipe = this.ingredients = null
+      this.id = this.$route.params.id
+      this.fetchRecipe()
+      this.fetchIngredients()
+      this.fetchLikes()
+    },
+    async fetchLikes () {
+      const likes = await API.getUserLikes(this.userId)
+      if (likes.find(recipe => recipe.id === this.id)) {
+        this.liked = true
+      }
+    },
+    async fetchRecipe () {
+      this.recipe = await API.getRecipeById(this.id)
+    },
+    async fetchIngredients () {
+      this.ingredients = await API.getIngredientFromIdRecipe(this.id)
+    },
+    async like () {
+      await API.addLike(this.id, this.userId)
+      this.fetchLikes()
+    },
+    async unlike () {
+      await API.removeLike(this.id, this.userId)
+      this.fetchLikes()
     },
     ...mapActions('user', ['addCartItem', 'removeCartItem'])
   }
@@ -121,6 +165,20 @@ export default {
 @import '~@/assets/scss/variables';
 
 .recipe-page {
+
+  .actions {
+    display: flex;
+    align-items: center;
+
+    > * {
+      margin: 0 8px;
+      flex-shrink: 0;
+    }
+
+    .like {
+      cursor: pointer;
+    }
+  }
 
   .recipe_intro {
     width: 100%;

@@ -17,7 +17,7 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
-  static async getLikedRecipesByUser (userId) {
+  static async getUserLikes (userId) {
     const url = `${BASE_URL}/users/${userId}/likes`
     return AxiosHelper.axiosGet(url)
   }
@@ -128,6 +128,14 @@ export class API {
     }
     const url = `${BASE_URL}/recipes/${recipeId}/like/`
     return AxiosHelper.axiosPost(url, body)
+  }
+
+  static async removeLike (recipeId, userId) {
+    const body = {
+      'id_User': userId
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/like/`
+    return AxiosHelper.axiosDelete(url, body)
   }
 
   static async addRating (recipeId, userId, mark) {
