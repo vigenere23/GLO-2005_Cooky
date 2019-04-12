@@ -7,7 +7,7 @@ class CartItemDao(BaseDao):
     def __init__(self):
         super().__init__('CartItem', CartItemModel)
 
-    def getItemByCart(self, id_Cart):
+    def getItemsByCart(self, id_Cart):
         query = 'SELECT * FROM CartItem WHERE id_Cart = %(id_Cart)s'
         results = db.select(query, {'id_Cart': id_Cart})
         return self._mapper.from_tuples(results)

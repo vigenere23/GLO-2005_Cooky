@@ -22,8 +22,8 @@ from app.routes.address.model import AddressModel
 from app.routes.address.dao import AddressDao
 from app.routes.account.model import AccountModel
 from app.routes.account.dao import AccountDao
-from app.routes.commands.model import CommandsModel
-from app.routes.commands.dao import CommandsDao
+from app.routes.commands.model import CommandModel
+from app.routes.commands.dao import CommandDao
 
 lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pulvinar pharetra bibendum. Ut eget risus nec risus finibus hendrerit in non tortor. Pellentesque maximus ligula et turpis faucibus cursus. Donec vel nunc metus. Quisque sagittis mattis dui vel varius. Aliquam iaculis interdum lacinia. Nam euismod lectus id maximus sodales. Nam id magna dictum, semper nisl vel, ornare ligula. Sed condimentum metus quis leo pharetra, quis semper urna aliquam. Fusce consectetur accumsan augue sit amet iaculis. Suspendisse volutpat urna vitae fermentum eleifend. Maecenas sapien leo, gravida vitae pellentesque quis, efficitur in erat. Maecenas elementum euismod hendrerit. Mauris sagittis massa a orci."
 loremBio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
@@ -86,17 +86,6 @@ def generateRecipes():
       description=lorem
     )
     recipeDao.save(recipeModel, ingredients)
-
-def generateCarts():
-  print('...generating carts')
-  cartDao = CartDao()
-
-  for _ in range(100):
-    cartModel = CartModel(
-      id_User=random.randint(1, 100),
-      totalCost=random.randint(20, 250)
-    )
-    cartDao.save(cartModel)
 
 def generateRatings():
   print('...generating ratings')
@@ -181,12 +170,16 @@ def generateAccounts():
 
 def generateCommands():
   print('...generating commands')
-  commandDao = CommandsDao()
+  commandDao = CommandDao()
+  cartDao = CartDao()
 
   for _ in range(100):
+    cartModel = CartModel(id_User=random.randint(1, 100))
+    cart = cartDao.save(cartModel)
+
     current_time = datetime.datetime.now()
-    commandModel = CommandsModel(
-      id_Cart=random.randint(1, 100),
+    commandModel = CommandModel(
+      id_Cart=cart.id,
       creationDate=current_time,
       arrivalDate=current_time
     )
@@ -197,7 +190,6 @@ if __name__ == "__main__":
   generateUsers()
   generateIngredients()
   generateRecipes()
-  generateCarts()
   generateRatings()
   generateLikes()
   generateComments()

@@ -106,11 +106,12 @@ def getIngredientsByRecipe(recipe_id):
   for recipeIngredient in recipeIngredients:
     ingredient = ingredientDao.getById(recipeIngredient.id_Ingredient)
     quantityUnit = quantityUnitDao.getById(recipeIngredient.id_QuantityUnit)
-    quantity = str.format('{} {}', int(recipeIngredient.totalQuantity), quantityUnit.abbreviation)
+    parsed_quantity = str.format('{} {}', int(recipeIngredient.totalQuantity), quantityUnit.abbreviation)
     data.append({
       'id': recipeIngredient.id,
       'name': ingredient.name,
-      'quantity': quantity
+      'quantity': parsed_quantity,
+      'id_Ingredient': ingredient.id
     })
 
   return response.success(data)

@@ -7,10 +7,10 @@ class CartDao(BaseDao):
     def __init__(self):
         super().__init__('Cart', CartModel)
 
-    def getCartByUser(self, id_User):
-        query = 'SELECT * FROM Cart WHERE id_User = %(id_User)s'
-        results = db.select(query, {'id_User': id_User})
-        return self._mapper.from_tuples(results)
+    def getCurrentUserCart(self, userId):
+        query = 'SELECT * FROM Cart WHERE Cart.id_User = %(userId)s AND Cart.id NOT IN (SELECT Command.id_Cart FROM Command)'
+        result = db.select(query, { 'userId': userId }, 1)
+        return self._mapper.from_tuple(result)
 
     def save(self, cartModel):
             if not isinstance(cartModel, CartModel):

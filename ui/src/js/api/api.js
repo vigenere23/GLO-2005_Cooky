@@ -32,8 +32,8 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
-  static async getAllCartFromUserId (id) {
-    const url = `${BASE_URL}/users/${id}/cart`
+  static async getUserCart (userId) {
+    const url = `${BASE_URL}/users/${userId}/cart`
     return AxiosHelper.axiosGet(url)
   }
 
@@ -74,23 +74,28 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
-  static async getCartItem (id) {
-    const url = `${BASE_URL}/cart/${id}/cartItems`
+  static async getCartItems (id) {
+    const url = `${BASE_URL}/cart/${id}/items`
     return AxiosHelper.axiosGet(url)
   }
 
+  static async addCartItem (id, ingredientId) {
+    const body = {
+      'id_Ingredient': ingredientId
+    }
+    const url = `${BASE_URL}/cart/${id}/items/`
+    return AxiosHelper.axiosPost(url, body)
+  }
+
+  static async removeCartItem (id, ingredientId) {
+    const url = `${BASE_URL}/cart/${id}/items/${ingredientId}/`
+    return AxiosHelper.axiosDelete(url)
+  }
+
+  // TODO weird
   static async getCommandFromCart (id) {
     const url = `${BASE_URL}/cart/${id}/command`
     return AxiosHelper.axiosGet(url)
-  }
-
-  static async addIngredientToCart (cartId, ingredientId, subCost) {
-    const body = {
-      'id_Ingredient': ingredientId,
-      'subCost': subCost
-    }
-    const url = `${BASE_URL}/cart/${cartId}/cartItems/`
-    return AxiosHelper.axiosPost(url, body)
   }
 
   static async addRecipe (userId, name, directives, ingredients) {
@@ -178,13 +183,8 @@ export class API {
     return AxiosHelper.axiosPost(url)
   }
 
-  static async deleteIngredientFromCart (cartId, ingredientId) {
-    const url = `${BASE_URL}/cart/${cartId}/cartItems/${ingredientId}/ingredient`
-    return AxiosHelper.axiosDelete(url)
-  }
-
   static async deleteRecipe (recipeId) {
-    const url = `${BASE_URL}/recipes/${recipeId}`
+    const url = `${BASE_URL}/recipes/${recipeId}/`
     return AxiosHelper.axiosDelete(url)
   }
 
@@ -192,7 +192,7 @@ export class API {
     const body = {
       'name': recipeName
     }
-    const url = `${BASE_URL}/recipes/${recipeId}/name`
+    const url = `${BASE_URL}/recipes/${recipeId}/name/`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -200,7 +200,7 @@ export class API {
     const body = {
       'directives': directives
     }
-    const url = `${BASE_URL}/recipes/${recipeId}/directives`
+    const url = `${BASE_URL}/recipes/${recipeId}/directives/`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -209,7 +209,7 @@ export class API {
       'id_Ingredient': ingredientId,
       'totalQuantity': totalQuantity
     }
-    const url = `${BASE_URL}/recipes/${recipeId}/ingredientQuantity`
+    const url = `${BASE_URL}/recipes/${recipeId}/ingredientQuantity/`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -217,7 +217,7 @@ export class API {
     const body = {
       'firstName': firstName
     }
-    const url = `${BASE_URL}/users/${userId}/firstName`
+    const url = `${BASE_URL}/users/${userId}/firstName/`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -225,7 +225,7 @@ export class API {
     const body = {
       'lastName': lastName
     }
-    const url = `${BASE_URL}/users/${userId}/lastName`
+    const url = `${BASE_URL}/users/${userId}/lastName/`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -233,7 +233,7 @@ export class API {
     const body = {
       'email': email
     }
-    const url = `${BASE_URL}/users/${userId}/email`
+    const url = `${BASE_URL}/users/${userId}/email/`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -241,7 +241,7 @@ export class API {
     const body = {
       'password': password
     }
-    const url = `${BASE_URL}/users/${userId}/password`
+    const url = `${BASE_URL}/users/${userId}/password/`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -249,7 +249,7 @@ export class API {
     const body = {
       'multiplier': multiplier
     }
-    const url = `${BASE_URL}/cart/${cartId}/cartItems/${ingredientId}/ingredient`
+    const url = `${BASE_URL}/cart/${cartId}/cartItems/${ingredientId}/ingredient/`
     return AxiosHelper.axiosPut(url, body)
   }
 }

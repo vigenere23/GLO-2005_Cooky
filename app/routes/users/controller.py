@@ -43,7 +43,7 @@ def createUser():
 def getAccount(id):
    return response.success(accountDao.getAccountByUserId(id))
   
-@routes.route('/<int:id>/account', methods=['POST'])
+@routes.route('/<int:id>/account/', methods=['POST'])
 @response.handleExceptions
 def addAccount(id):
   print("j'ai été call")
@@ -61,7 +61,7 @@ def addAccount(id):
   result = accountDao.save(accountModel)
   return response.success(result)
 
-@routes.route('/<int:id>/firstName', methods=['PUT'])
+@routes.route('/<int:id>/firstName/', methods=['PUT'])
 @response.handleExceptions
 def modifyFirstName(id):
   body = request.get_json(force=True)
@@ -71,7 +71,7 @@ def modifyFirstName(id):
   except Exception as e:
     return response.error(e)
 
-@routes.route('/<int:id>/lastName', methods=['PUT'])
+@routes.route('/<int:id>/lastName/', methods=['PUT'])
 @response.handleExceptions
 def modifyLastName(id):
   body = request.get_json(force=True)
@@ -81,7 +81,7 @@ def modifyLastName(id):
   except Exception as e:
     return response.error(e)
 
-@routes.route('/<int:id>/email', methods=['PUT'])
+@routes.route('/<int:id>/email/', methods=['PUT'])
 @response.handleExceptions
 def modifyEmail(id):
   body = request.get_json(force=True)
@@ -91,7 +91,7 @@ def modifyEmail(id):
   except Exception as e:
     return response.error(e)
 
-@routes.route('/<int:id>/password', methods=['PUT'])
+@routes.route('/<int:id>/password/', methods=['PUT'])
 @response.handleExceptions
 def modifyPassword(id):
   body = request.get_json(force=True)
@@ -101,7 +101,7 @@ def modifyPassword(id):
   except Exception as e:
     return response.error(e)
 
-@routes.route('/<int:id>', methods=['PUT'])
+@routes.route('/<int:id>/', methods=['PUT'])
 @response.handleExceptions
 def modifyUser(id):
   body = request.get_json(force=True)
@@ -137,10 +137,10 @@ def getLikeRecipes(id):
   return response.success(recipes)
 
 
-@routes.route('/<int:id>/cart')
+@routes.route('/<int:id>/cart', methods=['GET'])
 @response.handleExceptions
-def getCart(id):
-  data = cartDao.getCartByUser(id)
+def getUserCart(id):
+  data = cartDao.getCurrentUserCart(id)
   return response.success(data)
 
 

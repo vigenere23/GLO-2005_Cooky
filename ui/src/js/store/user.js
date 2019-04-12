@@ -1,16 +1,19 @@
+import { API } from '@/js/api/api'
+
 export const userModule = {
 
   namespaced: true,
 
   state: {
-    cart: [],
+    cartItems: null,
+    cartId: null,
     userId: '1',
     avatar: ''
   },
 
   getters: {
     cartContains: (state) => (id) => {
-      return state.cart.indexOf(id) !== -1
+      return state.cartItems.indexOf(id) !== -1
     },
     avatar: (state) => (user) => {
       if (user) {
@@ -23,17 +26,43 @@ export const userModule = {
   mutations: {
     clear (state) {
       state.userId = null
-      state.cart.clear()
+      state.cartId = null
+      state.cartItems = null
+      state.avatar = null
     },
-    addCartItem (state, id) {
-      if (state.cart.indexOf(id) === -1) {
-        state.cart.push(id)
+    set (state, cartItems) {
+      state.cartItems = []
+      for (const cartItem of cartItems) {
+        state.cartItems.push(cartItem.id_Ingredient)
+      }
+    }
+  },
+
+  actions: {
+    async loadCart (context, force) {
+      if (force || !context.state.cartId) {
+        const cart = await API.getUserCart(context.state.userId)
+        if (cart && !cart.error) {
+          context.state.cartId = cart.id
+        }
+      }
+      if (context.state.cartId) {
+        const cartItems = await API.getCartItems(context.state.cartId)
+        if (cartItems && !cartItems.error) {
+          context.commit('set', cartItems)
+        }
       }
     },
-    removeCartItem (state, id) {
-      const indexToRemove = state.cart.indexOf(id)
-      if (indexToRemove !== -1) {
-        state.cart.splice(indexToRemove, 1)
+    async addCartItem (context, ingredientId) {
+      if (context.state.cartId) {
+        await API.addCartItem(context.state.cartId, ingredientId)
+        context.dispatch('loadCart')
+      }
+    },
+    async removeCartItem (context, ingredientId) {
+      if (context.state.cartId) {
+        await API.removeCartItem(context.state.cartId, ingredientId)
+        context.dispatch('loadCart')
       }
     }
   }

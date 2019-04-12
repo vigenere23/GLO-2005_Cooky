@@ -35,6 +35,7 @@ CREATE TABLE `Recipe` (
   `name` VARCHAR(50) NOT NULL,
   `description` MEDIUMTEXT NULL DEFAULT NULL,
   `directives` MEDIUMTEXT NOT NULL,
+  `rating` FLOAT(8,2) NOT NULL DEFAULT 0.00,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`name`)
 );
@@ -49,7 +50,7 @@ DROP TABLE IF EXISTS `Cart`;
 CREATE TABLE `Cart` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_User` INTEGER NOT NULL,
-  `totalCost` DOUBLE NOT NULL,
+  `totalCost` DOUBLE NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 );
 
@@ -166,18 +167,19 @@ CREATE TABLE `Account` (
 ) COMMENT 'Private user infos.';
 
 -- ---
--- Table 'Commands'
+-- Table 'Command'
 -- 
 -- ---
 
-DROP TABLE IF EXISTS `Commands`;
+DROP TABLE IF EXISTS `Command`;
 		
-CREATE TABLE `Commands` (
+CREATE TABLE `Command` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_Cart` INTEGER NOT NULL,
   `creationDate` DATETIME NOT NULL,
   `arrivalDate` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`id_Cart`)
 );
 
 -- ---
@@ -262,7 +264,7 @@ ALTER TABLE `LikeRecipe` ADD FOREIGN KEY (id_Recipe) REFERENCES `Recipe` (`id`);
 ALTER TABLE `LikeRecipe` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_User) REFERENCES `User` (`id`);
 ALTER TABLE `Account` ADD FOREIGN KEY (id_Address) REFERENCES `Address` (`id`);
-ALTER TABLE `Commands` ADD FOREIGN KEY (id_Cart) REFERENCES `Cart` (`id`);
+ALTER TABLE `Command` ADD FOREIGN KEY (id_Cart) REFERENCES `Cart` (`id`);
 ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `QuantityType` (`id`);
 
 -- ---
@@ -279,7 +281,7 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 -- ALTER TABLE `RecipeIngredient` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `LikeRecipe` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `Account` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Commands` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `Command` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `IngredientType` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `Address` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- ALTER TABLE `QuantityUnit` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -291,8 +293,8 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 
 -- INSERT INTO `User` (`id`,`username`,`bio`) VALUES
 -- ('','','');
--- INSERT INTO `Recipe` (`id`,`id_User`,`name`,`description`,`directives`) VALUES
--- ('','','','','');
+-- INSERT INTO `Recipe` (`id`,`id_User`,`name`,`description`,`directives`,`rating`) VALUES
+-- ('','','','','','');
 -- INSERT INTO `Cart` (`id`,`id_User`,`totalCost`) VALUES
 -- ('','','');
 -- INSERT INTO `Ingredient` (`id`,`id_IngredientType`,`id_QuantityUnit`,`name`,`baseCost`,`baseQuantity`) VALUES
@@ -309,7 +311,7 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 -- ('','','');
 -- INSERT INTO `Account` (`id`,`id_User`,`id_Address`,`firstName`,`lastName`,`email`,`password`) VALUES
 -- ('','','','','','','');
--- INSERT INTO `Commands` (`id`,`id_Cart`,`creationDate`,`arrivalDate`) VALUES
+-- INSERT INTO `Command` (`id`,`id_Cart`,`creationDate`,`arrivalDate`) VALUES
 -- ('','','','');
 -- INSERT INTO `IngredientType` (`id`,`name`) VALUES
 -- ('','');

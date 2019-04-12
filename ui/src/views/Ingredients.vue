@@ -5,18 +5,20 @@
       @input="search"
       @send="search"
     />
-    <IngredientsDataTable
+    <DataTable
       v-if="ingredients"
       :columns="columns"
       :items="ingredients"
+      :actions="actions"
     />
   </div>
 </template>
 
 <script>
 import SearchBar from '@/components/inputs/SearchBar'
-import IngredientsDataTable from '@/components/ingredients/IngredientsDataTable'
+import DataTable from '@/components/lists/DataTable'
 import { API } from '@/js/api/api'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
 
@@ -24,8 +26,10 @@ export default {
 
   components: {
     SearchBar,
-    IngredientsDataTable
+    DataTable
   },
+
+  computed: mapGetters('user', ['cartContains']),
 
   data () {
     return {
@@ -36,7 +40,12 @@ export default {
         { name: 'quantity', text: 'Quantity' },
         { name: 'price', text: 'Price ($)', sortable: true }
       ],
-      ingredients: null
+      ingredients: null,
+      actions: {
+        isSelected: (ingredient) => this.cartContains(ingredient.id),
+        onSelection: (ingredient) => this.addCartItem(ingredient.id),
+        onDeselection: (ingredient) => this.removeCartItem(ingredient.id)
+      }
     }
   },
 
@@ -58,7 +67,8 @@ export default {
       this.searchTimeout = setTimeout(async () => {
         this.ingredients = await API.getIngredientsByName(search)
       }, 300)
-    }
+    },
+    ...mapActions('user', ['addCartItem', 'removeCartItem'])
   }
 
 }

@@ -4,54 +4,45 @@ from datetime import datetime
 from ..cartItem.model import CartItemModel
 from .dao import CartDao
 from ..cartItem.dao import CartItemDao
-from ..commands.dao import CommandsDao
-from ..commands.model import CommandsModel
+from ..commands.dao import CommandDao
+from ..commands.model import CommandModel
 
 routes = Blueprint('cart', __name__)
 cartDao = CartDao()
 cartItemDao = CartItemDao()
-commandsDao = CommandsDao()
+commandsDao = CommandDao()
 
 @routes.route('/')
 @response.handleExceptions
 def index():
   return response.success(cartDao.getAll())
 
-@routes.route('/<int:id>/cartItems', methods=['POST'])
+@routes.route('/<int:id>/items', methods=['GET'])
+@response.handleExceptions
+def getItemByCart(id):
+  data = cartItemDao.getItemsByCart(id)
+  return response.success(data)
+
+@routes.route('/<int:id>/items/', methods=['POST'])
 @response.handleExceptions
 def addItemToCart(id):
   body = request.get_json(force=True)
   data = {
-      'id_Ingredient': body['id_Ingredient'],
-      'id_Cart': str(id),
-      'multiplier': '1',
-      'subCost': body['subCost']
+    'id_Ingredient': body['id_Ingredient'],
+    'id_Cart': id,
+    'multiplier': '1'
   }
+  cartItemModel = CartItemModel(**data)
+  result = cartItemDao.save(cartItemModel)
+  return response.success(result)
 
-  try:
-
-    cartItemModel = CartItemModel(**data)
-    result = cartItemDao.save(cartItemModel)
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
-
-@routes.route('/<int:id>/cartItems', methods=['GET'])
-@response.handleExceptions
-def getItemByCart(id):
-  data = cartItemDao.getItemByCart(id)
-  return response.success(data)
-
-@routes.route('/<int:id_Cart>/cartItems/<int:id_Ingredient>/ingredient', methods=['DELETE'])
+@routes.route('/<int:id_Cart>/items/<int:id_Ingredient>/', methods=['DELETE'])
 @response.handleExceptions
 def deleteItemFromCart(id_Cart, id_Ingredient):
-  id_Ingredient =  str(id_Ingredient),
-  id_Cart = str(id_Cart)
-    
-  cartItemDao.deleteIngredient(id_Cart, id_Ingredient) 
+  cartItemDao.deleteIngredient(id_Cart, id_Ingredient)
   return response.success("", status=204)
 
-@routes.route('/<int:id_Cart>/cartItems/<int:id_Ingredient>/ingredient', methods=['PUT'])
+@routes.route('/<int:id_Cart>/items/<int:id_Ingredient>/', methods=['PUT'])
 @response.handleExceptions
 def modifyRecipeName(id_Cart, id_Ingredient):
   body = request.get_json(force=True)
@@ -77,6 +68,6 @@ def addCommandFromCart(id):
     'creationDate': datetime.today().strftime('%Y-%m-%d'),
     'arrivalDate': datetime.today().strftime('%Y-%m-%d')
   }
-  commandsModel = CommandsModel(**data)
-  data = commandsDao.save(commandsModel)
+  commandModel = CommandModel(**data)
+  data = commandsDao.save(commandModel)
   return response.success(data)

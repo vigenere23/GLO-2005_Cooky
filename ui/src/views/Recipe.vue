@@ -27,11 +27,12 @@
     <div class="recipe_content">
       <div v-if="ingredients">
         <h2>Ingredients</h2>
-        <IngredientsDataTable
+        <DataTable
           id="id_Ingredient"
           :columns="columns"
           :items="ingredients"
           :small="true"
+          :actions="actions"
         />
       </div>
       <div>
@@ -51,10 +52,10 @@
 
 <script>
 import FloatingButton from '@/components/buttons/FloatingButton'
-import IngredientsDataTable from '@/components/ingredients/IngredientsDataTable'
+import DataTable from '@/components/lists/DataTable'
 import CommentList from '@/components/comments/CommentList'
 import { comments } from '@/js/data/comments'
-import { mapState } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import { API } from '@/js/api/api'
 
 export default {
@@ -63,11 +64,14 @@ export default {
 
   components: {
     FloatingButton,
-    IngredientsDataTable,
+    DataTable,
     CommentList
   },
 
-  computed: mapState('user', ['userId']),
+  computed: {
+    ...mapState('user', ['userId']),
+    ...mapGetters('user', ['cartContains'])
+  },
 
   data () {
     return {
@@ -77,7 +81,18 @@ export default {
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' }
       ],
-      comments: comments
+      comments: comments,
+      actions: {
+        isSelected: (recipeIngredient) => {
+          return this.cartContains(recipeIngredient.id_Ingredient)
+        },
+        onSelection: (recipeIngredient) => {
+          return this.addCartItem(recipeIngredient.id_Ingredient)
+        },
+        onDeselection: (recipeIngredient) => {
+          return this.removeCartItem(recipeIngredient.id_Ingredient)
+        }
+      }
     }
   },
 
@@ -95,7 +110,8 @@ export default {
       const id = this.$route.params.id
       this.recipe = await API.getRecipeById(id)
       this.ingredients = await API.getIngredientFromIdRecipe(id)
-    }
+    },
+    ...mapActions('user', ['addCartItem', 'removeCartItem'])
   }
 
 }
