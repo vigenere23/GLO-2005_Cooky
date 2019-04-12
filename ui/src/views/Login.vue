@@ -1,40 +1,42 @@
 <template>
   <div>
     <div class="login-page" />
-    <h1> Login </h1>
-    <div>
-      <div>
-        <input
-          type="text"
-          placeholder="username"
-          v-model="username"
-        >
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="password"
-          v-model="password"
-        >
-      </div>
-      <div>
-        <button
-          class="blue"
-          @click="logIn"
-        >
-          Login
-        </button>
-      </div>
+    <h1>Login</h1>
+    <div class="inputs-wrapper">
+      <LabelInput
+        label="Username"
+        :validate="(value) => !!value"
+        v-model="username"
+      />
+      <LabelInput
+        label="Password"
+        :validate="(value) => !!value"
+        v-model="password"
+      />
+      <Button
+        accent
+        @click="logIn"
+      >
+        Login
+      </Button>
     </div>
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 import { API } from '@/js/api/api'
-import * as Cookies from 'js-cookie'
+import LabelInput from '@/components/inputs/LabelInput'
+import Button from '@/components/buttons/Button'
 
 export default {
+
   name: 'Login',
+
+  components: {
+    LabelInput,
+    Button
+  },
 
   data () {
     return {
@@ -70,8 +72,10 @@ export default {
 }
 </script>
 
-<style>
-.blue {
-  background-color: blue;
+<style lang="scss">
+.inputs-wrapper {
+  width: 100%;
+  max-width: 240px;
+  margin: auto;
 }
 </style>

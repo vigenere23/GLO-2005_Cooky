@@ -2,105 +2,75 @@
   <div>
     <div class="signup-page" />
     <h1> Signup </h1>
-    <div>
-      <div>
-        <input
-          type="text"
-          placeholder="firstName"
-          v-model="firstname"
-        >
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="lastName"
-          v-model="lastname"
-        >
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="email"
-          v-model="email"
-        >
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="username"
-          v-model="username"
-        >
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="Door number"
-          v-model="number"
-        >
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="apartment"
-          v-model="apartment"
-        >
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="street"
-          v-model="street"
-        >
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="city"
-          v-model="city"
-        >
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="country"
-          v-model="country"
-        >
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder="password"
-          v-model="password"
-        >
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder="confirm password"
-          v-model="confirmPassword"
-        >
-      </div>
-      <div>
-        <button
-          class="blue"
-          @click="signUp"
-        >
-          Login
-        </button>
-      </div>
+    <div class="inputs-wrapper">
+      <LabelInput
+        label="First name"
+        v-model="firstname"
+      />
+      <LabelInput
+        label="Last name"
+        v-model="lastname"
+      />
+      <LabelInput
+        label="Email"
+        v-model="email"
+      />
+      <LabelInput
+        label="Username"
+        v-model="username"
+      />
+      <LabelInput
+        label="Door number"
+        v-model="doorNumber"
+      />
+      <LabelInput
+        label="Apartment"
+        v-model="apartment"
+      />
+      <LabelInput
+        label="Street"
+        v-model="street"
+      />
+      <LabelInput
+        label="City"
+        v-model="city"
+      />
+      <LabelInput
+        label="Country"
+        v-model="country"
+      />
+      <LabelInput
+        label="Password"
+        v-model="password"
+      />
+      <LabelInput
+        label="Confirm password"
+        v-model="confirmPassword"
+      />
+      <Button
+        accent
+        right
+        @click="signup"
+      >
+        Signup
+      </Button>
     </div>
   </div>
 </template>
 
 <script>
 import { API } from '@/js/api/api'
-import * as Cookies from 'js-cookie'
+import { EventBus } from '@/js/eventbus'
+import Cookies from 'js-cookie'
+import Button from '@/components/buttons/Button'
+import LabelInput from '@/components/inputs/LabelInput'
 
 export default {
   name: 'Signup',
 
   components: {
-
+    Button,
+    LabelInput
   },
 
   data () {
@@ -111,7 +81,7 @@ export default {
       username: '',
       password: '',
       confirmPassword: '',
-      number: '',
+      doorNumber: '',
       apartment: '',
       street: '',
       city: '',
@@ -120,18 +90,18 @@ export default {
   },
 
   methods: {
-    async signUp () {
-      if (parseInt(this.number).isNaN) {
-        window.alert('door number must be a number')
+    async signup () {
+      if (parseInt(this.doorNumber).isNaN) {
+        EventBus.$emit('toast', { type: 'error', message: 'Invalid door number' })
       } else if (this.firstname.length === 0 || this.lastname.length === 0 || this.email.length === 0 || this.username.length === 0 || this.password === 0 ||
-        this.number.length === 0 || this.street.length === 0 || this.city.length === 0 || this.country.length === 0) {
-        window.alert('there is an empty field')
+        this.doorNumber.length === 0 || this.street.length === 0 || this.city.length === 0 || this.country.length === 0) {
+        EventBus.$emit('toast', { type: 'error', message: 'Please fill all fields' })
       } else {
         if (this.password === this.confirmPassword) {
           const data = await API.addNewUser(this.firstname, this.lastname, this.email,
             this.username, this.password, this.number, this.apartment, this.street, this.city, this.country)
           if (!data) {
-            window.alert('username already used')
+            EventBus.$emit('toast', { type: 'error', message: 'Username already exists' })
           } else {
             await Cookies.set('cookyUsername', this.username)
             await Cookies.set('cookyPassword', this.password)
@@ -140,7 +110,7 @@ export default {
           }
         } else {
           this.confirmPassword = ''
-          window.alert('password and confirm password are not the same')
+          EventBus.$emit('toast', { type: 'error', message: 'Passwords do not concord' })
         }
       }
     }
@@ -149,7 +119,9 @@ export default {
 </script>
 
 <style>
-.blue {
-  background-color: blue
+.inputs-wrapper {
+  width: 100%;
+  max-width: 320px;
+  margin: auto;
 }
 </style>

@@ -99,11 +99,11 @@ export default {
 
   &.focused {
     input, textarea {
-      border-color: #1e88e5;
+      border-color: $primary-color;
     }
 
     .label {
-      color: #1e88e5;
+      color: $primary-color;
     }
   }
 

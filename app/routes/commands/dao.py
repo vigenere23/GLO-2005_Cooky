@@ -7,9 +7,9 @@ class CommandDao(BaseDao):
     def __init__(self):
         super().__init__('Command', CommandModel)
 
-    def getCommandByCart(self, id_Cart):
-        query = 'SELECT * FROM Command WHERE id_Cart = %(id_Cart)s'
-        results = db.select(query, {'id_Cart': id_Cart})
+    def getUserCommands(self, id_User):
+        query = 'SELECT C.id, C.id_Cart, C.creationDate, C.arrivalDate FROM Command C, Cart WHERE Cart.id = C.id_Cart AND Cart.id_User = %(id_User)s'
+        results = db.select(query, { 'id_User': id_User })
         return self._mapper.from_tuples(results)
     
     def save(self, commandsModel):

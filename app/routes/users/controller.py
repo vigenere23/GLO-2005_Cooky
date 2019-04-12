@@ -5,6 +5,7 @@ from .model import UserModel
 from ..recipe.dao import RecipeDao
 from ..likeRecipe.dao import LikeRecipeDao
 from ..carts.dao import CartDao
+from ..commands.dao import CommandDao
 from ..account.model import AccountModel
 from ..account.dao import AccountDao
 from ..address.dao import AddressDao
@@ -15,6 +16,7 @@ userDao = UserDao()
 recipeDao = RecipeDao()
 likeRecipeDao = LikeRecipeDao()
 cartDao = CartDao()
+commandDao = CommandDao()
 accountDao = AccountDao()
 addressDao = AddressDao()
 
@@ -121,13 +123,13 @@ def getOne(id):
   return response.success(data)
 
 
-@routes.route('/<int:id>/recipes')
+@routes.route('/<int:id>/recipes', methods=['GET'])
 @response.handleExceptions
 def getAllRecipesByUser(id):
   data = recipeDao.getAllRecipesByUser(id)
   return response.success(data)
 
-@routes.route('/<int:id>/likes')
+@routes.route('/<int:id>/likes', methods=['GET'])
 @response.handleExceptions
 def getLikeRecipes(id):
   recipes = []
@@ -149,6 +151,18 @@ def getUserCart(id):
   data = cartDao.getCurrentUserCart(id)
   return response.success(data)
 
+@routes.route('/<int:id>/commands', methods=['GET'])
+@response.handleExceptions
+def getUserCommands(id):
+  commands = commandDao.getUserCommands(id)
+  data = []
+  for command in commands:
+    cart = cartDao.getById(command.id_Cart)
+    data.append({
+      **command.serialize(),
+      'totalCost': cart.totalCost
+    })
+  return response.success(data)
 
 @routes.route('/<int:id>/address', methods=['GET'])
 @response.handleExceptions

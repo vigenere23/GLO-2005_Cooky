@@ -45,7 +45,10 @@
           :key="j"
           :class="{ first: j === 0 }"
         >
-          <template v-if="item[column.name]">
+          <template v-if="column.parser && column.parser(item[column.name]) !== null && column.parser(item[column.name]) !== undefined">
+            {{ column.parser(item[column.name]) }}
+          </template>
+          <template v-else-if="item[column.name] !== null && item[column.name] !== undefined">
             {{ item[column.name] }}
           </template>
         </td>
