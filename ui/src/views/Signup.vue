@@ -128,16 +128,15 @@ export default {
         window.alert('there is an empty field')
       } else {
         if (this.password === this.confirmPassword) {
-          const data = API.addNewUser(this.firstname, this.lastname, this.email,
+          const data = await API.addNewUser(this.firstname, this.lastname, this.email,
             this.username, this.password, this.number, this.apartment, this.street, this.city, this.country)
           if (!data) {
             window.alert('username already used')
           } else {
-            console.log('user created')
             await Cookies.set('cookyUsername', this.username)
             await Cookies.set('cookyPassword', this.password)
-            const userId = await API.getUserByUsername(this.username)
-            this.$router.push({ path: `/users/${userId}` })
+            const userId = data.id
+            await this.$router.push({ path: `/users/${userId}` })
           }
         } else {
           this.confirmPassword = ''

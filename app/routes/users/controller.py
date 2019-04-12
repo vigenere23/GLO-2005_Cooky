@@ -28,7 +28,7 @@ def index():
 def createUser():
   body = request.get_json(force=True)
   try:
-    userDao.getByUsername(body['username']).serialize()
+    userDao.getByUsername(body['username'])
     return response.error("The username already exists")
   except:
     try:

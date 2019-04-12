@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { API } from '@/js/api/api'
+import * as Cookies from 'js-cookie'
 export default {
   name: 'Home',
 
@@ -30,6 +32,15 @@ export default {
 
     gotToSignUp () {
       this.$router.push({ path: '/signup' })
+    }
+  },
+  async beforeMount () {
+    const password = Cookies.get('cookyPassword')
+    const username = Cookies.get('cookyUsername')
+    if (!((password === null || password === undefined || password === '') || (username === null || username === undefined || username === ''))) {
+      const userId = await API.login(username, password)
+      console.log(userId)
+      this.$router.push({ path: `/users/${userId.id}` })
     }
   }
 }

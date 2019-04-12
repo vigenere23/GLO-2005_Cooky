@@ -150,7 +150,7 @@ export class API {
 
     const dataAddress = await this.addAddress(number, apartment, street, city, country)
 
-    setTimeout(() => { this.addAccount(firstname, lastname, email, password, data.id, dataAddress.id) }, 10000)
+    setTimeout(() => { this.addAccount(firstname, lastname, email, password, data.id, dataAddress.id) }, 5000)
     return data
   }
 
