@@ -6,21 +6,41 @@ from .dao import CartDao
 from ..cartItem.dao import CartItemDao
 from ..commands.dao import CommandDao
 from ..commands.model import CommandModel
+from ..ingredient.dao import IngredientDao
+from ..quantityUnit.dao import QuantityUnitDao
 
-routes = Blueprint('cart', __name__)
+routes = Blueprint('carts', __name__)
 cartDao = CartDao()
 cartItemDao = CartItemDao()
 commandsDao = CommandDao()
+ingredientDao = IngredientDao()
+quantityUnitDao = QuantityUnitDao()
 
 @routes.route('/')
 @response.handleExceptions
 def index():
   return response.success(cartDao.getAll())
 
-@routes.route('/<int:id>/items', methods=['GET'])
+@routes.route('/<int:id>')
 @response.handleExceptions
-def getItemByCart(id):
-  data = cartItemDao.getItemsByCart(id)
+def getCart(id):
+  return response.success(cartDao.getById(id))
+
+@routes.route('/<int:id>/items')
+@response.handleExceptions
+def getCartItems(id):
+  cartItems = cartItemDao.getItemsByCart(id)
+  data = []
+  for cartItem in cartItems:
+    ingredient = ingredientDao.getById(cartItem.id_Ingredient)
+    quantity_unit = quantityUnitDao.getById(ingredient.id_QuantityUnit)
+    quantity = str.format('{} {}', int(ingredient.baseQuantity), quantity_unit.abbreviation)
+    data.append({
+      **cartItem.serialize(),
+      'name': ingredient.name,
+      'baseCost': ingredient.baseCost,
+      'quantity': quantity
+    })
   return response.success(data)
 
 @routes.route('/<int:id>/items/', methods=['POST'])
@@ -60,13 +80,12 @@ def getCommandsByCart(id):
     return response.error("This cart is not in command")
 
 
-@routes.route('/<int:id>/command', methods=['POST'])
+@routes.route('/<int:id>/command/', methods=['POST'])
 @response.handleExceptions
-def addCommandFromCart(id):
+def createCommand(id):
   data = {
-    'id_Cart': str(id),
-    'creationDate': datetime.today().strftime('%Y-%m-%d'),
-    'arrivalDate': datetime.today().strftime('%Y-%m-%d')
+    'id_Cart': id,
+    'creationDate': datetime.now()
   }
   commandModel = CommandModel(**data)
   data = commandsDao.save(commandModel)

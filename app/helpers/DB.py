@@ -19,7 +19,7 @@ class DB:
   ####### NOT TESTED
   def modify(self, query, data):
     try:
-      self.__cursor.execute(query)
+      self.__cursor.execute(query, data)
       self.__connection.commit()
       return self.__cursor.lastrowid
 

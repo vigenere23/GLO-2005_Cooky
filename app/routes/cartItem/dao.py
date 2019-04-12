@@ -12,14 +12,20 @@ class CartItemDao(BaseDao):
         results = db.select(query, {'id_Cart': id_Cart})
         return self._mapper.from_tuples(results)
 
+    def getByCartAndIngredientIds(self, id_Cart, id_Ingredient):
+        query = 'SELECT * FROM CartItem WHERE id_Cart = %(id_Cart)s AND id_Ingredient = %(id_Ingredient)s'
+        result = db.select(query, {"id_Cart": id_Cart, "id_Ingredient": id_Ingredient}, 1)
+        return self._mapper.from_tuple(result)
+
+
     def deleteIngredient(self, id_Cart, id_Ingredient):
         query = 'DELETE FROM CartItem WHERE id_Cart = %(id_Cart)s AND id_Ingredient = %(id_Ingredient)s'
         db.delete(query, {"id_Cart": id_Cart, "id_Ingredient": id_Ingredient})
 
     def modifyQuantity(self, multiplier, id_Cart, id_Ingredient):
-        query = 'UPDATE CartItem SET multiplier = \'{}\' WHERE id_Cart = {} AND id_Ingredient = {}'.format(multiplier, id_Cart, id_Ingredient)
+        query = 'UPDATE CartItem SET multiplier = %(multiplier)s WHERE id_Cart = %(id_Cart)s AND id_Ingredient = %(id_Ingredient)s'
         db.modify(query, {'id_Cart': id_Cart, 'id_Ingredient': id_Ingredient, "multiplier": multiplier})
-        return {'id_Cart': id_Cart, 'id_Ingredient': id_Ingredient, "multiplier": multiplier}
+        return self.getByCartAndIngredientIds(id_Cart, id_Ingredient)
         
     def save(self, cartItemModel):
         if not isinstance(cartItemModel, CartItemModel):
