@@ -12,7 +12,7 @@ export const router = new Router({
     {
       path: '/home',
       name: 'Home',
-      component: () => import('@/views/home.vue')
+      component: () => import('@/views/Home.vue')
     },
     {
       path: '/signup',

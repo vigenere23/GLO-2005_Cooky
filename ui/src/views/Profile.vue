@@ -3,7 +3,10 @@
     class="user-page"
     v-if="user"
   >
-    <FloatingButton link="/recipes/create" />
+    <FloatingButton
+      v-if="$route.params.id === userId"
+      link="/recipes/create"
+    />
     <h1>{{ user.username }}</h1>
     <TabSlider
       :tabs="tabs"
@@ -30,6 +33,7 @@ import FloatingButton from '@/components/buttons/FloatingButton'
 import TabSlider from '@/components/lists/TabSlider'
 import GridList from '@/components/lists/GridList'
 import { API } from '@/js/api/api'
+import { mapState } from 'vuex'
 
 export default {
 
@@ -40,6 +44,8 @@ export default {
     TabSlider,
     GridList
   },
+
+  computed: mapState('user', ['userId']),
 
   data () {
     return {
