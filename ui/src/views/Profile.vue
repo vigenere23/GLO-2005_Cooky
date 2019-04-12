@@ -69,12 +69,12 @@ export default {
   },
 
   methods: {
-    fetchData () {
+    async fetchData () {
       this.id = this.user = this.recipes = this.likes = null
       this.id = this.$route.params.id
-      this.fetchUser()
-      this.fetchRecipes()
-      this.fetchLikes()
+      await this.fetchUser()
+      await this.fetchRecipes()
+      await this.fetchLikes()
     },
     async fetchUser () {
       this.user = await API.getUserById(this.id)

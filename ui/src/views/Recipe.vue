@@ -131,9 +131,9 @@ export default {
     async fetchData () {
       this.id = this.recipe = this.ingredients = null
       this.id = this.$route.params.id
-      this.fetchRecipe()
-      this.fetchIngredients()
-      this.fetchLikes()
+      await this.fetchRecipe()
+      await this.fetchIngredients()
+      await this.fetchLikes()
     },
     async fetchLikes () {
       const likes = await API.getUserLikes(this.userId)
