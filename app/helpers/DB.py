@@ -39,9 +39,17 @@ class DB:
 
   def select(self, query, data=None, limit=0):
     self.__cursor.execute(query, data)
+    results = None
     if limit == 1:
-      return self.__cursor.fetchone()
+      results = self.__cursor.fetchone()
     elif limit > 1:
-      return self.__cursor.fetchmany(int(limit))
+      results = self.__cursor.fetchmany(int(limit))
     else:
       return self.__cursor.fetchall()
+    
+    try:
+      self.__cursor.fetchall()
+    except:
+      pass
+    
+    return results
