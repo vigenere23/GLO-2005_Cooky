@@ -33,6 +33,9 @@ def error(error, status=500):
     'error': error
   }, status)
 
+def empty():
+  return success('', status=204)
+
 def handleExceptions(f):
   @wraps(f)
   def wrapper(*args, **kwargs):

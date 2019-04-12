@@ -23,3 +23,9 @@ class LikeRecipeDao(BaseDao):
             return self.getById(newLikeRecipe)
         else:
             raise Exception("Could not like this recipe")
+
+    def delete(self, likeRecipeModel):
+        if not isinstance(likeRecipeModel, LikeRecipeModel):
+            raise ValueError("likeRecipeModel should be of type LikeRecipeModel")
+        query = 'DELETE FROM LikeRecipe WHERE LikeRecipe.id_Recipe = %(id_Recipe)s AND LikeRecipe.id_User = %(id_User)s'
+        db.delete(query, { 'id_Recipe': likeRecipeModel.id_Recipe, 'id_User': likeRecipeModel.id_User })

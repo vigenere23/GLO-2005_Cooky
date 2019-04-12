@@ -16,7 +16,6 @@ class DB:
       self.__connection.rollback()
       raise e
 
-  ####### NOT TESTED
   def modify(self, query, data):
     try:
       self.__cursor.execute(query, data)

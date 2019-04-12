@@ -45,7 +45,8 @@ export class AxiosHelper {
     return parseErrors(() => axios.put(url, body, options))
   }
 
-  static axiosDelete (url, options) {
+  static axiosDelete (url, body, options) {
+    options = { ...options, data: body }
     return parseErrors(() => axios.delete(url, options))
   }
 }

@@ -91,12 +91,18 @@ export default {
 
   computed: {
     ...mapState('user', ['userId']),
-    ...mapGetters('user', ['cartContains'])
+    ...mapGetters('user', ['cartContains']),
+    liked () {
+      return this.likes
+        ? this.likes.find(like => like.id_Recipe === this.id) !== null
+        : false
+    }
   },
 
   data () {
     return {
       id: null,
+      likes: null,
       recipe: null,
       ingredients: null,
       columns: [
@@ -104,7 +110,6 @@ export default {
         { name: 'quantity', text: 'Quantity' }
       ],
       comments: comments,
-      liked: false,
       actions: {
         isSelected: (recipeIngredient) => {
           return this.cartContains(recipeIngredient.id_Ingredient)
@@ -136,10 +141,7 @@ export default {
       await this.fetchLikes()
     },
     async fetchLikes () {
-      const likes = await API.getUserLikes(this.userId)
-      if (likes.find(recipe => recipe.id === this.id)) {
-        this.liked = true
-      }
+      this.likes = await API.getUserLikes(this.userId)
     },
     async fetchRecipe () {
       this.recipe = await API.getRecipeById(this.id)
