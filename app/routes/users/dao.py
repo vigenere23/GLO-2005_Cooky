@@ -10,7 +10,7 @@ class UserDao(BaseDao):
 
   def getByUsername(self, username):
     query = 'SELECT * FROM User WHERE username = %(username)s'
-    result = db.select(query, (username,), 1)
+    result = db.select(query, {"username": username}, 1)
     if result:
       return self._mapper.from_tuple(result)
     else:

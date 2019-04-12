@@ -150,3 +150,10 @@ def getAddress(id):
   userData = accountDao.getAccountByUserId(id)
   address = userData.id_Address
   return response.success(addressDao.getAddress(address))
+
+@routes.route('/<name>', methods=['GET'])
+@response.handleExceptions
+def getUserByName(name):
+  name = userDao.getByUsername(name)
+  return response.success(name)
+
