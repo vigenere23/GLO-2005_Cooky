@@ -30,4 +30,34 @@ BEGIN
 END;
 //
 
+CREATE TRIGGER `CalculateSubCostCartItem`
+BEFORE UPDATE ON `CartItem`
+FOR EACH ROW
+BEGIN
+  SET @baseCost := (SELECT I.baseCost FROM Ingredient I WHERE I.id = NEW.id_Ingredient);
+  SET NEW.subCost := @baseCost * NEW.multiplier;
+END;
+//
+
+CREATE TRIGGER `CalculateTotalCostCart`
+AFTER UPDATE ON `CartItem`
+FOR EACH ROW
+BEGIN
+  SET @totalCost := (SELECT SUM(C.subCost) FROM CartItem C WHERE C.id_Cart = NEW.id_Cart);
+  UPDATE Cart C SET C.totalCost := @totalCost WHERE C.id = NEW.id_Cart;
+END;
+//
+
+CREATE TRIGGER `PreventModificationOfCommands`
+BEFORE UPDATE ON `CartItem`
+FOR EACH ROW
+BEGIN
+  SET @commandCountWithCartId := (SELECT COUNT(*) FROM Command C WHERE C.id_Cart = NEW.id_Cart);
+  IF @commandCountWithCartId > 0 THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = "Le panier à déjà été commandé et n'est plus modifiable";
+  END IF;
+END;
+//
+
 DELIMITER ;

@@ -32,7 +32,6 @@ def index():
   else:
     return response.success(recipeDao.getAll())
 
-
 @routes.route('/', methods=['POST'])
 @response.handleExceptions
 def addRecipe():
@@ -42,7 +41,6 @@ def addRecipe():
     'name': body['name'],
     'directives': body['directives']
   }
-
   recipeModel = RecipeModel(**data)
   result = recipeDao.save(recipeModel, body['ingredients'])
   return response.success(result)
@@ -67,7 +65,7 @@ def deleteRecipe(recipe_id):
   return response.success('', status=204)
 
 
-@routes.route('/<int:recipe_id>/name', methods=['PUT'])
+@routes.route('/<int:recipe_id>/name/', methods=['PUT'])
 @response.handleExceptions
 def modifyRecipeName(recipe_id):
   body = request.get_json(force=True)
@@ -77,7 +75,7 @@ def modifyRecipeName(recipe_id):
   except Exception as e:
     return response.error(e)
 
-@routes.route('/<int:recipe_id>/directives', methods=['PUT'])
+@routes.route('/<int:recipe_id>/directives/', methods=['PUT'])
 @response.handleExceptions
 def modifyRecipeDirective(recipe_id):
   body = request.get_json(force=True)
@@ -87,7 +85,7 @@ def modifyRecipeDirective(recipe_id):
   except Exception as e:
     return response.error(e)
 
-@routes.route('/<int:recipe_id>/ingredientQuantity', methods=['PUT'])
+@routes.route('/<int:recipe_id>/ingredientQuantity/', methods=['PUT'])
 @response.handleExceptions
 def modifyIngredientQuantity(recipe_id):
   body = request.get_json(force=True)
@@ -98,7 +96,7 @@ def modifyIngredientQuantity(recipe_id):
   except Exception as e:
     return response.error(e)
 
-@routes.route('/<int:recipe_id>/ingredients')
+@routes.route('/<int:recipe_id>/ingredients', methods=['GET'])
 @response.handleExceptions
 def getIngredientsByRecipe(recipe_id):
   data = []
@@ -134,39 +132,28 @@ def addLikeRecipe(recipe_id):
 
 
 
-@routes.route('/<int:recipe_id>/rating', methods=['POST'])
+@routes.route('/<int:recipe_id>/rating/', methods=['POST'])
 @response.handleExceptions
 def addRateRecipe(recipe_id):
   body = request.get_json(force=True)
   data = {
-      'id_Recipe': str(recipe_id),
+      'id_Recipe': recipe_id,
       'id_User': body['id_User'],
       'value': body['value']
   }
+  ratingModel = RatingModel(**data)
+  result = ratingDao.save(ratingModel)
+  return response.success(result)
 
-  try:
-    ratingModel = RatingModel(**data)
-    result = ratingDao.save(ratingModel)
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
-
-@routes.route('/<int:recipe_id>/comment', methods=['POST'])
+@routes.route('/<int:recipe_id>/comment/', methods=['POST'])
 @response.handleExceptions
 def addCommentRecipe(recipe_id):
   body = request.get_json(force=True)
   data = {
-    'id_Recipe': str(recipe_id),
+    'id_Recipe': recipe_id,
     'id_User': body['id_User'],
     'text': body['text']
   }
-
-  try:
-    commentModel = CommentModel(**data)
-    result = commentDao.save(commentModel)
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
-
-  
-
+  commentModel = CommentModel(**data)
+  result = commentDao.save(commentModel)
+  return response.success(result)

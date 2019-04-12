@@ -1,7 +1,7 @@
 from app.helpers.BaseModel import BaseModel
 
 class CartItemModel(BaseModel):
-  def __init__(self, id=None, id_Ingredient=None, id_Cart=None, multiplier=None, subCost=0):
+  def __init__(self, id=None, id_Ingredient=None, id_Cart=None, multiplier=1, subCost=0):
     self.id = id
     self.id_Ingredient = id_Ingredient
     self.id_Cart = id_Cart

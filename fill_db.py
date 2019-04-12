@@ -1,17 +1,19 @@
 import random
 from app import db
 import datetime
-from app.routes.users.model import UserModel
 from app.routes.users.dao import UserDao
-from app.routes.ingredient.model import IngredientModel
+from app.routes.users.model import UserModel
 from app.routes.ingredient.dao import IngredientDao
-from app.routes.recipe.model import RecipeModel
+from app.routes.ingredient.model import IngredientModel
 from app.routes.recipe.dao import RecipeDao
+from app.routes.recipe.model import RecipeModel
 from app.routes.recipeIngredient.dao import RecipeIngredientDao
 from app.routes.recipeIngredient.model import RecipeIngredientModel
 from app.routes.quantityUnit.dao import QuantityUnitDao
 from app.routes.cart.model import CartModel
 from app.routes.cart.dao import CartDao
+from app.routes.cartItem.model import CartItemModel
+from app.routes.cartItem.dao import CartItemDao
 from app.routes.rating.model import RatingModel
 from app.routes.rating.dao import RatingDao
 from app.routes.comment.model import CommentModel
@@ -25,15 +27,25 @@ from app.routes.account.dao import AccountDao
 from app.routes.commands.model import CommandModel
 from app.routes.commands.dao import CommandDao
 
+userDao = UserDao()
+ingredientDao = IngredientDao()
+cartItemDao = CartItemDao()
+recipeDao = RecipeDao()
+quantityUnitDao = QuantityUnitDao()
+ratingDao = RatingDao()
+commentDao = CommentDao()
+likeRecipeDao = LikeRecipeDao()
+adressDao = AddressDao()
+accountDao = AccountDao()
+commandDao = CommandDao()
+cartDao = CartDao()
+
 lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pulvinar pharetra bibendum. Ut eget risus nec risus finibus hendrerit in non tortor. Pellentesque maximus ligula et turpis faucibus cursus. Donec vel nunc metus. Quisque sagittis mattis dui vel varius. Aliquam iaculis interdum lacinia. Nam euismod lectus id maximus sodales. Nam id magna dictum, semper nisl vel, ornare ligula. Sed condimentum metus quis leo pharetra, quis semper urna aliquam. Fusce consectetur accumsan augue sit amet iaculis. Suspendisse volutpat urna vitae fermentum eleifend. Maecenas sapien leo, gravida vitae pellentesque quis, efficitur in erat. Maecenas elementum euismod hendrerit. Mauris sagittis massa a orci."
 loremBio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
 words = ["Hogym", "Celloggimbur", "Laglesgim", "Sylcyllis", "Morbir", "Limgem", "Silgimculnir", "Narmar", "Solgamberthi", "Cyllig", "Thalomorn", "Rluggum", "Ornbar", "Merhosyl", "Callisthunir", "Thaligber", "Limbarmar", "Lishalllumcal", "Berthe", "Hathulemhe", "Colmorhi", "Salthalegorn", "Birmircyl", "Bermor", "Morlag", "Barbirorn", "Burmir", "Humarhamur", "Leglam", "Hugimirn", "Berburthamur", "Lasloglum", "Gomlamthi", "Narmarborern", "Lomlos", "Urnlasho", "Hical", "Hisol", "Leshe", "Gumsalculsil", "Morcalsul", "Barlugha", "Salhu", "Celmorgember", "Byrhebyr", "Birhogim", "Helisloshi", "Syllas", "Gymcalhober", "Gimcullegirn", "Borlessil", "Thitha", "Cylcelnor", "Borbyrhulys", "Loglistha", "Silbartha", "Orncilbirgom", "Lasnormer", "Lumsolthalig", "Burlyscul", "Murgomhellhi", "Thatheluslag", "Lyshallluslam", "Mirborcil", "Nircalbur", "Barlugarn", "Gimcul", "Thulam", "Hecolha", "Ornmur", "Lamber", "Sulleshe", "Lomlember", "Loscal", "Calornthilog", "Limlesgam", "Thigomcul", "Laglyslomlis", "Erngomlig", "Gamlusmorcol", "Syllag", "Hothoirnlug", "Hesolmar", "Lugcul", "Thicolthu", "Narlescul", "Nirmersolurn", "Logcel", "Lasloglag", "Lessellamyrn", "Gymlys", "Thasal", "Silurnsellag", "Hallloslysbur", "Ligbir", "Burcylcel", "Narlisho" ,"Hosal","Liscal", "Sulbarmornar", "Tyfoxe", "Xusini", "Kidoxa", "Piphafy", "Chirra", "Rrobysu", "Jasu", "Quacy", "Laqui", "Nophe", "Mmyjyhe", "Quelli", "Jazo", "Mmichera", "Rroky", "Mmelli", "Girre", "Kibi", "Zafu", "Nowomi", "Dunummo", "Phasone", "Gipho", "Kyjado", "Senoze", "Gocahy", "Mmoha", "Mata", "Vupo", "Lochu", "Zeto", "Cycaci", "Llollace", "Cuphiwa", "Thexe", "Billu", "Matuko", "Rruxigu", "Bogu", "Vesi", "Wetu", "Jegi", "Gake", "Chullene", "Rruno", "Hyza", "Poru", "Nyxichi", "Fadylu", "Lajyse", "Phuxu", "Thehyko", "Quovavu", "Lleji", "Kynugy", "Mmyte", "Pakufa", "Sychecha", "Thine", "Sidemi", "Mmeka", "Jyfybo", "Mmuquoby", "Vuci", "Raci", "Zyhi", "Sujytho", "Cukemo", "Mixevo", "Thyxuwu", "Muphaba", "Pehide", "Thaserra", "Byjuwi", "Geka", "Zurruca", "Hymmy", "Thuju", "Rydu", "Jeduty", "Lluzali", "Rroce", "Sala", "Sipehu", "Pazasi", "Hagyga", "Nophy", "Rrammyca", "Kevygu", "Hellu", "Jimiru", "Llommiga", "Fasopy", "Navede", "Wireju", "Kotherru", "Cuphu", "Lloto", "Lledagy", "Syqua", "Zajerry", "Wipugo", "Sixare", "Gyka", "Bibowo", "Poje", "Mechiwi", "Juzuke", "Nyjige", "Zycu", "Govopy", "Nibo", "Tysy", "Viri", "Mmoxuby", "Boxemmi", "Xathe", "Mmocho", "Rycho", "Pijoly", "Mexo", "Thytha", "Gequo", "Rycypy", "Boquirri", "Zapu", "Gichu", "Rethu", "Gully", "Quoquafa", "Vozella", "Fibonu", "Dodyra", "Theky", "Sozawy", "Cehypy", "Rrotyhu", "Mowe", "Chusuny", "Pyru", "Dypu", "Juhuta", "Polo", "Phikotho", "Polymmo", "Hyse", "Suquajo", "Lletyjo", "Phata", "Fille", "Medy", "Cephellu", "Wogaha", "Quarrythy", "Mmanure", "Tumu", "Rothe", "Hapha", "Loxocho", "Coquawi", "Bonephe", "Suchu", "Mmiweso", "Mallyzy", "Wimma", "Rriwufi", "Nopho", "Pima", "Gyki"]
 addr = ["St", "Ave", "Blvd", "Rd"]
 
 def generateUsers():
-  print('...generating users')
-  userDao = UserDao()
-
   for i in range(100):
     userModel = UserModel(
       username=words[i],
@@ -42,9 +54,6 @@ def generateUsers():
     userDao.save(userModel)
 
 def generateIngredients():
-  print('...generating ingredients')
-  ingredientDao = IngredientDao()
-
   for i in range(100):
     ingredientModel = IngredientModel(
       id_IngredientType=random.randint(1, 13),
@@ -55,11 +64,22 @@ def generateIngredients():
     )
     ingredientDao.save(ingredientModel)
 
-def generateRecipes():
-  print('...generating recipes')
-  recipeDao = RecipeDao()
-  quantityUnitDao = QuantityUnitDao()
+def generateCartItems():
+  for i in range(1, 101):
+    added_ingredients = []
+    for _ in range(random.randint(5, 20)):
+      ingredient_id = random.randint(1, 100)
+      while ingredient_id in added_ingredients:
+        ingredient_id = random.randint(1, 100)
+      added_ingredients.append(ingredient_id)
 
+      cartItemModel = CartItemModel(
+        id_Ingredient=ingredient_id,
+        id_Cart=i
+      )
+      cartItemDao.save(cartItemModel)
+
+def generateRecipes():
   for i in range(100):
     ingredients = []
     ingredient_ids = []
@@ -88,9 +108,6 @@ def generateRecipes():
     recipeDao.save(recipeModel, ingredients)
 
 def generateRatings():
-  print('...generating ratings')
-  ratingDao = RatingDao()
-
   for i in range(1, 101):
     rated_recipes = []
     for _ in range(random.randint(0, 10)):
@@ -107,9 +124,6 @@ def generateRatings():
       ratingDao.save(ratingModel)
 
 def generateComments():
-  print('...generating comments')
-  commentDao = CommentDao()
-
   for _ in range(100):
     commentModel = CommentModel(
       id_Recipe=random.randint(1, 100),
@@ -119,9 +133,6 @@ def generateComments():
     commentDao.save(commentModel)
 
 def generateLikes():
-  print('...generating likes')
-  likeRecipeDao = LikeRecipeDao()
-
   for i in range(1, 101):
     added_recipes = []
     for _ in range(random.randint(0, 10)):
@@ -137,9 +148,6 @@ def generateLikes():
       likeRecipeDao.save(likeRecipeModel)
 
 def generateAdresses():
-  print('...generating adresses')
-  adressDao = AddressDao()
-
   for _ in range(100):
     apartment = None if (random.randint(1,4) % 2 == 0) else (random.randint(0, 1000))
     addressModel = AddressModel(
@@ -151,10 +159,7 @@ def generateAdresses():
     )
     adressDao.save(addressModel)
 
-def generateAccounts():
-  print('...generating accounts')
-  accountDao = AccountDao()
-  
+def generateAccounts():  
   for _ in range(100):
     lastName = random.choice(words)
     firstName = random.choice(words)
@@ -169,10 +174,6 @@ def generateAccounts():
     accountDao.save(accountModel)
 
 def generateCommands():
-  print('...generating commands')
-  commandDao = CommandDao()
-  cartDao = CartDao()
-
   for _ in range(100):
     cartModel = CartModel(id_User=random.randint(1, 100))
     cart = cartDao.save(cartModel)
@@ -187,12 +188,23 @@ def generateCommands():
 
 
 if __name__ == "__main__":
+  print(' - 1/10 generating users...')
   generateUsers()
+  print(' - 2/10 generating ingredients...')
   generateIngredients()
+  print(' - 3/10 generating cart items...')
+  generateCartItems()
+  print(' - 4/10 generating recipes...')
   generateRecipes()
+  print(' - 5/10 generating ratings...')
   generateRatings()
+  print(' - 6/10 generating likes...')
   generateLikes()
+  print(' - 7/10 generating comments...')
   generateComments()
+  print(' - 8/10 generating adresses...')
   generateAdresses()
+  print(' - 9/10 generating accounts...')
   generateAccounts()
+  print(' - 10/10 generating commands...')
   generateCommands()

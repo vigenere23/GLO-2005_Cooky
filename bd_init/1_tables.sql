@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `Cart`;
 CREATE TABLE `Cart` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_User` INTEGER NOT NULL,
-  `totalCost` DOUBLE NOT NULL DEFAULT 0,
+  `totalCost` FLOAT(16,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 );
 
@@ -66,8 +66,8 @@ CREATE TABLE `Ingredient` (
   `id_IngredientType` INTEGER NOT NULL,
   `id_QuantityUnit` INTEGER NOT NULL,
   `name` VARCHAR(30) NOT NULL,
-  `baseCost` DOUBLE NOT NULL,
-  `baseQuantity` INTEGER NOT NULL,
+  `baseCost` FLOAT(16,2) NOT NULL,
+  `baseQuantity` INTEGER NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`name`)
 );
@@ -113,8 +113,8 @@ CREATE TABLE `CartItem` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `id_Ingredient` INTEGER NOT NULL,
   `id_Cart` INTEGER NOT NULL,
-  `multiplier` INT NOT NULL,
-  `subCost` DOUBLE NOT NULL,
+  `multiplier` INT NOT NULL DEFAULT 1,
+  `subCost` FLOAT(16,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 );
 
@@ -130,7 +130,7 @@ CREATE TABLE `RecipeIngredient` (
   `id_Recipe` INTEGER NOT NULL,
   `id_Ingredient` INTEGER NOT NULL,
   `id_QuantityUnit` INTEGER NOT NULL,
-  `totalQuantity` INTEGER NOT NULL,
+  `totalQuantity` INTEGER NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 );
 
