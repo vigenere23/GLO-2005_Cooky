@@ -42,6 +42,11 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
+  static async getUserCommands (userId) {
+    const url = `${BASE_URL}/users/${userId}/commands`
+    return AxiosHelper.axiosGet(url)
+  }
+
   static async getRecipes () {
     const url = `${BASE_URL}/recipes`
     return AxiosHelper.axiosGet(url)
@@ -95,12 +100,6 @@ export class API {
   static async removeCartItem (id, ingredientId) {
     const url = `${BASE_URL}/carts/${id}/items/${ingredientId}/`
     return AxiosHelper.axiosDelete(url)
-  }
-
-  // TODO weird
-  static async getCommandFromCart (id) {
-    const url = `${BASE_URL}/carts/${id}/command`
-    return AxiosHelper.axiosGet(url)
   }
 
   static async addRecipe (userId, name, directives, ingredients) {

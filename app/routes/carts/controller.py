@@ -69,17 +69,6 @@ def modifyRecipeName(id_Cart, id_Ingredient):
   result = cartItemDao.modifyQuantity(body['multiplier'], id_Cart, id_Ingredient)
   return response.success(result)
 
-
-@routes.route('/<int:id>/command', methods=['GET'])
-@response.handleExceptions
-def getCommandsByCart(id):
-  data = commandsDao.getCommandByCart(id)
-  if (data):
-    return response.success(data)
-  else:
-    return response.error("This cart is not in command")
-
-
 @routes.route('/<int:id>/command/', methods=['POST'])
 @response.handleExceptions
 def createCommand(id):
