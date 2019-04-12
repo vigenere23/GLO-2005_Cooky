@@ -98,16 +98,15 @@ export default {
         EventBus.$emit('toast', { type: 'error', message: 'Please fill all fields' })
       } else {
         if (this.password === this.confirmPassword) {
-          const data = API.addNewUser(this.firstname, this.lastname, this.email,
-            this.username, this.password, this.doorNumber, this.apartment, this.street, this.city, this.country)
+          const data = await API.addNewUser(this.firstname, this.lastname, this.email,
+            this.username, this.password, this.number, this.apartment, this.street, this.city, this.country)
           if (!data) {
             EventBus.$emit('toast', { type: 'error', message: 'Username already exists' })
           } else {
-            console.log('user created')
             await Cookies.set('cookyUsername', this.username)
             await Cookies.set('cookyPassword', this.password)
-            const userId = await API.getUserByUsername(this.username)
-            this.$router.push({ path: `/users/${userId}` })
+            const userId = data.id
+            await this.$router.push({ path: `/users/${userId}` })
           }
         } else {
           this.confirmPassword = ''
