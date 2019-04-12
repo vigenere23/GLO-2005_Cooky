@@ -6,11 +6,15 @@ from .dao import CartDao
 from ..cartItem.dao import CartItemDao
 from ..commands.dao import CommandDao
 from ..commands.model import CommandModel
+from ..ingredient.dao import IngredientDao
+from ..quantityUnit.dao import QuantityUnitDao
 
 routes = Blueprint('carts', __name__)
 cartDao = CartDao()
 cartItemDao = CartItemDao()
 commandsDao = CommandDao()
+ingredientDao = IngredientDao()
+quantityUnitDao = QuantityUnitDao()
 
 @routes.route('/')
 @response.handleExceptions
@@ -24,8 +28,19 @@ def getCart(id):
 
 @routes.route('/<int:id>/items')
 @response.handleExceptions
-def getItemByCart(id):
-  data = cartItemDao.getItemsByCart(id)
+def getCartItems(id):
+  cartItems = cartItemDao.getItemsByCart(id)
+  data = []
+  for cartItem in cartItems:
+    ingredient = ingredientDao.getById(cartItem.id_Ingredient)
+    quantity_unit = quantityUnitDao.getById(ingredient.id_QuantityUnit)
+    quantity = str.format('{} {}', int(ingredient.baseQuantity), quantity_unit.abbreviation)
+    data.append({
+      **cartItem.serialize(),
+      'name': ingredient.name,
+      'baseCost': ingredient.baseCost,
+      'quantity': quantity
+    })
   return response.success(data)
 
 @routes.route('/<int:id>/items/', methods=['POST'])

@@ -245,11 +245,11 @@ export class API {
     return AxiosHelper.axiosPut(url, body)
   }
 
-  static async modifyQuantityCartItems (cartId, ingredientId, multiplier) {
+  static async modifyCartItemQuantity (cartId, ingredientId, multiplier) {
     const body = {
       'multiplier': multiplier
     }
-    const url = `${BASE_URL}/cart/${cartId}/cartItems/${ingredientId}/ingredient/`
+    const url = `${BASE_URL}/carts/${cartId}/items/${ingredientId}/`
     return AxiosHelper.axiosPut(url, body)
   }
 }

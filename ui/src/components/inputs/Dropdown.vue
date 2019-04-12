@@ -49,12 +49,16 @@ export default {
     label: {
       type: String,
       default: ' '
+    },
+    initialItem: {
+      type: [Object, String, Number],
+      default: null
     }
   },
 
   data () {
     return {
-      selectedItem: null,
+      selectedItem: this.initialItem,
       opened: false
     }
   },
@@ -155,7 +159,6 @@ export default {
   font-size: 16px;
   line-height: 1.2em;
   min-height: 2px;
-  padding-right: 48px;
   border-radius: 4px;
   border: $faded-border;
   border-width: 2px;

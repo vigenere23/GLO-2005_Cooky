@@ -6,14 +6,14 @@ export const userModule = {
 
   state: {
     cartItems: null,
-    cartId: null,
+    cart: null,
     userId: '1',
     avatar: ''
   },
 
   getters: {
-    cartContains: (state) => (id) => {
-      return state.cartItems.indexOf(id) !== -1
+    cartContains: (state) => (ingredientId) => {
+      return !!state.cartItems.find(item => item.id_Ingredient === ingredientId)
     },
     avatar: (state) => (user) => {
       if (user) {
@@ -26,42 +26,39 @@ export const userModule = {
   mutations: {
     clear (state) {
       state.userId = null
-      state.cartId = null
+      state.cart = null
       state.cartItems = null
       state.avatar = null
     },
     set (state, cartItems) {
-      state.cartItems = []
-      for (const cartItem of cartItems) {
-        state.cartItems.push(cartItem.id_Ingredient)
-      }
+      if (cartItems) state.cartItems = cartItems
     }
   },
 
   actions: {
     async loadCart (context, force) {
-      if (force || !context.state.cartId) {
+      if (force || !context.state.cart) {
         const cart = await API.getUserCart(context.state.userId)
         if (cart && !cart.error) {
-          context.state.cartId = cart.id
+          context.state.cart = cart
         }
       }
-      if (context.state.cartId) {
-        const cartItems = await API.getCartItems(context.state.cartId)
-        if (cartItems && !cartItems.error) {
+      if (context.state.cart) {
+        const cartItems = await API.getCartItems(context.state.cart.id)
+        if (!cartItems.error) {
           context.commit('set', cartItems)
         }
       }
     },
     async addCartItem (context, ingredientId) {
-      if (context.state.cartId) {
-        await API.addCartItem(context.state.cartId, ingredientId)
+      if (context.state.cart) {
+        await API.addCartItem(context.state.cart.id, ingredientId)
         context.dispatch('loadCart')
       }
     },
     async removeCartItem (context, ingredientId) {
-      if (context.state.cartId) {
-        await API.removeCartItem(context.state.cartId, ingredientId)
+      if (context.state.cart) {
+        await API.removeCartItem(context.state.cart.id, ingredientId)
         context.dispatch('loadCart')
       }
     }
