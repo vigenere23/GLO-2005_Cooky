@@ -5,14 +5,18 @@
       v-if="cartItems && cartItems.length"
       class="cart-items"
     >
-      <CartItem
+      <div
         v-for="item in cartItems"
         :key="item.id"
-        :item="item"
-        :quantities="quantities"
-        @removeItem="removeItem"
-        @updateItemQuantity="updateItemQuantity"
-      />
+      >
+        <CartItem
+          v-if="quantities"
+          :item="item"
+          :quantities="quantities"
+          @removeItem="removeItem"
+          @updateItemQuantity="updateItemQuantity"
+        />
+      </div>
       <div class="totalcost">
         Total : {{ cart.totalCost }} $
       </div>
@@ -65,16 +69,18 @@ export default {
       }
       return quantities
     },
-    command () {
-      return true
+    async command () {
+      await API.createCommand(this.cart.id)
+      this.loadCart()
+      this.$router.push('/commands')
     },
     async updateItemQuantity (ingredientId, newValue) {
       await API.modifyCartItemQuantity(this.cart.id, ingredientId, newValue)
-      this.loadCart(true)
+      this.loadCart()
     },
     async removeItem (ingredientId) {
       await API.removeCartItem(this.cart.id, ingredientId)
-      this.loadCart(true)
+      this.loadCart()
     },
     ...mapActions('user', ['loadCart'])
   }

@@ -178,7 +178,7 @@ export class API {
     return AxiosHelper.axiosPost(url, body)
   }
 
-  static async addNewCommand (cartId) {
+  static async createCommand (cartId) {
     const url = `${BASE_URL}/carts/${cartId}/command/`
     return AxiosHelper.axiosPost(url)
   }

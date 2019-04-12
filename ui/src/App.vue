@@ -26,7 +26,7 @@ export default {
   methods: mapActions('user', ['loadCart']),
 
   mounted () {
-    this.loadCart(true)
+    this.loadCart()
   }
 
 }

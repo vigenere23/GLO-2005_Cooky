@@ -30,23 +30,24 @@ export const userModule = {
       state.cartItems = null
       state.avatar = null
     },
-    set (state, cartItems) {
+    setCartItems (state, cartItems) {
       if (cartItems) state.cartItems = cartItems
+    },
+    setCart (state, cart) {
+      if (cart) state.cart = cart
     }
   },
 
   actions: {
-    async loadCart (context, force) {
-      if (force || !context.state.cart) {
-        const cart = await API.getUserCart(context.state.userId)
-        if (cart && !cart.error) {
-          context.state.cart = cart
-        }
+    async loadCart (context) {
+      const cart = await API.getUserCart(context.state.userId)
+      if (!cart.error) {
+        context.commit('setCart', cart)
       }
       if (context.state.cart) {
         const cartItems = await API.getCartItems(context.state.cart.id)
         if (!cartItems.error) {
-          context.commit('set', cartItems)
+          context.commit('setCartItems', cartItems)
         }
       }
     },

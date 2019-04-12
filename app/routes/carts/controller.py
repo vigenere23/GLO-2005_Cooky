@@ -80,13 +80,12 @@ def getCommandsByCart(id):
     return response.error("This cart is not in command")
 
 
-@routes.route('/<int:id>/command', methods=['POST'])
+@routes.route('/<int:id>/command/', methods=['POST'])
 @response.handleExceptions
-def addCommandFromCart(id):
+def createCommand(id):
   data = {
-    'id_Cart': str(id),
-    'creationDate': datetime.today().strftime('%Y-%m-%d'),
-    'arrivalDate': datetime.today().strftime('%Y-%m-%d')
+    'id_Cart': id,
+    'creationDate': datetime.now()
   }
   commandModel = CommandModel(**data)
   data = commandsDao.save(commandModel)

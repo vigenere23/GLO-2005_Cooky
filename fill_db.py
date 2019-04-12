@@ -1,6 +1,6 @@
 import random
 from app import db
-import datetime
+from datetime import datetime
 from app.routes.users.dao import UserDao
 from app.routes.users.model import UserModel
 from app.routes.ingredient.dao import IngredientDao
@@ -178,7 +178,7 @@ def generateCommands():
     cartModel = CartModel(id_User=random.randint(1, 100))
     cart = cartDao.save(cartModel)
 
-    current_time = datetime.datetime.now()
+    current_time = datetime.now()
     commandModel = CommandModel(
       id_Cart=cart.id,
       creationDate=current_time,
