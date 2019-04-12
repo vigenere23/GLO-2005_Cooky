@@ -4,7 +4,7 @@ from .dao import UserDao
 from .model import UserModel
 from ..recipe.dao import RecipeDao
 from ..likeRecipe.dao import LikeRecipeDao
-from ..cart.dao import CartDao
+from ..carts.dao import CartDao
 from ..account.model import AccountModel
 from ..account.dao import AccountDao
 from ..address.dao import AddressDao

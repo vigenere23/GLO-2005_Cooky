@@ -75,7 +75,7 @@ export class API {
   }
 
   static async getCartItems (id) {
-    const url = `${BASE_URL}/cart/${id}/items`
+    const url = `${BASE_URL}/carts/${id}/items`
     return AxiosHelper.axiosGet(url)
   }
 
@@ -83,18 +83,18 @@ export class API {
     const body = {
       'id_Ingredient': ingredientId
     }
-    const url = `${BASE_URL}/cart/${id}/items/`
+    const url = `${BASE_URL}/carts/${id}/items/`
     return AxiosHelper.axiosPost(url, body)
   }
 
   static async removeCartItem (id, ingredientId) {
-    const url = `${BASE_URL}/cart/${id}/items/${ingredientId}/`
+    const url = `${BASE_URL}/carts/${id}/items/${ingredientId}/`
     return AxiosHelper.axiosDelete(url)
   }
 
   // TODO weird
   static async getCommandFromCart (id) {
-    const url = `${BASE_URL}/cart/${id}/command`
+    const url = `${BASE_URL}/carts/${id}/command`
     return AxiosHelper.axiosGet(url)
   }
 
@@ -179,7 +179,7 @@ export class API {
   }
 
   static async addNewCommand (cartId) {
-    const url = `${BASE_URL}/cart/${cartId}/command/`
+    const url = `${BASE_URL}/carts/${cartId}/command/`
     return AxiosHelper.axiosPost(url)
   }
 

@@ -7,7 +7,7 @@ from ..cartItem.dao import CartItemDao
 from ..commands.dao import CommandDao
 from ..commands.model import CommandModel
 
-routes = Blueprint('cart', __name__)
+routes = Blueprint('carts', __name__)
 cartDao = CartDao()
 cartItemDao = CartItemDao()
 commandsDao = CommandDao()
@@ -17,7 +17,12 @@ commandsDao = CommandDao()
 def index():
   return response.success(cartDao.getAll())
 
-@routes.route('/<int:id>/items', methods=['GET'])
+@routes.route('/<int:id>')
+@response.handleExceptions
+def getCart(id):
+  return response.success(cartDao.getById(id))
+
+@routes.route('/<int:id>/items')
 @response.handleExceptions
 def getItemByCart(id):
   data = cartItemDao.getItemsByCart(id)
