@@ -50,7 +50,6 @@ def getAccount(id):
 @routes.route('/<int:id>/account/', methods=['POST'])
 @response.handleExceptions
 def addAccount(id):
-  print("j'ai été call")
   body = request.get_json(force=True)
   data = {
     'id_User': str(id),
@@ -118,7 +117,52 @@ def modifyUser(id):
   data = userDao.modifyUser(id, body['username'])
   return response.success(data)
 
-@routes.route('/<int:id>')
+@routes.route('/<int:id>/country', methods=['PUT'])
+@response.handleExceptions
+def modifyCountry(id):
+  userData = accountDao.getAccountByUserId(id)
+  addressId = userData.id_Address
+  body = request.get_json(force=True)
+  data = addressDao.modifyCountry(body['country'], addressId)
+  return response.success(data)
+
+@routes.route('/<int:id>/city', methods=['PUT'])
+@response.handleExceptions
+def modifyCity(id):
+  userData = accountDao.getAccountByUserId(id)
+  addressId = userData.id_Address
+  body = request.get_json(force=True)
+  data = addressDao.modifyCity(body['city'], addressId)
+  return response.success(data)
+
+@routes.route('/<int:id>/street', methods=['PUT'])
+@response.handleExceptions
+def modifyStreet(id):
+  userData = accountDao.getAccountByUserId(id)
+  addressId = userData.id_Address
+  body = request.get_json(force=True)
+  data = addressDao.modifyStreet(body['street'], addressId)
+  return response.success(data)
+
+@routes.route('/<int:id>/apartment', methods=['PUT'])
+@response.handleExceptions
+def modifyApartment(id):
+  userData = accountDao.getAccountByUserId(id)
+  addressId = userData.id_Address
+  body = request.get_json(force=True)
+  data = addressDao.modifyApartment(body['apartment'], addressId)
+  return response.success(data)
+
+@routes.route('/<int:id>/doorNumber', methods=['PUT'])
+@response.handleExceptions
+def modifyDoorNumber(id):
+  userData = accountDao.getAccountByUserId(id)
+  addressId = userData.id_Address
+  body = request.get_json(force=True)
+  data = addressDao.modifyDoorNumber(body['number'], addressId)
+  return response.success(data)
+
+@routes.route('/<int:id>', methods=['GET'])
 @response.handleExceptions
 def getOne(id):
   data = userDao.getById(id)
