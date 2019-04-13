@@ -23,6 +23,7 @@
         :validate="(value) => !!value"
       />
       <IngredientEditor
+        v-if="ingredients"
         :initial-ingredients="ingredients"
         @change="updateIngredients"
       />
@@ -66,7 +67,7 @@ export default {
       name: '',
       description: '',
       directives: '',
-      ingredients: []
+      ingredients: null
     }
   },
 
@@ -91,7 +92,7 @@ export default {
     fetchData () {
       setTimeout(async () => {
         this.name = this.description = this.directives = ''
-        this.ingredients = []
+        this.ingredients = null
         this.id = Number(this.$route.params.id)
         const recipe = await API.getRecipeById(this.id)
         this.name = recipe.name

@@ -5,10 +5,12 @@ export const userModule = {
   namespaced: true,
 
   state: {
-    cartItems: null,
+    cartItems: [],
     cart: null,
     userId: '1',
-    avatar: ''
+    avatar: '',
+    userRatings: [],
+    userLikes: []
   },
 
   getters: {
@@ -20,21 +22,32 @@ export const userModule = {
         return user.avatar || `${process.env.BASE_URL}images/default-avatar.png`
       }
       return state.avatar || `${process.env.BASE_URL}images/default-avatar.png`
+    },
+    likesContains: (state) => (recipeId) => {
+      return !!state.userLikes.find(recipe => recipe.id === recipeId)
+    },
+    getUserRecipeRating: (state) => (recipeId) => {
+      const rating = state.userRatings.find(rating => rating.id_Recipe === recipeId)
+      return rating ? rating.value : 0
     }
   },
 
   mutations: {
     clear (state) {
-      state.userId = null
-      state.cart = null
-      state.cartItems = null
-      state.avatar = null
+      state.userId = state.cart = state.avatar = null
+      state.cartItems = state.likes = state.ratings = []
     },
     setCartItems (state, cartItems) {
       if (cartItems) state.cartItems = cartItems
     },
     setCart (state, cart) {
       if (cart) state.cart = cart
+    },
+    setLikes (state, likes) {
+      if (likes) state.userLikes = likes
+    },
+    setRatings (state, ratings) {
+      if (ratings) state.userRatings = ratings
     }
   },
 
@@ -51,6 +64,14 @@ export const userModule = {
         }
       }
     },
+    async loadLikes (context) {
+      const likes = await API.getUserLikes(context.state.userId)
+      context.commit('setLikes', likes)
+    },
+    async loadRatings (context) {
+      const ratings = await API.getUserRecipeRatings(context.state.userId)
+      context.commit('setRatings', ratings)
+    },
     async addCartItem (context, ingredientId) {
       if (context.state.cart) {
         await API.addCartItem(context.state.cart.id, ingredientId)
@@ -62,6 +83,22 @@ export const userModule = {
         await API.removeCartItem(context.state.cart.id, ingredientId)
         context.dispatch('loadCart')
       }
+    },
+    async addLike (context, recipeId) {
+      await API.userLikeRecipe(context.state.userId, recipeId)
+      context.dispatch('loadLikes')
+    },
+    async removeLike (context, recipeId) {
+      await API.userUnlikeRecipe(context.state.userId, recipeId)
+      context.dispatch('loadLikes')
+    },
+    async addRating (context, { recipeId, rating }) {
+      await API.userRateRecipe(
+        context.state.userId,
+        recipeId,
+        rating,
+        context.getters.getUserRecipeRating(recipeId) !== 0)
+      context.dispatch('loadRatings')
     }
   }
 

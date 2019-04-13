@@ -87,14 +87,13 @@ export default {
   },
 
   computed: {
-    ...mapState('user', ['userId']),
-    ...mapGetters('user', ['cartContains']),
-    liked () {
-      return !!this.userLikes.find(recipe => recipe.id === this.id)
-    },
+    ...mapState('user', ['userId', 'userLikes', 'userRatings']),
+    ...mapGetters('user', ['cartContains', 'likesContains', 'getUserRecipeRating']),
     rating () {
-      const rating = this.userRatings.find(rating => rating.id === this.id)
-      return rating ? rating.value : 0
+      return this.getUserRecipeRating(this.id)
+    },
+    liked () {
+      return this.likesContains(this.id)
     }
   },
 
@@ -102,8 +101,6 @@ export default {
     return {
       id: null,
       recipe: null,
-      userRatings: [],
-      userLikes: [],
       ingredients: [],
       columns: [
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
@@ -134,33 +131,24 @@ export default {
 
   methods: {
     async fetchData () {
-      this.id = Number(this.$route.params.id)
-      this.recipe = null
-      this.userRatings = this.ingredients = this.userLikes = []
-      this.recipe = await API.getRecipeById(this.id)
-      this.ingredients = await API.getIngredientFromIdRecipe(this.id)
-      await this.fetchUserLikes()
-      await this.fetchUserRatings()
-    },
-    async fetchUserLikes () {
-      this.userLikes = await API.getUserLikes(this.userId)
-    },
-    async fetchUserRatings () {
-      this.userRatings = await API.getUserRecipeRatings(this.userId)
+      await setTimeout(async () => {
+        this.id = Number(this.$route.params.id)
+        this.recipe = null
+        this.ingredients = []
+        this.recipe = await API.getRecipeById(this.id)
+        this.ingredients = await API.getIngredientFromIdRecipe(this.id)
+      }, 500)
     },
     async like () {
-      await API.userLikeRecipe(this.userId, this.id)
-      this.fetchUserLikes()
+      await this.addLike(this.id)
     },
     async unlike () {
-      await API.userUnlikeRecipe(this.userId, this.id)
-      this.fetchUserLikes()
+      await this.removeLike(this.id)
     },
     async rate (rating) {
-      await API.userRateRecipe(this.userId, this.id, rating, this.rating !== 0)
-      this.fetchUserRatings()
+      await this.addRating({ recipeId: this.id, rating })
     },
-    ...mapActions('user', ['addCartItem', 'removeCartItem'])
+    ...mapActions('user', ['addCartItem', 'removeCartItem', 'addRating', 'addLike', 'removeLike'])
   }
 
 }

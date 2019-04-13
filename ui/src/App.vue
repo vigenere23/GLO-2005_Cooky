@@ -23,10 +23,12 @@ export default {
     DefaultLayout
   },
 
-  methods: mapActions('user', ['loadCart']),
+  methods: mapActions('user', ['loadCart', 'loadLikes', 'loadRatings']),
 
   async mounted () {
     await this.loadCart()
+    await this.loadLikes()
+    await this.loadRatings()
   }
 
 }
