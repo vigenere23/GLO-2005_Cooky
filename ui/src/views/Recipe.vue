@@ -56,6 +56,7 @@
       </div>
     </div>
     <Button
+      v-if="userId === recipe.user.id"
       danger
       @click="deleteRecipe"
     >
