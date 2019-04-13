@@ -12,16 +12,6 @@ class AccountDao(BaseDao):
         result = db.select(query, {'id_User': id_User}, limit=1)
         return self._mapper.from_tuple(result)
 
-    def modifyFirstName(self, firstName, id_User):
-        query = 'UPDATE Account SET firstName = \'{}\' WHERE id_User = {}'.format(firstName, id_User)
-        db.replace(query, {'id_User': id_User, 'firstName': firstName})
-        return {"id_User": id_User, "firstName": firstName}
-
-    def modifyLastName(self, lastName, id_User):
-        query = 'UPDATE Account SET lastName = \'{}\' WHERE id_User = {}'.format(lastName, id_User)
-        db.replace(query, {'id_User': id_User, 'lastName': lastName})
-        return {"id_User": id_User, "lastName": lastName}
-
     def modifyEmail(self, email, id_User):
         query = 'UPDATE Account SET email = \'{}\' WHERE id_User = {}'.format(email, id_User)
         db.replace(query, {'id_User': id_User, 'email': email})
