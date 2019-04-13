@@ -175,8 +175,8 @@ export class API {
 
     const dataAddress = await this.addAddress(number, apartment, street, city, country)
 
-    setTimeout(() => { this.addAccount(firstname, lastname, email, password, data.id, dataAddress.id) }, 5000)
-    return data
+    setTimeout(() => { this.addAccount(firstname, lastname, email, password, data.id, dataAddress) }, 5000)
+    return data.id
   }
 
   static async addAddress (number, apartment, street, city, country) {
@@ -192,7 +192,8 @@ export class API {
       'country': country
     }
     const url = `${BASE_URL}/address/`
-    return AxiosHelper.axiosPost(url, body)
+    const data = await AxiosHelper.axiosPost(url, body)
+    return data.id
   }
 
   static async addAccount (firstname, lastname, email, password, userId, addressId) {
@@ -204,8 +205,7 @@ export class API {
       'password': password
     }
     const url = `${BASE_URL}/users/${userId}/account/`
-    let data = AxiosHelper.axiosPost(url, body)
-    console.log(data)
+    await AxiosHelper.axiosPost(url, body)
   }
 
   static async createCommand (cartId) {
