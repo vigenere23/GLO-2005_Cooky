@@ -9,25 +9,6 @@
       :link="`/recipes/${$route.params.id}/edit`"
     />
     <h1>{{ recipe.name }}</h1>
-    <div class="actions">
-      <div class="like">
-        <span
-          class="material-icons"
-          v-if="liked"
-          @click="unlike"
-        >
-          favorite
-        </span>
-        <span
-          class="material-icons"
-          v-else
-          @click="like"
-        >
-          favorite_outline
-        </span>
-      </div>
-      <Rating :initial-rating="3" />
-    </div>
     <div class="recipe_intro">
       <img src="https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2017/04/main/dragon-fruit-smoothie-bowl-1704w.jpg">
       <p class="recipe_description">
@@ -42,6 +23,14 @@
           {{ recipe.user.username }}
         </router-link>
       </p>
+    </div>
+    <div class="actions">
+      <Like
+        :liked="liked"
+        @liked="like"
+        @unliked="unlike"
+      />
+      <Rating :initial-rating="3" />
     </div>
     <div class="recipe_content">
       <div v-if="ingredients">
@@ -74,6 +63,7 @@ import FloatingButton from '@/components/buttons/FloatingButton'
 import DataTable from '@/components/lists/DataTable'
 import CommentList from '@/components/comments/CommentList'
 import Rating from '@/components/inputs/Rating'
+import Like from '@/components/inputs/Like'
 import { comments } from '@/js/data/comments'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import { API } from '@/js/api/api'
@@ -86,23 +76,22 @@ export default {
     FloatingButton,
     DataTable,
     CommentList,
-    Rating
+    Rating,
+    Like
   },
 
   computed: {
     ...mapState('user', ['userId']),
     ...mapGetters('user', ['cartContains']),
     liked () {
-      return this.likes
-        ? this.likes.find(like => like.id_Recipe === this.id) !== null
-        : false
+      return !!this.likes.find(recipe => recipe.id === this.id)
     }
   },
 
   data () {
     return {
       id: null,
-      likes: null,
+      likes: [],
       recipe: null,
       ingredients: null,
       columns: [
@@ -134,8 +123,7 @@ export default {
 
   methods: {
     async fetchData () {
-      this.id = this.recipe = this.ingredients = null
-      this.id = this.$route.params.id
+      this.id = Number(this.$route.params.id)
       await this.fetchRecipe()
       await this.fetchIngredients()
       await this.fetchLikes()
@@ -144,9 +132,11 @@ export default {
       this.likes = await API.getUserLikes(this.userId)
     },
     async fetchRecipe () {
+      this.recipe = null
       this.recipe = await API.getRecipeById(this.id)
     },
     async fetchIngredients () {
+      this.ingredients = null
       this.ingredients = await API.getIngredientFromIdRecipe(this.id)
     },
     async like () {

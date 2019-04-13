@@ -12,7 +12,6 @@ class LikeRecipeDao(BaseDao):
         results = db.select(query, {'id_User': id_User})
         return self._mapper.from_tuples(results)
 
-    
     def save(self, likeRecipeModel):
         if not isinstance(likeRecipeModel, LikeRecipeModel):
             raise ValueError("likeRecipeModel should be of type LikeRecipeModel")
