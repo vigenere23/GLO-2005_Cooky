@@ -87,6 +87,7 @@ export default {
     async updateId (ingredient) {
       if (ingredient) {
         this.ingredientId = ingredient.id
+        this.id_QuantityUnit = null
         await this.getUnits()
         this.emitChange()
       }

@@ -33,9 +33,14 @@ class RecipeDao(BaseDao):
         return {"id": id, "directives": directives}
 
     
-    def deleteRecipe(self, id):
+    def delete(self, id):
+        deleteCommentsQuery = 'DELETE FROM Comment WHERE Comment.id_Recipe = %(id)s'
+        deleteRatingsQuery = 'DELETE FROM Rating WHERE Rating.id_Recipe = %(id)s'
+        deleteLikesQuery = 'DELETE FROM LikeRecipe WHERE LikeRecipe.id_Recipe = %(id)s'
+        deleteRecipeIngredientsQuery = 'DELETE FROM RecipeIngredient WHERE RecipeIngredient.id_Recipe = %(id)s'
         query = 'DELETE FROM Recipe WHERE id = %(id)s'
-        db.delete(query, {"id": id})
+        queries = [deleteCommentsQuery, deleteRatingsQuery, deleteLikesQuery, deleteRecipeIngredientsQuery, query]
+        db.deleteMultiple(queries, { 'id': id })
     
     def save(self, recipeModel, ingredients):
         if not isinstance(recipeModel, RecipeModel):

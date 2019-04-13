@@ -17,3 +17,8 @@ class CommentDao(BaseDao):
             return self.getById(newCommandId)
         else:
             raise Exception("Could not save commend")
+
+    def getRecipeComments(self, id_Recipe):
+        query = 'SELECT * FROM Comment WHERE Comment.id_Recipe = %(id_Recipe)s'
+        results = db.select(query, { 'id_Recipe': id_Recipe })
+        return self._mapper.from_tuples(results)

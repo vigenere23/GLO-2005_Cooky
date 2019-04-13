@@ -14,7 +14,7 @@
           :item="item"
           :quantities="quantities"
           @removeItem="removeItem"
-          @updateItemQuantity="updateItemQuantity"
+          @updateItemQuantity="(ingredientId, newValue) => updateItemQuantity(item, ingredientId, newValue)"
         />
       </div>
       <div class="totalcost">
@@ -74,9 +74,11 @@ export default {
       await this.loadCart()
       this.$router.push('/commands')
     },
-    async updateItemQuantity (ingredientId, newValue) {
-      await API.modifyCartItemQuantity(this.cart.id, ingredientId, newValue)
-      await this.loadCart()
+    async updateItemQuantity (item, ingredientId, newValue) {
+      if (item.multiplier !== newValue) {
+        await API.modifyCartItemQuantity(this.cart.id, ingredientId, newValue)
+        await this.loadCart()
+      }
     },
     async removeItem (ingredientId) {
       await API.removeCartItem(this.cart.id, ingredientId)

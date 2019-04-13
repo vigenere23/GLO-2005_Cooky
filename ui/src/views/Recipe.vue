@@ -4,7 +4,7 @@
     v-if="recipe"
   >
     <FloatingButton
-      v-if="recipe"
+      v-if="userId === recipe.user.id"
       icon="edit"
       :link="`/recipes/${$route.params.id}/edit`"
     />
@@ -26,11 +26,13 @@
     </div>
     <div class="actions">
       <Like
+        v-if="userId !== recipe.user.id"
         :liked="liked"
         @liked="like"
         @unliked="unlike"
       />
       <Rating
+        v-if="userId !== recipe.user.id"
         :rating="rating"
         @rated="rate"
       />
@@ -53,11 +55,19 @@
         <p>{{ recipe.directives }}</p>
       </div>
     </div>
+    <Button
+      v-if="userId === recipe.user.id"
+      danger
+      @click="deleteRecipe"
+    >
+      Delete
+    </Button>
     <div v-if="comments">
       <h2>Comments</h2>
       <CommentList
         :comments="comments"
-        :owner-id="userId"
+        :owner-id="recipe.user.id"
+        @submit="addComment"
       />
     </div>
   </div>
@@ -69,7 +79,7 @@ import DataTable from '@/components/lists/DataTable'
 import CommentList from '@/components/comments/CommentList'
 import Rating from '@/components/inputs/Rating'
 import Like from '@/components/inputs/Like'
-import { comments } from '@/js/data/comments'
+import Button from '@/components/buttons/Button'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import { API } from '@/js/api/api'
 
@@ -82,7 +92,8 @@ export default {
     DataTable,
     CommentList,
     Rating,
-    Like
+    Like,
+    Button
   },
 
   computed: {
@@ -101,11 +112,11 @@ export default {
       id: null,
       recipe: null,
       ingredients: [],
+      comments: [],
       columns: [
         { name: 'name', text: 'Name', sortable: true, initiallySorted: true },
         { name: 'quantity', text: 'Quantity' }
       ],
-      comments: comments,
       actions: {
         isSelected: (recipeIngredient) => {
           return this.cartContains(recipeIngredient.id_Ingredient)
@@ -141,7 +152,11 @@ export default {
           ingredient.quantity = x.totalQuantity + ' ' + x.quantityUnit.abbreviation
           return ingredient
         })
+        await this.fetchComments()
       }, 500)
+    },
+    async fetchComments () {
+      this.comments = await API.getRecipeComments(this.id)
     },
     async like () {
       await this.addLike(this.id)
@@ -151,6 +166,14 @@ export default {
     },
     async rate (rating) {
       await this.addRating({ recipeId: this.id, rating })
+    },
+    async addComment (comment) {
+      await API.addRecipeComment(this.id, this.userId, comment)
+      await this.fetchComments()
+    },
+    async deleteRecipe () {
+      await API.deleteRecipe(this.id)
+      this.$router.push('/recipes')
     },
     ...mapActions('user', ['addCartItem', 'removeCartItem', 'addRating', 'addLike', 'removeLike'])
   }
