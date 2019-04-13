@@ -27,8 +27,8 @@ export default {
   data () {
     return {
       columns: [
-        { name: 'creationDate', text: 'Creation', sortable: true, parser: this.parseDate, defaultSorting: 'desc', initiallySorted: true },
-        { name: 'arrivalDate', text: 'Arrival', sortable: true, parser: this.parseDate },
+        { name: 'creationDate', text: 'Created', sortable: true, parser: this.parseDate, defaultSorting: 'desc', initiallySorted: true },
+        { name: 'arrivalDate', text: 'Arrived', sortable: true, parser: this.parseDate },
         { name: 'totalCost', text: 'Total ($)', sortable: true }
       ],
       commands: null

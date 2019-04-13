@@ -8,7 +8,9 @@
       accent
       no-margin
       @click="submit"
-    />
+    >
+      Send
+    </Button>
   </div>
 </template>
 

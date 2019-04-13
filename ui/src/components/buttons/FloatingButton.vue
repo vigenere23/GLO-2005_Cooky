@@ -63,7 +63,7 @@ export default {
   .floating-button {
     width: 52px;
     height: 52px;
-    bottom: 16px;
+    bottom: 64px;
     right: 16px;
 
     span.material-icons {

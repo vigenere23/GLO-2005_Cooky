@@ -55,6 +55,12 @@
         <p>{{ recipe.directives }}</p>
       </div>
     </div>
+    <Button
+      danger
+      @click="deleteRecipe"
+    >
+      Delete
+    </Button>
     <div v-if="comments">
       <h2>Comments</h2>
       <CommentList
@@ -72,6 +78,7 @@ import DataTable from '@/components/lists/DataTable'
 import CommentList from '@/components/comments/CommentList'
 import Rating from '@/components/inputs/Rating'
 import Like from '@/components/inputs/Like'
+import Button from '@/components/buttons/Button'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import { API } from '@/js/api/api'
 
@@ -84,7 +91,8 @@ export default {
     DataTable,
     CommentList,
     Rating,
-    Like
+    Like,
+    Button
   },
 
   computed: {
@@ -161,6 +169,10 @@ export default {
     async addComment (comment) {
       await API.addRecipeComment(this.id, this.userId, comment)
       await this.fetchComments()
+    },
+    async deleteRecipe () {
+      await API.deleteRecipe(this.id)
+      this.$router.push('/recipes')
     },
     ...mapActions('user', ['addCartItem', 'removeCartItem', 'addRating', 'addLike', 'removeLike'])
   }

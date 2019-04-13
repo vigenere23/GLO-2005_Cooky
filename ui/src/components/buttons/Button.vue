@@ -1,7 +1,7 @@
 <template>
   <div
     class="button"
-    :class="{ accent, invert, flat, right, noMargin }"
+    :class="{ accent, danger, invert, flat, right, noMargin }"
     :disable="disable"
     @click="emitClick"
   >
@@ -16,6 +16,10 @@ export default {
 
   props: {
     accent: {
+      type: Boolean,
+      default: false
+    },
+    danger: {
       type: Boolean,
       default: false
     },
@@ -88,7 +92,7 @@ export default {
       color: $primary-color;
     }
 
-    &:not(.accent).flat {
+    &:not(.accent).flat, &:not(.danger).flat {
       border: $faded-border;
       border-width: 2px;
     }
@@ -97,9 +101,22 @@ export default {
       @include mdElevationElement('raised-button');
     }
 
-    &.accent {
-      background-color: $primary-color;
+    &.danger {
       color: white;
+      background-color: #d32c2c;
+
+      &:hover {
+        background-color: lighten(#d32c2c, 5%);
+      }
+
+      &:active {
+        background-color: lighten(#d32c2c, 10%);
+      }
+    }
+
+    &.accent {
+      color: white;
+      background-color: $primary-color;
 
       &:hover {
         background-color: lighten($primary-color, 5%);

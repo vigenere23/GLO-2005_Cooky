@@ -58,11 +58,11 @@ def getRecipeById(recipe_id):
   }
   return response.success(data)
 
-@routes.route('/<int:recipe_id>', methods=['DELETE'])
+@routes.route('/<int:recipe_id>/', methods=['DELETE'])
 @response.handleExceptions
 def deleteRecipe(recipe_id):
-  recipeDao.deleteRecipe(recipe_id)
-  return response.success('', status=204)
+  recipeDao.delete(recipe_id)
+  return response.empty()
 
 
 @routes.route('/<int:recipe_id>/name/', methods=['PUT'])

@@ -36,7 +36,7 @@ export default {
       required: true
     },
     ownerId: {
-      type: String,
+      type: Number,
       default: null
     }
   },

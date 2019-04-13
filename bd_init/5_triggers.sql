@@ -33,7 +33,7 @@ CREATE TRIGGER `UpdateRecipeRatingOnRatingDelete`
 AFTER DELETE ON `Rating`
 FOR EACH ROW
 BEGIN
-  SET @rating := (SELECT AVG(R.value) FROM Rating R WHERE R.id_Recipe = OLD.id_Recipe);
+  SET @rating := IFNULL((SELECT AVG(R.value) FROM Rating R WHERE R.id_Recipe = OLD.id_Recipe), 0);
   UPDATE Recipe R SET R.rating := @rating WHERE R.id = OLD.id_Recipe;
 END;
 //
