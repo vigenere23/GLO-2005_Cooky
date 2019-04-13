@@ -4,7 +4,7 @@
     v-if="recipe"
   >
     <FloatingButton
-      v-if="recipe"
+      v-if="userId === recipe.user.id"
       icon="edit"
       :link="`/recipes/${$route.params.id}/edit`"
     />
