@@ -100,6 +100,11 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
+  static async getRecipeComments (recipeId) {
+    const url = `${BASE_URL}/recipes/${recipeId}/comments`
+    return AxiosHelper.axiosGet(url)
+  }
+
   static async getIngredients () {
     const url = `${BASE_URL}/ingredients`
     return AxiosHelper.axiosGet(url)
@@ -156,12 +161,12 @@ export class API {
     return AxiosHelper.axiosPut(url, body)
   }
 
-  static async addComment (recipeId, userId, comment) {
+  static async addRecipeComment (recipeId, userId, comment) {
     const body = {
       'id_User': userId,
       'text': comment
     }
-    const url = `${BASE_URL}/recipes/${recipeId}/comment/`
+    const url = `${BASE_URL}/recipes/${recipeId}/comments/`
     return AxiosHelper.axiosPost(url, body)
   }
 

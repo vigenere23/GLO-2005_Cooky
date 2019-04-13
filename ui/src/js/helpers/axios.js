@@ -20,7 +20,7 @@ function handleErrors (response) {
   console.error(message)
   const status = response.status
   if (status === 404) {
-    EventBus.$emit('toast', { type: 'error', message: 'Page not found' })
+    EventBus.$emit('toast', { type: 'error', message: 'Ressource not found' })
   } else if (status === 500) {
     EventBus.$emit('toast', { type: 'error', message: 'An unexpected error occured' })
   } else if (status === 401 || status === 403) {

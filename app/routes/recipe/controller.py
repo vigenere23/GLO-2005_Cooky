@@ -113,6 +113,19 @@ def getIngredientsByRecipe(recipe_id):
 
   return response.success(data)
 
+@routes.route('/<int:recipe_id>/comments')
+@response.handleExceptions
+def getRecipeComments(recipe_id):
+  comments = commentDao.getRecipeComments(recipe_id)
+  data = []
+  for comment in comments:
+    user = userDao.getById(comment.id_User)
+    data.append({
+      **comment.serialize(),
+      'user': user.serialize()
+    })
+  return response.success(data)
+
 @routes.route('/<int:recipe_id>/likes/', methods=['POST', 'DELETE'])
 @response.handleExceptions
 def likeRecipe(recipe_id):
@@ -146,7 +159,7 @@ def addRateRecipe(recipe_id):
     result = ratingDao.replace(ratingModel)
   return response.success(result)
 
-@routes.route('/<int:recipe_id>/comment/', methods=['POST'])
+@routes.route('/<int:recipe_id>/comments/', methods=['POST'])
 @response.handleExceptions
 def addCommentRecipe(recipe_id):
   body = request.get_json(force=True)

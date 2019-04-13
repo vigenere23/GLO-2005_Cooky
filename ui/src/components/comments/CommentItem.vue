@@ -5,7 +5,12 @@
   >
     <div class="comment-item_user">
       <img :src="avatar(comment.user)">
-      <span>{{ comment.user.username }}</span>
+      <router-link
+        :to="`/users/${comment.user.id}`"
+        tag="a"
+      >
+        {{ comment.user.username }}
+      </router-link>
     </div>
     <span class="comment-item_text">
       {{ comment.text }}
@@ -59,7 +64,7 @@ export default {
       flex-shrink: 0;
     }
 
-    span {
+    a {
       padding-left: 16px;
       font-size: 13.5px;
       font-weight: 500;
@@ -73,7 +78,7 @@ export default {
   &.reply {
     padding-left: 32px;
 
-    .comment-item_user span {
+    .comment-item_user a {
       color: $primary-color;
     }
   }

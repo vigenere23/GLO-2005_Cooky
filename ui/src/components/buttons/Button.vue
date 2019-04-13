@@ -1,7 +1,7 @@
 <template>
   <div
     class="button"
-    :class="{ accent, invert, flat, right }"
+    :class="{ accent, invert, flat, right, noMargin }"
     :disable="disable"
     @click="emitClick"
   >
@@ -34,6 +34,10 @@ export default {
     right: {
       type: Boolean,
       default: false
+    },
+    noMargin: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -54,13 +58,16 @@ export default {
 .button {
   padding: 12px 16px;
   margin: 4px;
-  margin-top: 16px;
   width: max-content;
   font-size: 16px;
   font-weight: 500;
   background-color: white;
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
+
+  &:not(.noMargin) {
+    margin-top: 16px;
+  }
 
   &.right {
     float: right;

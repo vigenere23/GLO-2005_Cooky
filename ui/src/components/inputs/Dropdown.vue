@@ -64,7 +64,8 @@ export default {
   },
 
   watch: {
-    'disabled': 'close'
+    'disabled': 'close',
+    'items': 'ensureValid'
   },
 
   methods: {
@@ -87,6 +88,11 @@ export default {
           ? item[this.textAttribute]
           : item
         : ''
+    },
+    ensureValid () {
+      if (this.items.indexOf(this.selectedItem) === -1) {
+        this.selectedItem = null
+      }
     }
   },
 

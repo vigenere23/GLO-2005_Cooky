@@ -32,7 +32,7 @@ export default {
 
 .floating-button {
   position: fixed;
-  bottom: 32px;
+  bottom: 128px;
   right: 32px;
   border-radius: 50%;
   background-color: $primary-color;
