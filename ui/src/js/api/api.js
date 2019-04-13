@@ -47,6 +47,38 @@ export class API {
     return AxiosHelper.axiosGet(url)
   }
 
+  static async getUserRecipeRatings (userId) {
+    const url = `${BASE_URL}/users/${userId}/ratings`
+    return AxiosHelper.axiosGet(url)
+  }
+
+  static async userLikeRecipe (userId, recipeId) {
+    const body = {
+      'id_User': userId
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/likes/`
+    return AxiosHelper.axiosPost(url, body)
+  }
+
+  static async userUnlikeRecipe (userId, recipeId) {
+    const body = {
+      'id_User': userId
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/likes/`
+    return AxiosHelper.axiosDelete(url, body)
+  }
+
+  static async userRateRecipe (userId, recipeId, rating, alreadyRated) {
+    const body = {
+      'id_User': userId,
+      'value': rating
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/ratings/`
+    return alreadyRated
+      ? AxiosHelper.axiosPut(url, body)
+      : AxiosHelper.axiosPost(url, body)
+  }
+
   static async getRecipes () {
     const url = `${BASE_URL}/recipes`
     return AxiosHelper.axiosGet(url)
@@ -119,31 +151,6 @@ export class API {
       'text': comment
     }
     const url = `${BASE_URL}/recipes/${recipeId}/comment/`
-    return AxiosHelper.axiosPost(url, body)
-  }
-
-  static async addLike (recipeId, userId) {
-    const body = {
-      'id_User': userId
-    }
-    const url = `${BASE_URL}/recipes/${recipeId}/like/`
-    return AxiosHelper.axiosPost(url, body)
-  }
-
-  static async removeLike (recipeId, userId) {
-    const body = {
-      'id_User': userId
-    }
-    const url = `${BASE_URL}/recipes/${recipeId}/like/`
-    return AxiosHelper.axiosDelete(url, body)
-  }
-
-  static async addRating (recipeId, userId, mark) {
-    const body = {
-      'id_User': userId,
-      'value': mark
-    }
-    const url = `${BASE_URL}/recipes/${recipeId}/rate/`
     return AxiosHelper.axiosPost(url, body)
   }
 

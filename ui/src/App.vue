@@ -25,8 +25,8 @@ export default {
 
   methods: mapActions('user', ['loadCart']),
 
-  mounted () {
-    this.loadCart()
+  async mounted () {
+    await this.loadCart()
   }
 
 }

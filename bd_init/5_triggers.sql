@@ -11,12 +11,30 @@ BEGIN
 END;
 //
 
-CREATE TRIGGER `CalculateAverageRating`
+CREATE TRIGGER `UpdateRecipeRatingOnRatingInsert`
 AFTER INSERT ON `Rating`
 FOR EACH ROW
 BEGIN
   SET @rating := (SELECT AVG(R.value) FROM Rating R WHERE R.id_Recipe = NEW.id_Recipe);
   UPDATE Recipe R SET R.rating := @rating WHERE R.id = NEW.id_Recipe;
+END;
+//
+
+CREATE TRIGGER `UpdateRecipeRatingOnRatingUpdate`
+AFTER UPDATE ON `Rating`
+FOR EACH ROW
+BEGIN
+  SET @rating := (SELECT AVG(R.value) FROM Rating R WHERE R.id_Recipe = NEW.id_Recipe);
+  UPDATE Recipe R SET R.rating := @rating WHERE R.id = NEW.id_Recipe;
+END;
+//
+
+CREATE TRIGGER `UpdateRecipeRatingOnRatingDelete`
+AFTER DELETE ON `Rating`
+FOR EACH ROW
+BEGIN
+  SET @rating := (SELECT AVG(R.value) FROM Rating R WHERE R.id_Recipe = OLD.id_Recipe);
+  UPDATE Recipe R SET R.rating := @rating WHERE R.id = OLD.id_Recipe;
 END;
 //
 

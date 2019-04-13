@@ -114,7 +114,7 @@ def getIngredientsByRecipe(recipe_id):
 
   return response.success(data)
 
-@routes.route('/<int:recipe_id>/like/', methods=['POST', 'DELETE'])
+@routes.route('/<int:recipe_id>/likes/', methods=['POST', 'DELETE'])
 @response.handleExceptions
 def likeRecipe(recipe_id):
   body = request.get_json(force=True)
@@ -131,17 +131,20 @@ def likeRecipe(recipe_id):
     likeRecipeDao.delete(likeRecipeModel)
     return response.empty()
 
-@routes.route('/<int:recipe_id>/rating/', methods=['POST'])
+@routes.route('/<int:recipe_id>/ratings/', methods=['POST', 'PUT'])
 @response.handleExceptions
 def addRateRecipe(recipe_id):
   body = request.get_json(force=True)
   data = {
-      'id_Recipe': recipe_id,
-      'id_User': body['id_User'],
-      'value': body['value']
+    'id_Recipe': recipe_id,
+    'id_User': body['id_User'],
+    'value': body['value']
   }
   ratingModel = RatingModel(**data)
-  result = ratingDao.save(ratingModel)
+  if request.method == 'POST':
+    result = ratingDao.save(ratingModel)
+  else:
+    result = ratingDao.replace(ratingModel)
   return response.success(result)
 
 @routes.route('/<int:recipe_id>/comment/', methods=['POST'])

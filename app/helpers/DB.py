@@ -16,11 +16,10 @@ class DB:
       self.__connection.rollback()
       raise e
 
-  def modify(self, query, data):
+  def replace(self, query, data):
     try:
       self.__cursor.execute(query, data)
       self.__connection.commit()
-      return self.__cursor.lastrowid
 
     except Exception as e:
       self.__connection.rollback()

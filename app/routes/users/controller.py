@@ -10,6 +10,7 @@ from ..account.model import AccountModel
 from ..account.dao import AccountDao
 from ..address.dao import AddressDao
 from ..address.model import AddressModel
+from ..rating.dao import RatingDao
 
 routes = Blueprint('users', __name__)
 userDao = UserDao()
@@ -19,6 +20,7 @@ cartDao = CartDao()
 commandDao = CommandDao()
 accountDao = AccountDao()
 addressDao = AddressDao()
+ratingDao = RatingDao()
 
 @routes.route('/', methods=['GET'])
 @response.handleExceptions
@@ -144,6 +146,11 @@ def getLikeRecipes(id):
 
   return response.success(recipes)
 
+@routes.route('/<int:id>/ratings', methods=['GET'])
+@response.handleExceptions
+def getRatings(id):
+  data = ratingDao.getRatingsByUser(id)
+  return response.success(data)
 
 @routes.route('/<int:id>/cart', methods=['GET'])
 @response.handleExceptions
