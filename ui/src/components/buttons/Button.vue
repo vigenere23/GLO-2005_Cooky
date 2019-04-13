@@ -3,7 +3,7 @@
     class="button"
     :class="{ accent, invert, flat, right }"
     :disable="disable"
-    @click="$emit('click')"
+    @click="emitClick"
   >
     <slot>Submit</slot>
   </div>
@@ -34,6 +34,14 @@ export default {
     right: {
       type: Boolean,
       default: false
+    }
+  },
+
+  methods: {
+    emitClick () {
+      if (!this.disable) {
+        this.$emit('click')
+      }
     }
   }
 

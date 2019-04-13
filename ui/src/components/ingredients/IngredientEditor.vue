@@ -5,6 +5,8 @@
       v-for="(ingredient, i) in ingredients"
       :key="ingredient.id || i"
       :initial-ingredient="ingredient"
+      :ingredients="ingredientList"
+      :quantities="quantityList"
       @remove="removeIngredient(i)"
       @change="(ingredient) => updateIngredient(i, ingredient)"
     />
@@ -20,6 +22,7 @@
 <script>
 import IngredientEditorItem from '@/components/ingredients/IngredientEditorItem'
 import Button from '@/components/buttons/Button'
+import { API } from '@/js/api/api'
 
 export default {
 
@@ -39,7 +42,9 @@ export default {
 
   data () {
     return {
-      ingredients: this.initialIngredients
+      ingredients: this.initialIngredients,
+      ingredientList: [],
+      quantityList: []
     }
   },
 
@@ -52,19 +57,27 @@ export default {
       })
     },
     removeIngredient (index) {
-      // const index = this.ingredients.findIndex(x => x.id === id)
       this.ingredients.splice(index, 1)
     },
     updateIngredient (i, ingredient) {
       this.ingredients[i] = ingredient
       this.$emit('change', this.ingredients)
-    }
+    },
+    getQuantityList () {
+      const quantities = []
+      for (let i = 1; i < 100; i++) {
+        quantities.push(i)
+      }
+      return quantities
+    },
   },
 
-  mounted () {
+  async mounted () {
     if (!this.ingredients.length) {
       this.addIngredient()
     }
+    this.quantityList = this.getQuantityList()
+    this.ingredientList = await API.getIngredients()
   }
 
 }

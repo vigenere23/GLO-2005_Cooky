@@ -109,7 +109,7 @@ export default {
     display: block;
     position: absolute;
     top: 0;
-    z-index: 20;
+    z-index: 10;
   }
 
   &.disabled {
@@ -133,7 +133,7 @@ export default {
   overflow-y: auto;
   position: absolute;
   top: 100%;
-  z-index: 10;
+  z-index: 20;
   background-color: white;
   @include mdElevation(4);
 }

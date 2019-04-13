@@ -6,6 +6,7 @@
       label="name"
       text-attribute="name"
       :items="ingredients"
+      :initial-item="initialIngredient"
       @input="updateId"
     />
     <Dropdown
@@ -50,6 +51,14 @@ export default {
     initialIngredient: {
       type: Object,
       required: true
+    },
+    ingredients: {
+      type: Array,
+      required: true
+    },
+    quantities: {
+      type: Array,
+      required: true
     }
   },
 
@@ -58,9 +67,7 @@ export default {
       ingredientId: this.initialIngredient.id_Ingredient,
       unitQuantityId: this.initialIngredient.id_QuantityUnit,
       quantity: this.initialIngredient.totalQuantity,
-      ingredients: null,
-      units: [],
-      quantities: null
+      units: []
     }
   },
 
@@ -93,13 +100,6 @@ export default {
         this.$emit('change', this.ingredient)
       }
     },
-    getQuantities () {
-      const quantities = []
-      for (let i = 1; i < 100; i++) {
-        quantities.push(i)
-      }
-      return quantities
-    },
     async getUnits () {
       this.units = await API.getQuantityUnitsOfIngredient(this.ingredientId)
       this.unitQuantityId = null
@@ -107,9 +107,7 @@ export default {
   },
 
   async mounted () {
-    this.ingredients = await API.getIngredients()
     this.ingredients.sort()
-    this.quantities = this.getQuantities()
   }
 
 }
