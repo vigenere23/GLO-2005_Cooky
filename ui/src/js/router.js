@@ -70,7 +70,7 @@ export const router = new Router({
       component: () => import('@/views/private/Account.vue')
     },
     {
-      path: '/account/edit',
+      path: '/:id/account/edit',
       name: 'AccountEdit',
       component: () => import('@/views/private/AccountEdit.vue')
     },

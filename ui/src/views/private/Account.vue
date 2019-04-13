@@ -1,12 +1,6 @@
 <template>
   <div class="account-page">
-    <h1>Account</h1>
-    <button
-      @click.native="this.myFonction"
-      id="myButton"
-    >
-      Test
-    </button>
+    <h1> Account </h1>
   </div>
 </template>
 
@@ -14,25 +8,28 @@
 
 export default {
   name: 'Account',
+
+  components: {
+  },
+
   data () {
     return {
-      name: 'hello'
+      email: '',
+      username: '',
+      password: '',
+      confirmPassword: '',
+      doorNumber: '',
+      apartment: '',
+      street: '',
+      city: '',
+      country: ''
     }
   },
   methods: {
-    async myFunction () {
-      this.name = 'alpha'
-      console.log(this.name)
-      window.alert('im a king')
-    }
   }
 }
 </script>
 
 <style>
-
-#myButton{
-  background-color: red
-}
 
 </style>

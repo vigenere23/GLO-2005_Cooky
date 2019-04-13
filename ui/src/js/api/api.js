@@ -275,6 +275,50 @@ export class API {
     return AxiosHelper.axiosPut(url, body)
   }
 
+  static async modifyCountry (userId, country) {
+    const body = {
+      'country': country
+    }
+    const url = `${BASE_URL}/users/${userId}/country/`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyCity (userId, city) {
+    const body = {
+      'city': city
+    }
+    const url = `${BASE_URL}/users/${userId}/city/`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyStreet (userId, street) {
+    const body = {
+      'street': street
+    }
+    const url = `${BASE_URL}/users/${userId}/street/`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyApartment (userId, apartment) {
+    let apart = apartment
+    if (apart.length < 1) {
+      apart = null
+    }
+    const body = {
+      'apartment': apart
+    }
+    const url = `${BASE_URL}/users/${userId}/apartment/`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
+  static async modifyDoorNumber (userId, number) {
+    const body = {
+      'number': number
+    }
+    const url = `${BASE_URL}/users/${userId}/doorNumber/`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
   static async modifyCartItemQuantity (cartId, ingredientId, multiplier) {
     const body = {
       'multiplier': multiplier

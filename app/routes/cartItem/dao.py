@@ -24,7 +24,7 @@ class CartItemDao(BaseDao):
 
     def modifyQuantity(self, multiplier, id_Cart, id_Ingredient):
         query = 'UPDATE CartItem SET multiplier = %(multiplier)s WHERE id_Cart = %(id_Cart)s AND id_Ingredient = %(id_Ingredient)s'
-        db.modify(query, {'id_Cart': id_Cart, 'id_Ingredient': id_Ingredient, "multiplier": multiplier})
+        db.replace(query, {'id_Cart': id_Cart, 'id_Ingredient': id_Ingredient, "multiplier": multiplier})
         return self.getByCartAndIngredientIds(id_Cart, id_Ingredient)
         
     def save(self, cartItemModel):

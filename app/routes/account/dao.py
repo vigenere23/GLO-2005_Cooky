@@ -14,22 +14,22 @@ class AccountDao(BaseDao):
 
     def modifyFirstName(self, firstName, id_User):
         query = 'UPDATE Account SET firstName = \'{}\' WHERE id_User = {}'.format(firstName, id_User)
-        db.modify(query, {'id_User': id_User, 'firstName': firstName})
+        db.replace(query, {'id_User': id_User, 'firstName': firstName})
         return {"id_User": id_User, "firstName": firstName}
 
     def modifyLastName(self, lastName, id_User):
         query = 'UPDATE Account SET lastName = \'{}\' WHERE id_User = {}'.format(lastName, id_User)
-        db.modify(query, {'id_User': id_User, 'lastName': lastName})
+        db.replace(query, {'id_User': id_User, 'lastName': lastName})
         return {"id_User": id_User, "lastName": lastName}
 
     def modifyEmail(self, email, id_User):
         query = 'UPDATE Account SET email = \'{}\' WHERE id_User = {}'.format(email, id_User)
-        db.modify(query, {'id_User': id_User, 'email': email})
+        db.replace(query, {'id_User': id_User, 'email': email})
         return {"id_User": id_User, "email": email}
 
     def modifyPassword(self, password, id_User):
         query = 'UPDATE Account SET password = \'{}\' WHERE id_User = {}'.format(password, id_User)
-        db.modify(query, {'id_User': id_User, 'password': password})
+        db.replace(query, {'id_User': id_User, 'password': password})
         return {"id_User": id_User, "password": password}
         
 

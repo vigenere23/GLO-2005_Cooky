@@ -18,7 +18,7 @@ class UserDao(BaseDao):
 
   def modifyUser(self, id, newUsername):
     query = 'UPDATE User SET username = \'{}\' Where id = {}'.format(newUsername, id)
-    db.modify(query, {'id': id, 'username': newUsername})
+    db.replace(query, {'id': id, 'username': newUsername})
     return {"id": id, "username": newUsername}
 
  
