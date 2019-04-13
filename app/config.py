@@ -10,3 +10,4 @@ class Config:
     'port': '1337',
     'database': 'projet'
   }
+  JWT_AUTH_URL_RULE = '/authentication' # TODO change to /login

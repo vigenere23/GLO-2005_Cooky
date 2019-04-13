@@ -9,10 +9,10 @@ class UserDao(BaseDao):
     super().__init__('User', UserModel)
 
   def getByUsername(self, username):
-    query = 'SELECT * FROM User WHERE username = \'{}\''.format(username)
-    result = db.select(query, {"username": username})
+    query = 'SELECT * FROM User WHERE username = %(username)s'
+    result = db.select(query, {'username': username}, 1)
     if result:
-      return self._mapper.from_tuples(result)
+      return self._mapper.from_tuple(result)
     else:
       raise NotFoundException(str.format("No user found with username '%s'", username))
 

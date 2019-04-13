@@ -227,4 +227,3 @@ def getAddress(id):
 def getUserByName(name):
   name = userDao.getByUsername(name)
   return response.success(name)
-
