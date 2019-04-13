@@ -287,11 +287,11 @@ export class API {
     const url = `${BASE_URL}/users/${username}`
     let userData = await AxiosHelper.axiosGet(url)
 
-    const urlAccount = `${BASE_URL}/users/${userData.id}/password`
+    const urlAccount = `${BASE_URL}/users/${userData[0].id}/password`
     let passwordData = await AxiosHelper.axiosGet(urlAccount)
 
     if (passwordData.password === password) {
-      return userData.id
+      return userData[0].id
     } else {
       return false
     }

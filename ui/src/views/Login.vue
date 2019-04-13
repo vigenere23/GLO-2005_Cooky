@@ -47,7 +47,7 @@ export default {
 
   methods: {
     async logIn () {
-      if (this.username.length === 0 || this.password === 0) {
+      if (this.username.length === 0 || this.password.length === 0) {
         window.alert('you have an empty field')
       } else {
         const userId = await API.login(this.username, this.password)
