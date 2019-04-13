@@ -6,6 +6,8 @@
         label="Email"
         v-model="email"
       />
+    </div>
+    <div class="buttons-wrapper">
       <Button
         accent
         right
@@ -13,10 +15,14 @@
       >
         Change email
       </Button>
+    </div>
+    <div class="inputs-wrapper">
       <LabelInput
         label="Door number"
         v-model="doorNumber"
       />
+    </div>
+    <div class="buttons-wrapper">
       <Button
         accent
         right
@@ -24,10 +30,14 @@
       >
         Change door number
       </Button>
+    </div>
+    <div class="inputs-wrapper">
       <LabelInput
         label="Apartment"
         v-model="apartment"
       />
+    </div>
+    <div class="buttons-wrapper">
       <Button
         accent
         right
@@ -35,10 +45,14 @@
       >
         Change apartment
       </Button>
+    </div>
+    <div class="inputs-wrapper">
       <LabelInput
         label="Street"
         v-model="street"
       />
+    </div>
+    <div class="buttons-wrapper">
       <Button
         accent
         right
@@ -46,10 +60,14 @@
       >
         Change street
       </Button>
+    </div>
+    <div class="inputs-wrapper">
       <LabelInput
         label="City"
         v-model="city"
       />
+    </div>
+    <div class="buttons-wrapper">
       <Button
         accent
         right
@@ -57,10 +75,14 @@
       >
         Change city
       </Button>
+    </div>
+    <div class="inputs-wrapper">
       <LabelInput
         label="Country"
         v-model="country"
       />
+    </div>
+    <div class="buttons-wrapper">
       <Button
         accent
         right
@@ -68,7 +90,8 @@
       >
         Change country
       </Button>
-
+    </div>
+    <div class="inputs-wrapper">
       <LabelInput
         label="Password"
         v-model="password"
@@ -77,6 +100,8 @@
         label="Confirm password"
         v-model="confirmPassword"
       />
+    </div>
+    <div class="buttons-wrapper">
       <Button
         accent
         right
@@ -135,8 +160,9 @@ export default {
         API.modifyCountry(userId, this.country)
         EventBus.$emit('toast', { type: 'warning', message: 'Country modified' })
         this.country = ''
+      } else {
+        EventBus.$emit('toast', { type: 'error', message: 'Empty field' })
       }
-      EventBus.$emit('toast', { type: 'error', message: 'Empty field' })
     },
 
     async changeCity () {
@@ -170,7 +196,7 @@ export default {
     async changeDoorNumber () {
       if (this.doorNumber.length !== 0 && !parseInt(this.doorNumber).isNaN) {
         const userId = this.$route.params.id
-        API.modifyDoorNumber(userId, this.email)
+        API.modifyDoorNumber(userId, this.doorNumber)
         EventBus.$emit('toast', { type: 'warning', message: 'Door number modified' })
         this.doorNumber = ''
       } else {
@@ -179,6 +205,7 @@ export default {
     },
 
     async changeEmail () {
+      console.log('work')
       if (this.email.length !== 0) {
         const userId = this.$route.params.id
         API.modifyEmail(userId, this.email)

@@ -279,7 +279,7 @@ export class API {
     const body = {
       'country': country
     }
-    const url = `${BASE_URL}/users/${userId}/country/`
+    const url = `${BASE_URL}/users/${userId}/country`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -287,7 +287,7 @@ export class API {
     const body = {
       'city': city
     }
-    const url = `${BASE_URL}/users/${userId}/city/`
+    const url = `${BASE_URL}/users/${userId}/city`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -295,7 +295,7 @@ export class API {
     const body = {
       'street': street
     }
-    const url = `${BASE_URL}/users/${userId}/street/`
+    const url = `${BASE_URL}/users/${userId}/street`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -307,7 +307,7 @@ export class API {
     const body = {
       'apartment': apart
     }
-    const url = `${BASE_URL}/users/${userId}/apartment/`
+    const url = `${BASE_URL}/users/${userId}/apartment`
     return AxiosHelper.axiosPut(url, body)
   }
 
@@ -315,7 +315,7 @@ export class API {
     const body = {
       'number': number
     }
-    const url = `${BASE_URL}/users/${userId}/doorNumber/`
+    const url = `${BASE_URL}/users/${userId}/doorNumber`
     return AxiosHelper.axiosPut(url, body)
   }
 
