@@ -69,7 +69,7 @@ export default {
         quantities.push(i)
       }
       return quantities
-    },
+    }
   },
 
   async mounted () {
