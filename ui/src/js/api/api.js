@@ -145,6 +145,17 @@ export class API {
     return AxiosHelper.axiosPost(url, body)
   }
 
+  static async modifyRecipe (recipeId, userId, name, directives, ingredients) {
+    const body = {
+      'id_User': userId,
+      name,
+      directives,
+      ingredients
+    }
+    const url = `${BASE_URL}/recipes/${recipeId}/`
+    return AxiosHelper.axiosPut(url, body)
+  }
+
   static async addComment (recipeId, userId, comment) {
     const body = {
       'id_User': userId,

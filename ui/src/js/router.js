@@ -50,11 +50,6 @@ export const router = new Router({
       component: () => import('@/views/Ingredients.vue')
     },
     {
-      path: '/ingredients/:id',
-      name: 'Ingredient',
-      component: () => import('@/views/Ingredient.vue')
-    },
-    {
       path: '/users/:id',
       name: 'Profile',
       component: () => import('@/views/Profile.vue')

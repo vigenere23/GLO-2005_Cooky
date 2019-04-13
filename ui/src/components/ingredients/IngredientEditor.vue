@@ -52,7 +52,7 @@ export default {
     addIngredient () {
       this.ingredients.push({
         id_Ingredient: null,
-        id_QuantityUnit: null,
+        quantityUnit: null,
         totalQuantity: null
       })
     },
@@ -77,7 +77,9 @@ export default {
       this.addIngredient()
     }
     this.quantityList = this.getQuantityList()
-    this.ingredientList = await API.getIngredients()
+    setTimeout(async () => {
+      this.ingredientList = await API.getIngredients()
+    }, 500)
   }
 
 }

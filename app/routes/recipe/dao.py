@@ -24,12 +24,12 @@ class RecipeDao(BaseDao):
 
     def modifyRecipeName(self, name, id):
         query = 'UPDATE Recipe SET name = \'{}\' WHERE id = {}'.format(name, id)
-        db.modify(query, {'id': id, 'name': name})
+        db.replace(query, {'id': id, 'name': name})
         return {"id": id, "name": name}
 
     def modifyRecipeDirective(self, directives, id):
         query = 'UPDATE Recipe SET directives = \'{}\' WHERE id = {}'.format(directives, id)
-        db.modify(query, {'directives': directives})
+        db.replace(query, {'directives': directives})
         return {"id": id, "directives": directives}
 
     

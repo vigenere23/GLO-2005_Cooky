@@ -58,9 +58,11 @@ export default {
   },
 
   methods: {
-    async fetchData () {
-      this.ingredients = null
-      this.ingredients = await API.getIngredients()
+    fetchData () {
+      setTimeout(async () => {
+        this.ingredients = null
+        this.ingredients = await API.getIngredients()
+      }, 500)
     },
     async search (search) {
       clearTimeout(this.searchTimeout)

@@ -64,8 +64,7 @@ export default {
   },
 
   watch: {
-    'disabled': 'close',
-    'items': 'reset'
+    'disabled': 'close'
   },
 
   methods: {
@@ -82,15 +81,20 @@ export default {
         this.opened = !this.opened
       }
     },
-    reset () {
-      this.selectedItem = null
-    },
     itemText (item) {
-      return item
+      return item !== null
         ? item[this.textAttribute] !== undefined
           ? item[this.textAttribute]
           : item
         : ''
+    }
+  },
+
+  mounted () {
+    if (this.initialItem && this.selectedItem) {
+      setTimeout(() => {
+        this.$emit('input', this.selectedItem)
+      }, Math.random() * 6000)
     }
   }
 

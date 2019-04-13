@@ -6,7 +6,7 @@
       label="name"
       text-attribute="name"
       :items="ingredients"
-      :initial-item="initialIngredient"
+      :initial-item="initialIngredient.id_Ingredient ? initialIngredient : null"
       @input="updateId"
     />
     <Dropdown
@@ -14,6 +14,7 @@
       label="unit"
       :disabled="!units.length"
       text-attribute="abbreviation"
+      :initial-item="initialIngredient.quantityUnit"
       :items="units"
       @input="updateUnitId"
     />
@@ -21,6 +22,7 @@
       class="quantity"
       v-if="quantities"
       label="quantity"
+      :initial-item="initialIngredient.totalQuantity"
       :items="quantities"
       @input="updateQuantity"
     />
@@ -65,7 +67,7 @@ export default {
   data () {
     return {
       ingredientId: this.initialIngredient.id_Ingredient,
-      unitQuantityId: this.initialIngredient.id_QuantityUnit,
+      unitQuantityId: this.initialIngredient.quantityUnit ? this.initialIngredient.quantityUnit.id : null,
       quantity: this.initialIngredient.totalQuantity,
       units: []
     }
@@ -83,9 +85,11 @@ export default {
 
   methods: {
     async updateId (ingredient) {
-      this.ingredientId = ingredient.id
-      await this.getUnits()
-      this.emitChange()
+      if (ingredient) {
+        this.ingredientId = ingredient.id
+        await this.getUnits()
+        this.emitChange()
+      }
     },
     updateQuantity (quantity) {
       this.quantity = quantity
@@ -102,7 +106,9 @@ export default {
     },
     async getUnits () {
       this.units = await API.getQuantityUnitsOfIngredient(this.ingredientId)
-      this.unitQuantityId = null
+      this.unitQuantityId = this.initialIngredient && this.initialIngredient.quantityUnit
+        ? this.initialIngredient.quantityUnit.id
+        : null
     }
   },
 

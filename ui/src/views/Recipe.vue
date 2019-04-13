@@ -42,7 +42,6 @@
       <div>
         <h2>Ingredients</h2>
         <DataTable
-          id="id_Ingredient"
           :columns="columns"
           :items="ingredients"
           :small="true"
@@ -137,6 +136,11 @@ export default {
         this.ingredients = []
         this.recipe = await API.getRecipeById(this.id)
         this.ingredients = await API.getIngredientFromIdRecipe(this.id)
+        this.ingredients.map(x => {
+          const ingredient = x
+          ingredient.quantity = x.totalQuantity + ' ' + x.quantityUnit.abbreviation
+          return ingredient
+        })
       }, 500)
     },
     async like () {

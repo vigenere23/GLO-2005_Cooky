@@ -46,9 +46,11 @@ export default {
   },
 
   methods: {
-    async fetchData () {
-      this.recipes = null
-      this.recipes = await API.getRecipes()
+    fetchData () {
+      setTimeout(async () => {
+        this.recipes = null
+        this.recipes = await API.getRecipes()
+      }, 500)
     },
     async search (search) {
       clearTimeout(this.searchTimeout)

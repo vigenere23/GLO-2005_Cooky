@@ -57,7 +57,7 @@ export default {
   computed: {
     ...mapState('user', ['userId']),
     enableButton () {
-      return this.name && this.directives && this.ingredients.length
+      return this.name && this.directives && this.ingredients && this.ingredients.length
     }
   },
 
@@ -81,7 +81,7 @@ export default {
 
   methods: {
     async submit () {
-      const response = await API.addRecipe(this.userId, this.name, this.directives, this.ingredients)
+      const response = await API.modifyRecipe(this.id, this.userId, this.name, this.directives, this.ingredients)
       if (response) {
         this.$router.push(`/recipes/${response.id}`)
       }
@@ -99,7 +99,6 @@ export default {
         this.description = recipe.description
         this.directives = recipe.directives
         this.ingredients = await API.getIngredientFromIdRecipe(this.id)
-        console.log(this.ingredients)
       }, 500)
     }
   }

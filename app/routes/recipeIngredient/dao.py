@@ -15,7 +15,7 @@ class RecipeIngredientDao(BaseDao):
 
     def modifyQuantity(self, id_Recipe, id_Ingredient, totalQuantity):
         query = 'UPDATE RecipeIngredient SET totalQuantity = \'{}\' Where id_Recipe = {} AND id_Ingredient = {}'.format(totalQuantity, id_Recipe, id_Ingredient)
-        db.modify(query, {'id_Recipe': id_Recipe, 'id_Ingredient': id_Ingredient, 'totalQuantity': totalQuantity})
+        db.replace(query, {'id_Recipe': id_Recipe, 'id_Ingredient': id_Ingredient, 'totalQuantity': totalQuantity})
         return {'id_Recipe': id_Recipe, 'id_Ingredient': id_Ingredient, 'totalQuantity': totalQuantity}
     
     def save(self, recipeIngredientModel):
