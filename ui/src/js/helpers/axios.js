@@ -24,7 +24,7 @@ function handleErrors (response) {
   } else if (status === 500) {
     EventBus.$emit('toast', { type: 'error', message: 'An unexpected error occured' })
   } else if (status === 401 || status === 403) {
-    EventBus.$emit('toast', { type: 'error', message: "You don't have access to that page" })
+    EventBus.$emit('toast', { type: 'error', message })
     // TODO return to login page
   } else {
     EventBus.$emit('toast', { type: 'error', message })

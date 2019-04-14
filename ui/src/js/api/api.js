@@ -170,49 +170,6 @@ export class API {
     return AxiosHelper.axiosPost(url, body)
   }
 
-  static async addNewUser (firstname, lastname, email, userName, password,
-    number, apartment, street, city, country) {
-    const body = {
-      'username': userName
-    }
-    const url = `${BASE_URL}/users/`
-    let data = await AxiosHelper.axiosPost(url, body)
-
-    const dataAddress = await this.addAddress(number, apartment, street, city, country)
-
-    setTimeout(() => { this.addAccount(firstname, lastname, email, password, data.id, dataAddress) }, 5000)
-    return data.id
-  }
-
-  static async addAddress (number, apartment, street, city, country) {
-    let apart = apartment
-    if (apart.length < 1) {
-      apart = null
-    }
-    const body = {
-      'number': number,
-      'apartment': apart,
-      'street': street,
-      'city': city,
-      'country': country
-    }
-    const url = `${BASE_URL}/address/`
-    const data = await AxiosHelper.axiosPost(url, body)
-    return data.id
-  }
-
-  static async addAccount (firstname, lastname, email, password, userId, addressId) {
-    const body = {
-      'id_Address': addressId,
-      'firstName': firstname,
-      'lastName': lastname,
-      'email': email,
-      'password': password
-    }
-    const url = `${BASE_URL}/users/${userId}/account/`
-    await AxiosHelper.axiosPost(url, body)
-  }
-
   static async createCommand (cartId) {
     const url = `${BASE_URL}/carts/${cartId}/command/`
     return AxiosHelper.axiosPost(url)
@@ -332,17 +289,13 @@ export class API {
     return AxiosHelper.axiosPut(url, body)
   }
 
-  static async login (username, password) {
-    const url = `${BASE_URL}/users/${username}`
-    let userData = await AxiosHelper.axiosGet(url)
+  static async login (data) {
+    const url = `${BASE_URL}/login/`
+    return AxiosHelper.axiosPost(url, data)
+  }
 
-    const urlAccount = `${BASE_URL}/users/${userData[0].id}/password`
-    let passwordData = await AxiosHelper.axiosGet(urlAccount)
-
-    if (passwordData.password === password) {
-      return userData[0].id
-    } else {
-      return false
-    }
+  static async signup (data) {
+    const url = `${BASE_URL}/signup/`
+    return AxiosHelper.axiosPost(url, data)
   }
 }

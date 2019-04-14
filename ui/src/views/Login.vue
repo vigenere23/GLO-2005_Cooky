@@ -10,12 +10,14 @@
       />
       <LabelInput
         label="Password"
+        type="password"
         :validate="(value) => !!value"
         v-model="password"
       />
       <Button
         accent
-        @click="logIn"
+        :disable="!allValid"
+        @click="login"
       >
         Login
       </Button>
@@ -45,29 +47,31 @@ export default {
     }
   },
 
+  computed: {
+    allValid () {
+      return this.username && this.password
+    }
+  },
+
   methods: {
-    async logIn () {
-      if (this.username.length === 0 || this.password.length === 0) {
-        window.alert('you have an empty field')
+    async login () {
+      const loginData = {
+        username: this.username,
+        password: this.password
+      }
+      const loginResponse = await API.login(loginData)
+      if (loginResponse && !loginResponse.error) {
+        Cookies.set('token', 'JWT ' + loginResponse.token)
+        this.$router.push(`/users/${loginResponse.id}`)
+        // TODO call loadInfos to store
       } else {
-        const userId = await API.login(this.username, this.password)
-        if (!userId) {
-          window.alert('email or password is invalid')
-        } else {
-          await Cookies.set('cookyPassword', this.password)
-          await Cookies.set('cookyUsername', this.username)
-          this.$router.push({ path: `/users/${userId}` })
-        }
+        this.username = ''
+        this.password = ''
       }
     }
   },
-  async beforeMount () {
-    const password = Cookies.get('cookyPassword')
-    const username = Cookies.get('cookyUsername')
-    if (!((password === null || password === undefined || password === '') || (username === null || username === undefined || username === ''))) {
-      const userId = await API.login(username, password)
-      this.$router.push({ path: `/users/${userId}` })
-    }
+  beforeMount () {
+    Cookies.remove('token')
   }
 }
 </script>

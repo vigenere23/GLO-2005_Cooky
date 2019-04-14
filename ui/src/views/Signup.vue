@@ -94,39 +94,68 @@ export default {
 
   computed: {
     validNumber () {
-      return this.number === '' || !isNaN(parseInt(this.number))
+      return !isNaN(parseInt(this.number))
+    },
+    validApartement () {
+      return this.apartment === '' || !isNaN(parseInt(this.apartment))
     },
     validPasswordConfirmation () {
       return this.password === this.confirmPassword
     },
     noEmptyFields () {
       return this.firstname && this.lastname &&
-        this.email && this.username &&
-        this.street && this.city && this.country &&
+        this.email && this.username && this.street &&
+        this.number && this.city && this.country &&
         this.password && this.confirmPassword
     },
     allValid () {
-      return this.validNumber && this.noEmptyFields
+      return this.validNumber && this.validApartement && this.noEmptyFields
     }
   },
 
   methods: {
     async signup () {
       if (this.validate()) {
-        const userId = await API.addNewUser(this.firstname, this.lastname, this.email,
-          this.username, this.password, this.number, this.apartment, this.street, this.city, this.country)
-        if (!userId) {
-          EventBus.$emit('toast', { type: 'error', message: 'Username already exists' })
-        } else {
-          await Cookies.set('cookyUsername', this.username)
-          await Cookies.set('cookyPassword', this.password)
-          await this.$router.push({ path: `/users/${userId}` })
+        const registeringData = {
+          user: {
+            username: this.username
+          },
+          account: {
+            firstName: this.firstname,
+            lastName: this.lastname,
+            email: this.email,
+            password: this.password
+          },
+          address: {
+            number: parseInt(this.number),
+            street: this.street,
+            apartment: parseInt(this.apartment) || null,
+            city: this.city,
+            country: this.country
+          }
+        }
+        const registeringResponse = await API.signup(registeringData)
+        if (registeringResponse && !registeringResponse.error) {
+          const loginData = {
+            username: registeringResponse.username,
+            password: this.password
+          }
+          const loginResponse = await API.login(loginData)
+          if (loginResponse && !loginResponse.error) {
+            Cookies.set('token', 'JWT ' + loginResponse.token)
+            this.$router.push(`/users/${loginResponse.id}`)
+            // TODO call loadInfos to store
+          }
         }
       }
     },
     validate () {
       if (!this.validNumber) {
         EventBus.$emit('toast', { type: 'error', message: 'Invalid door number' })
+        return false
+      }
+      if (!this.validApartement) {
+        EventBus.$emit('toast', { type: 'error', message: 'Invalid apartement number' })
         return false
       }
       if (!this.validPasswordConfirmation) {
