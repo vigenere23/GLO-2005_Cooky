@@ -1,9 +1,10 @@
 from flask import Blueprint, request, json
+from flask_jwt import jwt_required, current_identity
 from app.helpers import response, exceptions, queries
 from datetime import datetime
-from ..cartItem.model import CartItemModel
 from .dao import CartDao
 from ..cartItem.dao import CartItemDao
+from ..cartItem.model import CartItemModel
 from ..commands.dao import CommandDao
 from ..commands.model import CommandModel
 from ..ingredient.dao import IngredientDao
@@ -16,19 +17,22 @@ commandsDao = CommandDao()
 ingredientDao = IngredientDao()
 quantityUnitDao = QuantityUnitDao()
 
-@routes.route('/')
-@response.handleExceptions
-def index():
-  return response.success(cartDao.getAll())
-
 @routes.route('/<int:id>')
+@jwt_required()
 @response.handleExceptions
 def getCart(id):
-  return response.success(cartDao.getById(id))
+  cart = cartDao.getById(id)
+  response.ensureIdentity(cart.id_User, current_identity)
+
+  return response.success(cart)
 
 @routes.route('/<int:id>/items')
+@jwt_required()
 @response.handleExceptions
 def getCartItems(id):
+  cart = cartDao.getById(id)
+  response.ensureIdentity(cart.id_User, current_identity)
+
   cartItems = cartItemDao.getItemsByCart(id)
   data = []
   for cartItem in cartItems:
@@ -44,8 +48,12 @@ def getCartItems(id):
   return response.success(data)
 
 @routes.route('/<int:id>/items/', methods=['POST'])
+@jwt_required()
 @response.handleExceptions
 def addItemToCart(id):
+  cart = cartDao.getById(id)
+  response.ensureIdentity(cart.id_User, current_identity)
+
   body = request.get_json(force=True)
   data = {
     'id_Ingredient': body['id_Ingredient'],
@@ -57,21 +65,33 @@ def addItemToCart(id):
   return response.success(result)
 
 @routes.route('/<int:id_Cart>/items/<int:id_Ingredient>/', methods=['DELETE'])
+@jwt_required()
 @response.handleExceptions
 def deleteItemFromCart(id_Cart, id_Ingredient):
+  cart = cartDao.getById(id_Cart)
+  response.ensureIdentity(cart.id_User, current_identity)
+
   cartItemDao.deleteIngredient(id_Cart, id_Ingredient)
   return response.success("", status=204)
 
 @routes.route('/<int:id_Cart>/items/<int:id_Ingredient>/', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyRecipeName(id_Cart, id_Ingredient):
+  cart = cartDao.getById(id_Cart)
+  response.ensureIdentity(cart.id_User, current_identity)
+
   body = request.get_json(force=True)
   result = cartItemDao.modifyQuantity(body['multiplier'], id_Cart, id_Ingredient)
   return response.success(result)
 
 @routes.route('/<int:id>/command/', methods=['POST'])
+@jwt_required()
 @response.handleExceptions
 def createCommand(id):
+  cart = cartDao.getById(id)
+  response.ensureIdentity(cart.id_User, current_identity)
+
   data = {
     'id_Cart': id,
     'creationDate': datetime.now()

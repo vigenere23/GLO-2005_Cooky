@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from flask_jwt import jwt_required, current_identity
 from app.helpers import response
 from .dao import UserDao
 from .model import UserModel
@@ -23,25 +24,17 @@ addressDao = AddressDao()
 ratingDao = RatingDao()
 
 @routes.route('/', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def index():
   return response.success(userDao.getAll())
 
-@routes.route('/', methods=['POST'])
-@response.handleExceptions
-def createUser():
-  body = request.get_json(force=True)
-  try:
-    userDao.getByUsername(body['username'])
-    return response.error("The username already exists")
-  except:
-    userModel = UserModel(**body)
-    result = userDao.save(userModel)
-    return response.success(result)
-
 @routes.route('/<int:id>/account', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getAccount(id):
+  response.ensureIdentity(id, current_identity)
+
   account = accountDao.getAccountByUserId(id)
   del account.password
   address = addressDao.getById(account.id_Address)
@@ -49,27 +42,13 @@ def getAccount(id):
     **account.serialize(),
     'address': address.serialize()
   })
-  
-@routes.route('/<int:id>/account/', methods=['POST'])
-@response.handleExceptions
-def addAccount(id):
-  body = request.get_json(force=True)
-  data = {
-    'id_User': str(id),
-    'id_Address': body['id_Address'],
-    'firstName': body['firstName'],
-    'lastName': body['lastName'],
-    'email': body['email'],
-    'password': body['password']
-  }
-
-  accountModel = AccountModel(**data)
-  result = accountDao.save(accountModel)
-  return response.success(result)
 
 @routes.route('/<int:id>/email/', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyEmail(id):
+  response.ensureIdentity(id, current_identity)
+
   body = request.get_json(force=True)
   try:
     result = accountDao.modifyEmail(body['email'], id) 
@@ -78,8 +57,11 @@ def modifyEmail(id):
     return response.error(e)
 
 @routes.route('/<int:id>/password/', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyPassword(id):
+  response.ensureIdentity(id, current_identity)
+
   body = request.get_json(force=True)
   try:
     accountDao.modifyPassword(body['password'], id)
@@ -88,8 +70,11 @@ def modifyPassword(id):
     return response.error(e)
 
 @routes.route('/<int:id>/country', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyCountry(id):
+  response.ensureIdentity(id, current_identity)
+
   userData = accountDao.getAccountByUserId(id)
   addressId = userData.id_Address
   body = request.get_json(force=True)
@@ -97,8 +82,12 @@ def modifyCountry(id):
   return response.success(data)
 
 @routes.route('/<int:id>/city', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyCity(id):
+  if not response.ensureIdentity(id, current_identity):
+    return response.error('Access forbidden', status=401)
+
   userData = accountDao.getAccountByUserId(id)
   addressId = userData.id_Address
   body = request.get_json(force=True)
@@ -106,8 +95,11 @@ def modifyCity(id):
   return response.success(data)
 
 @routes.route('/<int:id>/street', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyStreet(id):
+  response.ensureIdentity(id, current_identity)
+
   userData = accountDao.getAccountByUserId(id)
   addressId = userData.id_Address
   body = request.get_json(force=True)
@@ -115,8 +107,11 @@ def modifyStreet(id):
   return response.success(data)
 
 @routes.route('/<int:id>/apartment', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyApartment(id):
+  response.ensureIdentity(id, current_identity)
+
   userData = accountDao.getAccountByUserId(id)
   addressId = userData.id_Address
   body = request.get_json(force=True)
@@ -124,8 +119,11 @@ def modifyApartment(id):
   return response.success(data)
 
 @routes.route('/<int:id>/doorNumber', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyDoorNumber(id):
+  response.ensureIdentity(id, current_identity)
+
   userData = accountDao.getAccountByUserId(id)
   addressId = userData.id_Address
   body = request.get_json(force=True)
@@ -133,6 +131,7 @@ def modifyDoorNumber(id):
   return response.success(data)
 
 @routes.route('/<int:id>', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getOne(id):
   data = userDao.getById(id)
@@ -140,12 +139,14 @@ def getOne(id):
 
 
 @routes.route('/<int:id>/recipes', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getAllRecipesByUser(id):
   data = recipeDao.getAllRecipesByUser(id)
   return response.success(data)
 
 @routes.route('/<int:id>/likes', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getLikeRecipes(id):
   recipes = []
@@ -161,20 +162,29 @@ def getLikeRecipes(id):
   return response.success(recipes)
 
 @routes.route('/<int:id>/ratings', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getRatings(id):
+  response.ensureIdentity(id, current_identity)
+
   data = ratingDao.getRatingsByUser(id)
   return response.success(data)
 
 @routes.route('/<int:id>/cart', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getUserCart(id):
+  response.ensureIdentity(id, current_identity)
+
   data = cartDao.getCurrentUserCart(id)
   return response.success(data)
 
 @routes.route('/<int:id>/commands', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getUserCommands(id):
+  response.ensureIdentity(id, current_identity)
+
   commands = commandDao.getUserCommands(id)
   data = []
   for command in commands:
@@ -186,8 +196,11 @@ def getUserCommands(id):
   return response.success(data)
 
 @routes.route('/<int:id>/address', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getAddress(id):
+  response.ensureIdentity(id, current_identity)
+
   userData = accountDao.getAccountByUserId(id)
   address = userData.id_Address
   return response.success(addressDao.getAddress(address))

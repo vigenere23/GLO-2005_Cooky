@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from flask_jwt import jwt_required
 from app.helpers import response, exceptions, queries
 from .dao import IngredientDao
 from ..quantityUnit.dao import QuantityUnitDao
@@ -8,6 +9,7 @@ ingredientDao = IngredientDao()
 quantityUnitDao = QuantityUnitDao()
 
 @routes.route('/')
+@jwt_required()
 @response.handleExceptions
 def index():
   populated_ingredients = []
@@ -31,6 +33,7 @@ def index():
   return response.success(populated_ingredients)
 
 @routes.route('/<int:id>/mesures')
+@jwt_required()
 @response.handleExceptions
 def getMesures(id):
   quantityUnits = quantityUnitDao.getAllQuantityUnitsByIngredientId(id)

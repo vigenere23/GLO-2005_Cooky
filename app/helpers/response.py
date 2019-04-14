@@ -1,7 +1,7 @@
 import flask
 import traceback
 from functools import wraps
-from .exceptions import NotFoundException
+from .exceptions import NotFoundException, ForbiddenException
 
 def __create(data, status):
   mimetype = 'text/plain'
@@ -43,7 +43,13 @@ def handleExceptions(f):
       return f(*args, **kwargs)
     except NotFoundException as e:
       return error(e, 404)
+    except ForbiddenException as e:
+      return error(e, 403)
     except Exception as e:
       traceback.print_exc()
       return error(e)
   return wrapper
+
+def ensureIdentity(id, identity):
+  if id != identity.id:
+    raise ForbiddenException()

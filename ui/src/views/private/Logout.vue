@@ -14,7 +14,7 @@ export default {
 
   async mounted () {
     this.clear()
-    Cookies.remove('cooky_auth')
+    Cookies.remove('cooky_token')
     this.$router.push('/home')
   }
 }

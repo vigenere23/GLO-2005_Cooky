@@ -1,5 +1,6 @@
 from flask import Blueprint, request
-from app.helpers import response, exceptions, queries
+from flask_jwt import jwt_required, current_identity
+from app.helpers import response
 from .dao import RecipeDao
 from .model import RecipeModel
 from ..recipeIngredient.dao import RecipeIngredientDao
@@ -24,6 +25,7 @@ quantityUnitDao = QuantityUnitDao()
 userDao = UserDao()
 
 @routes.route('/', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def index():
   searched_name = request.args.get('name')
@@ -33,6 +35,7 @@ def index():
     return response.success(recipeDao.getAll())
 
 @routes.route('/', methods=['POST'])
+@jwt_required()
 @response.handleExceptions
 def addRecipe():
   body = request.get_json(force=True)
@@ -41,11 +44,15 @@ def addRecipe():
     'name': body['name'],
     'directives': body['directives']
   }
+
+  response.ensureIdentity(data['id_User'], current_identity)
+
   recipeModel = RecipeModel(**data)
   result = recipeDao.save(recipeModel, body['ingredients'])
   return response.success(result)
 
 @routes.route('/<int:recipe_id>', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getRecipeById(recipe_id):
   recipe = recipeDao.getById(recipe_id)
@@ -59,44 +66,51 @@ def getRecipeById(recipe_id):
   return response.success(data)
 
 @routes.route('/<int:recipe_id>/', methods=['DELETE'])
+@jwt_required()
 @response.handleExceptions
 def deleteRecipe(recipe_id):
+  recipe = recipeDao.getById(recipe_id)
+  response.ensureIdentity(recipe.id_User, current_identity)
+
   recipeDao.delete(recipe_id)
   return response.empty()
 
 
 @routes.route('/<int:recipe_id>/name/', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyRecipeName(recipe_id):
+  recipe = recipeDao.getById(recipe_id)
+  response.ensureIdentity(recipe.id_User, current_identity)
+
   body = request.get_json(force=True)
-  try:
-    result = recipeDao.modifyRecipeName(body['name'], recipe_id)
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
+  result = recipeDao.modifyRecipeName(body['name'], recipe_id)
+  return response.success(result)
 
 @routes.route('/<int:recipe_id>/directives/', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyRecipeDirective(recipe_id):
+  recipe = recipeDao.getById(recipe_id)
+  response.ensureIdentity(recipe.id_User, current_identity)
+
   body = request.get_json(force=True)
-  try:
-    result = recipeDao.modifyRecipeDirective(body['directives'], recipe_id)
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
+  result = recipeDao.modifyRecipeDirective(body['directives'], recipe_id)
+  return response.success(result)
 
 @routes.route('/<int:recipe_id>/ingredientQuantity/', methods=['PUT'])
+@jwt_required()
 @response.handleExceptions
 def modifyIngredientQuantity(recipe_id):
+  recipe = recipeDao.getById(recipe_id)
+  response.ensureIdentity(recipe.id_User, current_identity)
+
   body = request.get_json(force=True)
-  
-  try: 
-    result = recipeIngredientDao.modifyQuantity(recipe_id, body['id_Ingredient'], body['totalQuantity'])
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
+  result = recipeIngredientDao.modifyQuantity(recipe_id, body['id_Ingredient'], body['totalQuantity'])
+  return response.success(result)
 
 @routes.route('/<int:recipe_id>/ingredients', methods=['GET'])
+@jwt_required()
 @response.handleExceptions
 def getIngredientsByRecipe(recipe_id):
   data = []
@@ -114,6 +128,7 @@ def getIngredientsByRecipe(recipe_id):
   return response.success(data)
 
 @routes.route('/<int:recipe_id>/comments')
+@jwt_required()
 @response.handleExceptions
 def getRecipeComments(recipe_id):
   comments = commentDao.getRecipeComments(recipe_id)
@@ -127,6 +142,7 @@ def getRecipeComments(recipe_id):
   return response.success(data)
 
 @routes.route('/<int:recipe_id>/likes/', methods=['POST', 'DELETE'])
+@jwt_required()
 @response.handleExceptions
 def likeRecipe(recipe_id):
   body = request.get_json(force=True)
@@ -134,6 +150,9 @@ def likeRecipe(recipe_id):
     'id_Recipe': recipe_id,
     'id_User': body['id_User']
   }
+
+  response.ensureIdentity(data['id_User'], current_identity)
+
   likeRecipeModel = LikeRecipeModel(**data)
 
   if request.method == 'POST':
@@ -144,6 +163,7 @@ def likeRecipe(recipe_id):
     return response.empty()
 
 @routes.route('/<int:recipe_id>/ratings/', methods=['POST', 'PUT'])
+@jwt_required()
 @response.handleExceptions
 def addRateRecipe(recipe_id):
   body = request.get_json(force=True)
@@ -152,6 +172,9 @@ def addRateRecipe(recipe_id):
     'id_User': body['id_User'],
     'value': body['value']
   }
+
+  response.ensureIdentity(data['id_User'], current_identity)
+
   ratingModel = RatingModel(**data)
   if request.method == 'POST':
     result = ratingDao.save(ratingModel)
@@ -160,6 +183,7 @@ def addRateRecipe(recipe_id):
   return response.success(result)
 
 @routes.route('/<int:recipe_id>/comments/', methods=['POST'])
+@jwt_required()
 @response.handleExceptions
 def addCommentRecipe(recipe_id):
   body = request.get_json(force=True)
@@ -168,6 +192,9 @@ def addCommentRecipe(recipe_id):
     'id_User': body['id_User'],
     'text': body['text']
   }
+
+  response.ensureIdentity(data['id_User'], current_identity)
+
   commentModel = CommentModel(**data)
   result = commentDao.save(commentModel)
   return response.success(result)

@@ -85,7 +85,7 @@ export class API {
   }
 
   static async getRecipes () {
-    const url = `${BASE_URL}/recipes`
+    const url = `${BASE_URL}/recipes/`
     return AxiosHelper.axiosGet(url)
   }
 
@@ -95,7 +95,7 @@ export class API {
   }
 
   static async getRecipesByName (name) {
-    const url = `${BASE_URL}/recipes`
+    const url = `${BASE_URL}/recipes/`
     const params = { name }
     return AxiosHelper.axiosGet(url, { params })
   }
@@ -111,12 +111,12 @@ export class API {
   }
 
   static async getIngredients () {
-    const url = `${BASE_URL}/ingredients`
+    const url = `${BASE_URL}/ingredients/`
     return AxiosHelper.axiosGet(url)
   }
 
   static async getIngredientsByName (name) {
-    const url = `${BASE_URL}/ingredients`
+    const url = `${BASE_URL}/ingredients/`
     const params = { name }
     return AxiosHelper.axiosGet(url, { params })
   }

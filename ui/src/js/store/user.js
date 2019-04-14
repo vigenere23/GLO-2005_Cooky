@@ -7,7 +7,7 @@ export const userModule = {
   state: {
     cartItems: [],
     cart: null,
-    userId: 1,
+    userId: null,
     username: '',
     avatar: '',
     userRatings: [],

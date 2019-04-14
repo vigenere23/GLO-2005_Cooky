@@ -25,10 +25,10 @@ function handleErrors (response) {
     EventBus.$emit('toast', { type: 'error', message: 'Ressource not found' })
   } else if (status === 500) {
     EventBus.$emit('toast', { type: 'error', message: 'An unexpected error occured' })
-  } else if (status === 401 || status === 403) {
-    EventBus.$emit('toast', { type: 'error', message })
+  } else if (status === 401) {
+    EventBus.$emit('toast', { type: 'error', message: 'You need to login before' })
     Cookies.remove('cooky_token')
-    router.push('/login')
+    router.push('/')
   } else {
     EventBus.$emit('toast', { type: 'error', message })
   }
