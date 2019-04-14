@@ -2,6 +2,7 @@ import axios from 'axios'
 import { EventBus } from '@/js/eventbus'
 import Cookies from 'js-cookie'
 import { router } from '@/js/router'
+import { store } from '@/js/store'
 
 async function parseErrors (request) {
   try {
@@ -27,6 +28,7 @@ function handleErrors (response) {
     EventBus.$emit('toast', { type: 'error', message: 'An unexpected error occured' })
   } else if (status === 401) {
     EventBus.$emit('toast', { type: 'error', message })
+    store.commit('user/clear')
     Cookies.remove('cooky_token')
     router.push('/')
   } else {
