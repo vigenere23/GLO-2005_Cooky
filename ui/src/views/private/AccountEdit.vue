@@ -6,92 +6,62 @@
         label="Email"
         v-model="email"
       />
-    </div>
-    <div class="buttons-wrapper">
       <Button
         accent
-        right
         @click="changeEmail"
       >
         Change email
       </Button>
-    </div>
-    <div class="inputs-wrapper">
       <LabelInput
         label="Door number"
         v-model="doorNumber"
       />
-    </div>
-    <div class="buttons-wrapper">
       <Button
         accent
-        right
         @click="changeDoorNumber"
       >
         Change door number
       </Button>
-    </div>
-    <div class="inputs-wrapper">
       <LabelInput
         label="Apartment"
         v-model="apartment"
       />
-    </div>
-    <div class="buttons-wrapper">
       <Button
         accent
-        right
         @click="changeApartment"
       >
         Change apartment
       </Button>
-    </div>
-    <div class="inputs-wrapper">
       <LabelInput
         label="Street"
         v-model="street"
       />
-    </div>
-    <div class="buttons-wrapper">
       <Button
         accent
-        right
         @click="changeStreet"
       >
         Change street
       </Button>
-    </div>
-    <div class="inputs-wrapper">
       <LabelInput
         label="City"
         v-model="city"
       />
-    </div>
-    <div class="buttons-wrapper">
       <Button
         accent
-        right
         @click="changeCity"
       >
         Change city
       </Button>
-    </div>
-    <div class="inputs-wrapper">
       <LabelInput
         label="Country"
         v-model="country"
       />
-    </div>
-    <div class="buttons-wrapper">
       <Button
         accent
-        right
         @click="changeCountry"
       >
         Change country
       </Button>
-    </div>
-    <div class="inputs-wrapper">
       <LabelInput
         label="Password"
         v-model="password"
@@ -100,11 +70,8 @@
         label="Confirm password"
         v-model="confirmPassword"
       />
-    </div>
-    <div class="buttons-wrapper">
       <Button
         accent
-        right
         @click="changePassword"
       >
         Change password
@@ -118,6 +85,7 @@ import { API } from '@/js/api/api'
 import { EventBus } from '@/js/eventbus'
 import Button from '@/components/buttons/Button'
 import LabelInput from '@/components/inputs/LabelInput'
+import { mapState } from 'vuex'
 
 export default {
   name: 'AccountEdit',
@@ -126,6 +94,8 @@ export default {
     Button,
     LabelInput
   },
+
+  computed: mapState('user', ['userId']),
 
   data () {
     return {
@@ -143,9 +113,8 @@ export default {
   methods: {
     async changePassword () {
       if (this.password === this.confirmPassword && this.password.length !== 0) {
-        const userId = this.$route.params.id
-        API.modifyPassword(userId, this.password)
-        EventBus.$emit('toast', { type: 'warning', message: 'Password modified' })
+        API.modifyPassword(this.userId, this.password)
+        EventBus.$emit('toast', { type: 'success', message: 'Password modified' })
         this.password = ''
         this.confirmPassword = ''
       } else {
@@ -156,9 +125,8 @@ export default {
 
     async changeCountry () {
       if (this.country.length !== 0) {
-        const userId = this.$route.params.id
-        API.modifyCountry(userId, this.country)
-        EventBus.$emit('toast', { type: 'warning', message: 'Country modified' })
+        API.modifyCountry(this.userId, this.country)
+        EventBus.$emit('toast', { type: 'success', message: 'Country modified' })
         this.country = ''
       } else {
         EventBus.$emit('toast', { type: 'error', message: 'Empty field' })
@@ -167,9 +135,8 @@ export default {
 
     async changeCity () {
       if (this.city.length !== 0) {
-        const userId = this.$route.params.id
-        API.modifyCity(userId, this.city)
-        EventBus.$emit('toast', { type: 'warning', message: 'City modified' })
+        API.modifyCity(this.userId, this.city)
+        EventBus.$emit('toast', { type: 'success', message: 'City modified' })
         this.city = ''
       } else {
       }
@@ -177,9 +144,8 @@ export default {
 
     async changeStreet () {
       if (this.street.length !== 0) {
-        const userId = this.$route.params.id
-        API.modifyStreet(userId, this.street)
-        EventBus.$emit('toast', { type: 'warning', message: 'Street modified' })
+        API.modifyStreet(this.userId, this.street)
+        EventBus.$emit('toast', { type: 'success', message: 'Street modified' })
         this.street = ''
       } else {
         EventBus.$emit('toast', { type: 'error', message: 'Empty field' })
@@ -187,17 +153,15 @@ export default {
     },
 
     async changeApartment () {
-      const userId = this.$route.params.id
-      API.modifyApartment(userId, this.apartment)
-      EventBus.$emit('toast', { type: 'warning', message: 'Apartment modified' })
+      API.modifyApartment(this.userId, this.apartment)
+      EventBus.$emit('toast', { type: 'success', message: 'Apartment modified' })
       this.apartment = ''
     },
 
     async changeDoorNumber () {
       if (this.doorNumber.length !== 0 && !parseInt(this.doorNumber).isNaN) {
-        const userId = this.$route.params.id
-        API.modifyDoorNumber(userId, this.doorNumber)
-        EventBus.$emit('toast', { type: 'warning', message: 'Door number modified' })
+        API.modifyDoorNumber(this.userId, this.doorNumber)
+        EventBus.$emit('toast', { type: 'success', message: 'Door number modified' })
         this.doorNumber = ''
       } else {
         EventBus.$emit('toast', { type: 'error', message: 'Empty field or door is not a number' })
@@ -205,11 +169,9 @@ export default {
     },
 
     async changeEmail () {
-      console.log('work')
       if (this.email.length !== 0) {
-        const userId = this.$route.params.id
-        API.modifyEmail(userId, this.email)
-        EventBus.$emit('toast', { type: 'warning', message: 'Email modified' })
+        API.modifyEmail(this.userId, this.email)
+        EventBus.$emit('toast', { type: 'success', message: 'Email modified' })
         this.email = ''
       } else {
         EventBus.$emit('toast', { type: 'error', message: 'Empty field' })
@@ -218,3 +180,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.account-edit-page {
+  .inputs-wrapper {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+  }
+}
+</style>

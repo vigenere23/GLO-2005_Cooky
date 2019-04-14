@@ -67,6 +67,7 @@ import { EventBus } from '@/js/eventbus'
 import Cookies from 'js-cookie'
 import Button from '@/components/buttons/Button'
 import LabelInput from '@/components/inputs/LabelInput'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Signup',
@@ -114,6 +115,7 @@ export default {
   },
 
   methods: {
+    ...mapActions('user', ['loadAll']),
     async signup () {
       if (this.validate()) {
         const registeringData = {
@@ -144,7 +146,7 @@ export default {
           if (loginResponse && !loginResponse.error) {
             Cookies.set('cooky_token', 'JWT ' + loginResponse.token)
             this.$router.push(`/users/${loginResponse.id}`)
-            // TODO call loadInfos to store
+            this.loadAll()
           }
         }
       }

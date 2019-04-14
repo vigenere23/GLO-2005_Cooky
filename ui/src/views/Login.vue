@@ -65,7 +65,7 @@ export default {
       if (loginResponse && !loginResponse.error) {
         Cookies.set('cooky_token', 'JWT ' + loginResponse.token)
         this.$router.push(`/users/${loginResponse.id}`)
-        await this.loadAll()
+        this.loadAll()
       } else {
         this.username = ''
         this.password = ''

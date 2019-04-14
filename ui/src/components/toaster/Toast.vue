@@ -55,7 +55,7 @@ export default {
   }
 
   &.success {
-    background-color: #2bc226;
+    background-color: #2390d8;
   }
 
   &.warning {

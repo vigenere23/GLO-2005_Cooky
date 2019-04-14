@@ -9,8 +9,8 @@ class AddressDao(BaseDao):
 
     def getAddress(self, id):
         query = 'SELECT * FROM Address WHERE id = %(id)s'
-        results = db.select(query, {'id': id})
-        return self._mapper.from_tuples(results)
+        result = db.select(query, {'id': id}, 1)
+        return self._mapper.from_tuple(result)
 
     def modifyCountry(self, country, id):
         query = 'UPDATE Address SET country = \'{}\' WHERE id = {}'.format(country, id)

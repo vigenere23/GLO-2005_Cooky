@@ -39,6 +39,7 @@
 <script>
 import { API } from '@/js/api/api'
 import Button from '@/components/buttons/Button'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Account',
@@ -46,6 +47,8 @@ export default {
   components: {
     Button
   },
+
+  computed: mapState('user', ['userId']),
 
   data () {
     return {
@@ -62,25 +65,28 @@ export default {
   },
   methods: {
     editAccount () {
-      this.$router.push({ path: `${this.$route.params.id}/edit` })
+      this.$router.push(`/account/edit`)
     }
   },
   async beforeMount () {
-    let userId = this.$route.params.id
-    let data = await API.getUserById(userId)
+    let data = await API.getUserById(this.userId)
     this.username = data.username
 
-    let dataAccount = await API.getAccount(userId)
-    this.email = dataAccount.email
-    this.firstname = dataAccount.firstName
-    this.lastname = dataAccount.lastName
+    let dataAccount = await API.getAccount(this.userId)
+    if (dataAccount && !dataAccount.error) {
+      this.email = dataAccount.email
+      this.firstname = dataAccount.firstName
+      this.lastname = dataAccount.lastName
+    }
 
-    let dataAddress = await API.getAddress(userId)
-    this.apartment = dataAddress[0].apartment
-    this.city = dataAddress[0].apartment
-    this.country = dataAddress[0].country
-    this.doorNumber = dataAddress[0].number
-    this.street = dataAddress[0].street
+    let dataAddress = await API.getAddress(this.userId)
+    if (dataAddress && !dataAddress.error) {
+      this.apartment = dataAddress.apartment
+      this.city = dataAddress.city
+      this.country = dataAddress.country
+      this.doorNumber = dataAddress.number
+      this.street = dataAddress.street
+    }
   }
 }
 </script>
