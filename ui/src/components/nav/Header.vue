@@ -2,6 +2,7 @@
   <div id="header">
     <a
       class="material-icons hamburger"
+      v-if="userId"
       @mousedown="toggleDrawer"
     >menu</a>
     <router-link
@@ -15,11 +16,13 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
 
   name: 'Header',
+
+  computed: mapState('user', ['userId']),
 
   methods: mapMutations('layout', ['toggleDrawer'])
 

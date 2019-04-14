@@ -30,9 +30,7 @@ export default {
   },
 
   async created () {
-    if (this.userId) {
-      await this.loadAll()
-    }
+    await this.loadAll()
   }
 
 }

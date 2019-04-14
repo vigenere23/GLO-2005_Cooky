@@ -4,10 +4,10 @@
     <DrawerScreen />
     <Header />
     <div class="main">
-      <NavDrawer />
+      <NavDrawer v-if="userId" />
       <div
         class="wrapper"
-        :class="{ 'drawer-closed': drawerClosed }"
+        :class="{ 'drawer-closed': !userId || drawerClosed }"
       >
         <div class="content">
           <slot />
@@ -37,6 +37,7 @@ export default {
 
   computed: {
     ...mapState('layout', ['drawerClosed']),
+    ...mapState('user', ['userId']),
     ...mapGetters('layout', ['isTablet'])
   },
 

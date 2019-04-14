@@ -7,9 +7,11 @@ from .routes.account.dao import AccountDao
 def authenticate(username, password):
   userDao = UserDao()
   accountDao = AccountDao()
+  print(username, password)
   try:
     user = userDao.getByUsername(username)
     account = accountDao.getAccountByUserId(user.id)
+    print(account.serialize())
     if account.password == password:
       return user
   except:

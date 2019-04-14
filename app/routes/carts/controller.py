@@ -57,8 +57,7 @@ def addItemToCart(id):
   body = request.get_json(force=True)
   data = {
     'id_Ingredient': body['id_Ingredient'],
-    'id_Cart': id,
-    'multiplier': '1'
+    'id_Cart': id
   }
   cartItemModel = CartItemModel(**data)
   result = cartItemDao.save(cartItemModel)

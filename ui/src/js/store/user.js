@@ -62,9 +62,11 @@ export const userModule = {
     async loadAll (context) {
       context.commit('clear')
       await context.dispatch('loadUserInfos')
-      await context.dispatch('loadCart')
-      await context.dispatch('loadLikes')
-      await context.dispatch('loadRatings')
+      if (context.state.userId) {
+        await context.dispatch('loadCart')
+        await context.dispatch('loadLikes')
+        await context.dispatch('loadRatings')
+      }
     },
     async loadUserInfos (context) {
       const user = await API.getCurrentUserInfos()

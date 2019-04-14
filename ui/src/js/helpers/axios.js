@@ -26,7 +26,7 @@ function handleErrors (response) {
   } else if (status === 500) {
     EventBus.$emit('toast', { type: 'error', message: 'An unexpected error occured' })
   } else if (status === 401) {
-    EventBus.$emit('toast', { type: 'error', message: 'You need to login before' })
+    EventBus.$emit('toast', { type: 'error', message })
     Cookies.remove('cooky_token')
     router.push('/')
   } else {

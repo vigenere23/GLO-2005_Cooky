@@ -71,3 +71,6 @@ class DB:
 
   def rollback(self):
     self.__connection.rollback()
+
+  def start_transaction(self):
+    self.__connection.start_transaction()

@@ -18,7 +18,7 @@
 import SearchBar from '@/components/inputs/SearchBar'
 import DataTable from '@/components/lists/DataTable'
 import { API } from '@/js/api/api'
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
 
@@ -29,7 +29,10 @@ export default {
     DataTable
   },
 
-  computed: mapGetters('user', ['cartContains']),
+  computed: {
+    ...mapGetters('user', ['cartContains']),
+    ...mapState('user', ['userId'])
+  },
 
   data () {
     return {
@@ -59,10 +62,16 @@ export default {
 
   methods: {
     fetchData () {
+      let timeout = null
       setTimeout(async () => {
-        this.ingredients = null
-        this.ingredients = await API.getIngredients()
-      }, 500)
+        if (!this.userId) {
+          clearTimeout(timeout)
+          timeout = setTimeout(this.fetchData, 800)
+        } else {
+          this.ingredients = null
+          this.ingredients = await API.getIngredients()
+        }
+      }, 200)
     },
     async search (search) {
       clearTimeout(this.searchTimeout)

@@ -37,3 +37,4 @@ class CartItemDao(BaseDao):
             return self.getById(newItemId)
         else:
             raise Exception("Could not save ingredient to cart")
+    

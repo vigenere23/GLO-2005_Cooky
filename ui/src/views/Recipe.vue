@@ -118,15 +118,9 @@ export default {
         { name: 'quantity', text: 'Quantity' }
       ],
       actions: {
-        isSelected: (recipeIngredient) => {
-          return this.cartContains(recipeIngredient.id_Ingredient)
-        },
-        onSelection: (recipeIngredient) => {
-          return this.addCartItem(recipeIngredient.id_Ingredient)
-        },
-        onDeselection: (recipeIngredient) => {
-          return this.removeCartItem(recipeIngredient.id_Ingredient)
-        }
+        isSelected: (ingredient) => this.cartContains(ingredient.id),
+        onSelection: (ingredient) => this.addCartItem(ingredient.id),
+        onDeselection: (ingredient) => this.removeCartItem(ingredient.id)
       }
     }
   },
@@ -141,19 +135,25 @@ export default {
 
   methods: {
     async fetchData () {
-      await setTimeout(async () => {
-        this.id = Number(this.$route.params.id)
-        this.recipe = null
-        this.ingredients = []
-        this.recipe = await API.getRecipeById(this.id)
-        this.ingredients = await API.getIngredientFromIdRecipe(this.id)
-        this.ingredients.map(x => {
-          const ingredient = x
-          ingredient.quantity = x.totalQuantity + ' ' + x.quantityUnit.abbreviation
-          return ingredient
-        })
-        await this.fetchComments()
-      }, 500)
+      let timeout = null
+      setTimeout(async () => {
+        if (!this.userId) {
+          clearTimeout(timeout)
+          timeout = setTimeout(this.fetchData, 800)
+        } else {
+          this.id = Number(this.$route.params.id)
+          this.recipe = null
+          this.ingredients = []
+          this.recipe = await API.getRecipeById(this.id)
+          this.ingredients = await API.getIngredientFromIdRecipe(this.id)
+          this.ingredients.map(x => {
+            const ingredient = x
+            ingredient.quantity = x.totalQuantity + ' ' + x.quantityUnit.abbreviation
+            return ingredient
+          })
+          await this.fetchComments()
+        }
+      }, 200)
     },
     async fetchComments () {
       this.comments = await API.getRecipeComments(this.id)

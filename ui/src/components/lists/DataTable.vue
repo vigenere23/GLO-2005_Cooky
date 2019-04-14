@@ -1,71 +1,77 @@
 <template>
-  <table
-    class="data-table"
-    :class="{ small }"
-  >
-    <thead>
-      <tr>
-        <th v-if="actions" />
-        <th
-          v-for="(column, i) in columns"
-          :key="i"
-          :class="{ first: i === 0 }"
-        >
-          <span
-            class="column-text"
-            :class="{ sortable: column.sortable, sorting: isCurrentSorting(column) }"
-            @mousedown="updateSorting(column)"
+  <div class="data-table-wrapper">
+    <table
+      v-if="items.length"
+      class="data-table"
+      :class="{ small }"
+    >
+      <thead>
+        <tr>
+          <th v-if="actions" />
+          <th
+            v-for="(column, i) in columns"
+            :key="i"
+            :class="{ first: i === 0 }"
           >
-            {{ column.text }}
-            <i
-              class="material-icons sorting-arrow"
-              :class="{ reverse: reverseSorting }"
-            >arrow_upward</i>
-          </span>
-        </th>
-      </tr>
-    </thead>
-    <tbody v-if="items.length">
-      <tr
-        v-for="(item, i) in sortedItems"
-        :key="item.id || i"
-      >
-        <td
-          v-if="actions"
-          class="action"
+            <span
+              class="column-text"
+              :class="{ sortable: column.sortable, sorting: isCurrentSorting(column) }"
+              @mousedown="updateSorting(column)"
+            >
+              {{ column.text }}
+              <i
+                class="material-icons sorting-arrow"
+                :class="{ reverse: reverseSorting }"
+              >arrow_upward</i>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(item, i) in sortedItems"
+          :key="item.id || i"
         >
-          <SelectionIcon
-            :is-selected="actions.isSelected(item)"
-            @selection="actions.onSelection(item)"
-            @deselection="actions.onDeselection(item)"
-          />
-        </td>
-        <td
-          v-for="(column, j) in columns"
-          :key="j"
-          :class="{ first: j === 0 }"
-        >
-          <template v-if="column.parser && column.parser(item[column.name]) !== null && column.parser(item[column.name]) !== undefined">
-            {{ column.parser(item[column.name]) }}
-          </template>
-          <template v-else-if="item[column.name] !== null && item[column.name] !== undefined">
-            {{ item[column.name] }}
-          </template>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <td
+            v-if="actions"
+            class="action"
+          >
+            <SelectionIcon
+              :is-selected="actions.isSelected(item)"
+              @selection="actions.onSelection(item)"
+              @deselection="actions.onDeselection(item)"
+            />
+          </td>
+          <td
+            v-for="(column, j) in columns"
+            :key="j"
+            :class="{ first: j === 0 }"
+          >
+            <template v-if="column.parser && column.parser(item[column.name]) !== null && column.parser(item[column.name]) !== undefined">
+              {{ column.parser(item[column.name]) }}
+            </template>
+            <template v-else-if="item[column.name] !== null && item[column.name] !== undefined">
+              {{ item[column.name] }}
+            </template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <NoContent v-else />
+  </div>
 </template>
 
 <script>
 import SelectionIcon from '@/components/SelectionIcon'
+import NoContent from '@/components/NoContent'
 
 export default {
 
   name: 'DataTable',
 
   components: {
-    SelectionIcon
+    SelectionIcon,
+    NoContent
   },
 
   props: {
