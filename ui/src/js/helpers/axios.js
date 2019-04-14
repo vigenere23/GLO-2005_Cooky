@@ -30,7 +30,7 @@ function handleErrors (response) {
     EventBus.$emit('toast', { type: 'error', message })
     store.commit('user/clear')
     Cookies.remove('cooky_token')
-    router.push('/')
+    router.push('/login')
   } else {
     EventBus.$emit('toast', { type: 'error', message })
   }
