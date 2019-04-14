@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from flask_jwt import jwt_required, current_identity
 from app.helpers import response, signup
 from ..users.model import UserModel
 from ..account.model import AccountModel
@@ -44,3 +45,9 @@ def signup_route():
     return response.error(e, status=400)
   except Exception as e:
     raise e
+
+@routes.route('/userInfos/')
+@jwt_required()
+@response.handleExceptions
+def getUserInfos():
+  return response.success(current_identity.serialize())

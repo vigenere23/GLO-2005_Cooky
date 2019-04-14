@@ -30,6 +30,7 @@ import Cookies from 'js-cookie'
 import { API } from '@/js/api/api'
 import LabelInput from '@/components/inputs/LabelInput'
 import Button from '@/components/buttons/Button'
+import { mapActions } from 'vuex'
 
 export default {
 
@@ -54,6 +55,7 @@ export default {
   },
 
   methods: {
+    ...mapActions('user', ['loadAll']),
     async login () {
       const loginData = {
         username: this.username,
@@ -61,17 +63,14 @@ export default {
       }
       const loginResponse = await API.login(loginData)
       if (loginResponse && !loginResponse.error) {
-        Cookies.set('token', 'JWT ' + loginResponse.token)
+        Cookies.set('cooky_token', 'JWT ' + loginResponse.token)
         this.$router.push(`/users/${loginResponse.id}`)
-        // TODO call loadInfos to store
+        await this.loadAll()
       } else {
         this.username = ''
         this.password = ''
       }
     }
-  },
-  beforeMount () {
-    Cookies.remove('token')
   }
 }
 </script>

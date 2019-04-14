@@ -2,6 +2,11 @@ import { AxiosHelper } from '@/js/helpers/axios'
 const BASE_URL = ' http://127.0.0.1:5000'
 
 export class API {
+  static async getCurrentUserInfos () {
+    const url = `${BASE_URL}/userInfos/`
+    return AxiosHelper.axiosGet(url)
+  }
+
   static async getUserById (id) {
     const url = `${BASE_URL}/users/${id}`
     return AxiosHelper.axiosGet(url)

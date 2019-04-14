@@ -4,14 +4,17 @@
 
 <script>
 import Cookies from 'js-cookie'
+import { mapMutations } from 'vuex'
 
 export default {
 
   name: 'Logout',
 
+  methods: mapMutations('user', ['clear']),
+
   async mounted () {
-    await Cookies.set('cookyUsername', '')
-    await Cookies.set('cookyPassword', '')
+    this.clear()
+    Cookies.remove('cooky_auth')
     this.$router.push('/home')
   }
 }

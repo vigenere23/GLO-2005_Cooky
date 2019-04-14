@@ -8,6 +8,7 @@ export const userModule = {
     cartItems: [],
     cart: null,
     userId: 1,
+    username: '',
     avatar: '',
     userRatings: [],
     userLikes: []
@@ -48,10 +49,27 @@ export const userModule = {
     },
     setRatings (state, ratings) {
       if (ratings) state.userRatings = ratings
+    },
+    setUserInfos (state, user) {
+      if (user) {
+        state.userId = user.id
+        state.username = user.username
+      }
     }
   },
 
   actions: {
+    async loadAll (context) {
+      context.commit('clear')
+      await context.dispatch('loadUserInfos')
+      await context.dispatch('loadCart')
+      await context.dispatch('loadLikes')
+      await context.dispatch('loadRatings')
+    },
+    async loadUserInfos (context) {
+      const user = await API.getCurrentUserInfos()
+      context.commit('setUserInfos', user)
+    },
     async loadCart (context) {
       const cart = await API.getUserCart(context.state.userId)
       if (!cart.error) {

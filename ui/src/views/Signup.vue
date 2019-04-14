@@ -142,7 +142,7 @@ export default {
           }
           const loginResponse = await API.login(loginData)
           if (loginResponse && !loginResponse.error) {
-            Cookies.set('token', 'JWT ' + loginResponse.token)
+            Cookies.set('cooky_token', 'JWT ' + loginResponse.token)
             this.$router.push(`/users/${loginResponse.id}`)
             // TODO call loadInfos to store
           }

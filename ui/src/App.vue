@@ -13,7 +13,7 @@
 
 <script>
 import DefaultLayout from '@/layouts/DefaultLayout'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
 
@@ -23,12 +23,16 @@ export default {
     DefaultLayout
   },
 
-  methods: mapActions('user', ['loadCart', 'loadLikes', 'loadRatings']),
+  computed: mapState('user', ['userId']),
 
-  async mounted () {
-    await this.loadCart()
-    await this.loadLikes()
-    await this.loadRatings()
+  methods: {
+    ...mapActions('user', ['loadAll'])
+  },
+
+  async created () {
+    if (this.userId) {
+      await this.loadAll()
+    }
   }
 
 }
