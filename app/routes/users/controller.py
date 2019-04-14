@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from app.helpers import response, exceptions, queries
+from app.helpers import response
 from .dao import UserDao
 from .model import UserModel
 from ..recipe.dao import RecipeDao
@@ -35,17 +35,20 @@ def createUser():
     userDao.getByUsername(body['username'])
     return response.error("The username already exists")
   except:
-    try:
-      userModel = UserModel(**body)
-      result = userDao.save(userModel)
-      return response.success(result)
-    except Exception as e:
-      return response.error(e)
+    userModel = UserModel(**body)
+    result = userDao.save(userModel)
+    return response.success(result)
 
 @routes.route('/<int:id>/account', methods=['GET'])
 @response.handleExceptions
 def getAccount(id):
-   return response.success(accountDao.getAccountByUserId(id))
+  account = accountDao.getAccountByUserId(id)
+  del account.password
+  address = addressDao.getById(account.id_Address)
+  return response.success({
+    **account.serialize(),
+    'address': address.serialize()
+  })
   
 @routes.route('/<int:id>/account/', methods=['POST'])
 @response.handleExceptions
@@ -64,26 +67,6 @@ def addAccount(id):
   result = accountDao.save(accountModel)
   return response.success(result)
 
-@routes.route('/<int:id>/firstName/', methods=['PUT'])
-@response.handleExceptions
-def modifyFirstName(id):
-  body = request.get_json(force=True)
-  try:
-    result = accountDao.modifyFirstName(body['firstName'], id)
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
-
-@routes.route('/<int:id>/lastName/', methods=['PUT'])
-@response.handleExceptions
-def modifyLastName(id):
-  body = request.get_json(force=True)
-  try:
-    result = accountDao.modifyLastName(body['lastName'], id)
-    return response.success(result)
-  except Exception as e:
-    return response.error(e)
-
 @routes.route('/<int:id>/email/', methods=['PUT'])
 @response.handleExceptions
 def modifyEmail(id):
@@ -94,12 +77,6 @@ def modifyEmail(id):
   except Exception as e:
     return response.error(e)
 
-@routes.route('/<int:id>/password', methods=['GET'])
-@response.handleExceptions
-def getUserPassword(id):
-  data= accountDao.getAccountByUserId(id)
-  return response.success({"password": data.password})
-
 @routes.route('/<int:id>/password/', methods=['PUT'])
 @response.handleExceptions
 def modifyPassword(id):
@@ -109,13 +86,6 @@ def modifyPassword(id):
     return response.success('')
   except Exception as e:
     return response.error(e)
-
-@routes.route('/<int:id>/', methods=['PUT'])
-@response.handleExceptions
-def modifyUser(id):
-  body = request.get_json(force=True)
-  data = userDao.modifyUser(id, body['username'])
-  return response.success(data)
 
 @routes.route('/<int:id>/country', methods=['PUT'])
 @response.handleExceptions
@@ -221,9 +191,3 @@ def getAddress(id):
   userData = accountDao.getAccountByUserId(id)
   address = userData.id_Address
   return response.success(addressDao.getAddress(address))
-
-@routes.route('/<name>', methods=['GET'])
-@response.handleExceptions
-def getUserByName(name):
-  name = userDao.getByUsername(name)
-  return response.success(name)

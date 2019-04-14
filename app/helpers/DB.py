@@ -16,15 +16,6 @@ class DB:
       self.__connection.rollback()
       raise e
 
-  def deleteMultiple(self, queries, data):
-    try:
-      for query in queries:
-        self.__cursor.execute(query, data)
-      self.__connection.commit()
-    except Exception as e:
-      self.__connection.rollback()
-      raise e
-
   def replace(self, query, data):
     try:
       self.__cursor.execute(query, data)
@@ -34,10 +25,11 @@ class DB:
       self.__connection.rollback()
       raise e
 
-  def insert(self, query, data):
+  def insert(self, query, data, autocommit=True):
     try:
       self.__cursor.execute(query, data)
-      self.__connection.commit()
+      if autocommit:
+        self.__connection.commit()
       return self.__cursor.lastrowid
 
     except Exception as e:
@@ -60,3 +52,22 @@ class DB:
       pass
     
     return results
+
+  def executeMultiple(self, queries, data):
+    try:
+      for query in queries:
+        self.__cursor.execute(query, data)
+      self.__connection.commit()
+    except Exception as e:
+      self.__connection.rollback()
+      raise e
+
+  def commit(self):
+    try:
+      self.__connection.commit()
+    except Exception as e:
+      self.__connection.rollback()
+      raise e
+
+  def rollback(self):
+    self.__connection.rollback()

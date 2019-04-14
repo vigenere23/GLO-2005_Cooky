@@ -37,12 +37,12 @@ class AddressDao(BaseDao):
         db.replace(query, {'id': id, 'number': number})
         return {"id": id, "number": number}
     
-    def save(self, addressModel):
+    def save(self, addressModel, autocommit=True):
         if not isinstance(addressModel, AddressModel):
             raise ValueError("addressModel should be of type AddressModel")
         
         query = 'INSERT INTO Address (`id`,`number`,`apartment`,`street`,`city`,`country`) VALUES (%s, %s, %s, %s, %s, %s)'
-        newAddressId = db.insert(query, self._mapper.to_tuple(addressModel))
+        newAddressId = db.insert(query, self._mapper.to_tuple(addressModel), autocommit)
 
         if newAddressId:
             return self.getById(newAddressId)

@@ -16,11 +16,11 @@ class UserDao(BaseDao):
     else:
       raise NotFoundException(str.format("No user found with username '%s'", username))
 
-  def save(self, userModel):
+  def save(self, userModel, autocommit=True):
     if not isinstance(userModel, UserModel):
       raise ValueError("userModel should be of type UserModel")
     query = 'INSERT INTO User (id, username, bio) VALUES (%s, %s, %s)'
-    userId = db.insert(query, self._mapper.to_tuple(userModel))
+    userId = db.insert(query, self._mapper.to_tuple(userModel), autocommit)
       
     if userId:
       return self.getById(userId)
