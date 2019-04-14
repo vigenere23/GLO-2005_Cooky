@@ -19,7 +19,6 @@ import FloatingButton from '@/components/buttons/FloatingButton'
 import SearchBar from '@/components/inputs/SearchBar'
 import GridList from '@/components/lists/GridList'
 import { API } from '@/js/api/api'
-import { mapState } from 'vuex'
 
 export default {
 
@@ -30,8 +29,6 @@ export default {
     SearchBar,
     GridList
   },
-
-  computed: mapState('user', ['userId']),
 
   data () {
     return {
@@ -49,17 +46,9 @@ export default {
   },
 
   methods: {
-    fetchData () {
-      let timeout = null
-      setTimeout(async () => {
-        if (!this.userId) {
-          clearTimeout(timeout)
-          timeout = setTimeout(this.fetchData, 800)
-        } else {
-          this.recipes = null
-          this.recipes = await API.getRecipes()
-        }
-      }, 200)
+    async fetchData () {
+      this.recipes = null
+      this.recipes = await API.getRecipes()
     },
     async search (search) {
       clearTimeout(this.searchTimeout)

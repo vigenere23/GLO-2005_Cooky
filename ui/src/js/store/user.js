@@ -1,4 +1,5 @@
 import { API } from '@/js/api/api'
+import Cookies from 'js-cookie'
 
 export const userModule = {
 
@@ -69,8 +70,10 @@ export const userModule = {
       }
     },
     async loadUserInfos (context) {
-      const user = await API.getCurrentUserInfos()
-      context.commit('setUserInfos', user)
+      if (Cookies.get('cooky_token')) {
+        const user = await API.getCurrentUserInfos()
+        context.commit('setUserInfos', user)
+      }
     },
     async loadCart (context) {
       const cart = await API.getUserCart(context.state.userId)

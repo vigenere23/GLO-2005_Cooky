@@ -34,8 +34,16 @@ pip3 install -r requirements.txt
 ### Executing
 
 ```bash
+gunicorn app:app -b 127.0.0.1 -w 1 --log-level debug
+```
+
+#### Without async support (NOT RECOMMENDED)
+
+```bash
 flask run
 ```
+
+> WARNING : This methods will not work with the UI since it is based on multiple asynchroneous calls, which is not supported with the basic Flask server. 
 
 ## UI
 

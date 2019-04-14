@@ -13,7 +13,7 @@
 
 <script>
 import DefaultLayout from '@/layouts/DefaultLayout'
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
 
@@ -23,14 +23,12 @@ export default {
     DefaultLayout
   },
 
-  computed: mapState('user', ['userId']),
-
   methods: {
     ...mapActions('user', ['loadAll'])
   },
 
-  async created () {
-    await this.loadAll()
+  created () {
+    this.loadAll()
   }
 
 }

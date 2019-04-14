@@ -135,25 +135,23 @@ export default {
 
   methods: {
     async fetchData () {
-      let timeout = null
-      setTimeout(async () => {
-        if (!this.userId) {
-          clearTimeout(timeout)
-          timeout = setTimeout(this.fetchData, 800)
-        } else {
-          this.id = Number(this.$route.params.id)
-          this.recipe = null
-          this.ingredients = []
-          this.recipe = await API.getRecipeById(this.id)
-          this.ingredients = await API.getIngredientFromIdRecipe(this.id)
-          this.ingredients.map(x => {
-            const ingredient = x
-            ingredient.quantity = x.totalQuantity + ' ' + x.quantityUnit.abbreviation
-            return ingredient
-          })
-          await this.fetchComments()
-        }
-      }, 200)
+      this.id = Number(this.$route.params.id)
+      this.recipe = null
+      this.ingredients = []
+      this.fetchRecipe()
+      this.fetchIngredients()
+      this.fetchComments()
+    },
+    async fetchRecipe () {
+      this.recipe = await API.getRecipeById(this.id)
+    },
+    async fetchIngredients () {
+      this.ingredients = await API.getIngredientFromIdRecipe(this.id)
+      this.ingredients.map(x => {
+        const ingredient = x
+        ingredient.quantity = x.totalQuantity + ' ' + x.quantityUnit.abbreviation
+        return ingredient
+      })
     },
     async fetchComments () {
       this.comments = await API.getRecipeComments(this.id)
