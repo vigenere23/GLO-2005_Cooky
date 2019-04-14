@@ -21,7 +21,7 @@
       />
       <LabelInput
         label="Door number"
-        v-model="doorNumber"
+        v-model="number"
       />
       <LabelInput
         label="Apartment"
@@ -41,15 +41,18 @@
       />
       <LabelInput
         label="Password"
+        type="password"
         v-model="password"
       />
       <LabelInput
         label="Confirm password"
+        type="password"
         v-model="confirmPassword"
       />
       <Button
         accent
         right
+        :disable="!allValid"
         @click="signup"
       >
         Signup
@@ -81,7 +84,7 @@ export default {
       username: '',
       password: '',
       confirmPassword: '',
-      doorNumber: '',
+      number: '',
       apartment: '',
       street: '',
       city: '',
@@ -89,29 +92,53 @@ export default {
     }
   },
 
+  computed: {
+    validNumber () {
+      return this.number === '' || !isNaN(parseInt(this.number))
+    },
+    validPasswordConfirmation () {
+      return this.password === this.confirmPassword
+    },
+    noEmptyFields () {
+      return this.firstname && this.lastname &&
+        this.email && this.username &&
+        this.street && this.city && this.country &&
+        this.password && this.confirmPassword
+    },
+    allValid () {
+      return this.validNumber && this.noEmptyFields
+    }
+  },
+
   methods: {
     async signup () {
-      if (parseInt(this.doorNumber).isNaN) {
-        EventBus.$emit('toast', { type: 'error', message: 'Invalid door number' })
-      } else if (this.firstname.length === 0 || this.lastname.length === 0 || this.email.length === 0 || this.username.length === 0 || this.password === 0 ||
-        this.doorNumber.length === 0 || this.street.length === 0 || this.city.length === 0 || this.country.length === 0) {
-        EventBus.$emit('toast', { type: 'error', message: 'Please fill all fields' })
-      } else {
-        if (this.password === this.confirmPassword) {
-          const userId = await API.addNewUser(this.firstname, this.lastname, this.email,
-            this.username, this.password, this.doorNumber, this.apartment, this.street, this.city, this.country)
-          if (!userId) {
-            EventBus.$emit('toast', { type: 'error', message: 'Username already exists' })
-          } else {
-            await Cookies.set('cookyUsername', this.username)
-            await Cookies.set('cookyPassword', this.password)
-            await this.$router.push({ path: `/users/${userId}` })
-          }
+      if (this.validate()) {
+        const userId = await API.addNewUser(this.firstname, this.lastname, this.email,
+          this.username, this.password, this.number, this.apartment, this.street, this.city, this.country)
+        if (!userId) {
+          EventBus.$emit('toast', { type: 'error', message: 'Username already exists' })
         } else {
-          this.confirmPassword = ''
-          EventBus.$emit('toast', { type: 'error', message: 'Passwords do not concord' })
+          await Cookies.set('cookyUsername', this.username)
+          await Cookies.set('cookyPassword', this.password)
+          await this.$router.push({ path: `/users/${userId}` })
         }
       }
+    },
+    validate () {
+      if (!this.validNumber) {
+        EventBus.$emit('toast', { type: 'error', message: 'Invalid door number' })
+        return false
+      }
+      if (!this.validPasswordConfirmation) {
+        EventBus.$emit('toast', { type: 'error', message: 'Passwords do not match' })
+        this.password = this.confirmPassword = ''
+        return false
+      }
+      if (!this.noEmptyFields) {
+        EventBus.$emit('toast', { type: 'error', message: 'Please fill all fields' })
+        return false
+      }
+      return true
     }
   }
 }
