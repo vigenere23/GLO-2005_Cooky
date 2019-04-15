@@ -34,7 +34,7 @@ pip3 install -r requirements.txt
 ### Executing
 
 ```bash
-gunicorn app:app -b 127.0.0.1 -w 1 --log-level debug
+gunicorn app:app -b 0.0.0.0:5000 -w 1 --log-level debug
 ```
 
 #### Without async support (NOT RECOMMENDED)
