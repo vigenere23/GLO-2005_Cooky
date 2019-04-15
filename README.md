@@ -62,3 +62,11 @@ yarn install
 cd ui
 yarn serve
 ```
+
+## Using Docker
+
+With docker, the setup should be way easier, especially since it runs on Linux so it supports Gunicorn. All you have to do is running `docker-compose up` inside the root folder of the project. 
+
+### Connecting the UI
+
+For now, only the server and the database are (successfully) connected inside the docker network. However, you can still use the UI like you normally would, outside the container. Just replace `yarn serve` by `yarn serve-docker` once the container is up. 
