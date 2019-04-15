@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "serve-docker": "vue-cli-service serve --mode docker"
+    "serve-docker": "vue-cli-service serve --mode docker",
+    "serve-dockercompose": "vue-cli-service serve --mode dockercompose"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",

@@ -1,5 +1,14 @@
 version: "3"
 services:
+  ui:
+    build: ./ui
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "8000:8080"
+    links:
+      - app
+
   app:
     build: ./app
     ports:
