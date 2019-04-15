@@ -67,6 +67,14 @@ yarn serve
 
 With docker, the setup should be way easier, especially since it runs on Linux so it supports Gunicorn. All you have to do is running `docker-compose up` inside the root folder of the project. 
 
+### Exposed ports
+
+* MySQL DB : 32000
+* Flask API : 8090
+* VueJS UI : 8000
+
+You can connect to those with localhost, 0.0.0.0, 127.0.0.1 or your docker-machine IP (depending or your OS).
+
 ### Connecting the UI
 
 For now, only the server and the database are (successfully) connected inside the docker network. However, you can still use the UI like you normally would, outside the container. Just replace `yarn serve` by `yarn serve-docker` once the container is up. 
