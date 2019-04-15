@@ -5,9 +5,9 @@ class Config:
   SECRET_KEY = os.environ.get('SECRET_KEY') or 'here-should-be-a-secret-key' # needed???
   DATABASE = {
     'user': 'root',
-    'password': '',
-    'host': '192.168.99.100' if platform.system() == 'Windows' else 'localhost',
-    'port': '1337',
+    'password': os.environ.get('MYSQL_ROOT_PASSWORD', ''),
+    'host': os.environ.get('DB_HOST', 'db'),
+    'port': os.environ.get('DB_PORT', '3306'),
     'database': 'projet'
   }
   JWT_AUTH_URL_RULE = '/login/'

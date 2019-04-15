@@ -1,11 +1,26 @@
+import time
 from mysql.connector import connect
 from mysql.connector.cursor import MySQLCursor
 
 class DB:
   def __init__(self, config):
-    self.__connection = connect(**config)
-    self.__cursor = self.__connection.cursor()
+    remaining_tries = 5
+    while remaining_tries > 0:
+      try:
+        self.__connection = connect(**config)
+        self.__cursor = self.__connection.cursor()
+        break
+      except Exception as e:
+        remaining_tries -= 1
+        print('Database connection failed.')
+        print(e)
+        print('Trying again in 10 seconds...')
+        time.sleep(10)
 
+    if (remaining_tries == 0):
+      raise Exception('Could not connect to database after 5 tries. Aborting.')
+    else:
+      print('Successfully connected to database')
 
   def delete(self, query, data):
     try:

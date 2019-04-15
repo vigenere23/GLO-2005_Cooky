@@ -1,0 +1,20 @@
+version: "3"
+services:
+  app:
+    build: ./app
+    ports:
+      - "8090:5000"
+    links:
+      - db
+  
+  db:
+    image: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./bd_init/bd_init.sql:/docker-entrypoint-initdb.d/dump.sql/:ro
+      - ./mysql:/var/lib/mysql:rw
+    ports:
+      - "32000:3306"
+    security_opt:
+      - seccomp:unconfined

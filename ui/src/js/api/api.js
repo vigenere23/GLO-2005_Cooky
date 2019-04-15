@@ -1,5 +1,5 @@
 import { AxiosHelper } from '@/js/helpers/axios'
-const BASE_URL = ' http://127.0.0.1:5000'
+const BASE_URL = process.env.VUE_APP_API_URL || 'http://127.0.0.1:5000'
 
 export class API {
   static async getCurrentUserInfos () {
