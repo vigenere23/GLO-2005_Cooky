@@ -23,7 +23,7 @@ services:
       - db
   
   db:
-    image: mysql
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: '517ca3dd-35a8-4c4a-8449-ec9151a4cd14'
     volumes:
