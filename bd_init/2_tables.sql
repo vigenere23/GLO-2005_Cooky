@@ -162,7 +162,7 @@ CREATE TABLE `Account` (
   `firstName` VARCHAR(50) NOT NULL,
   `lastName` VARCHAR(50) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
-  `password` VARCHAR(50) NOT NULL,
+  `password` VARBINARY(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`id_User`)
 ) COMMENT 'Private user infos.';

@@ -1,3 +1,4 @@
+import bcrypt
 from flask_jwt import JWT
 from app import app
 from .helpers import response
@@ -10,9 +11,17 @@ def authenticate(username, password):
   try:
     user = userDao.getByUsername(username)
     account = accountDao.getAccountByUserId(user.id)
-    if account.password == password:
+
+    hashed_password = account.password
+    if isinstance(hashed_password, bytearray):
+      hashed_password = bytes(hashed_password)
+    if not isinstance(hashed_password, bytes):
+      hashed_password = hashed_password.encode()
+
+    if bcrypt.checkpw(password.encode(), hashed_password):
       return user
-  except:
+  except Exception as e:
+    print(e)
     return None
 
 def identity(payload):
