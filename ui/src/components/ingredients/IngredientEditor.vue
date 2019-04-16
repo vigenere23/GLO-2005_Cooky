@@ -77,9 +77,7 @@ export default {
       this.addIngredient()
     }
     this.quantityList = this.getQuantityList()
-    setTimeout(async () => {
-      this.ingredientList = await API.getIngredients()
-    }, 500)
+    this.ingredientList = await API.getIngredients()
   }
 
 }

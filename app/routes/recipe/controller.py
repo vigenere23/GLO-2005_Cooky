@@ -119,7 +119,7 @@ def getIngredientsByRecipe(recipe_id):
     ingredient = ingredientDao.getById(recipeIngredient.id_Ingredient)
     quantityUnit = quantityUnitDao.getById(recipeIngredient.id_QuantityUnit)
     data.append({
-      'id': recipeIngredient.id,
+      'id': ingredient.id,
       'name': ingredient.name,
       'quantityUnit': quantityUnit.serialize(),
       'totalQuantity': recipeIngredient.totalQuantity

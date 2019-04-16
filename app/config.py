@@ -6,7 +6,7 @@ class Config:
   DATABASE = {
     'user': 'root',
     'password': os.environ.get('MYSQL_ROOT_PASSWORD', ''),
-    'host': os.environ.get('DB_HOST', 'db'),
+    'host': os.environ.get('DB_HOST', 'localhost'),
     'port': os.environ.get('DB_PORT', '3306'),
     'database': 'projet'
   }

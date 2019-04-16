@@ -4,7 +4,7 @@
     v-if="user"
   >
     <FloatingButton
-      v-if="$route.params.id === userId"
+      v-if="Number($route.params.id) === userId"
       link="/recipes/create"
     />
     <h1>{{ user.username }}</h1>

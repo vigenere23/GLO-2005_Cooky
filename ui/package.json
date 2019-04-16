@@ -47,5 +47,6 @@
       "vue-cli-service lint",
       "git add"
     ]
-  }
+  },
+  "proxy": "http://app:5000"
 }

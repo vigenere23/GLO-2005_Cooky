@@ -160,12 +160,12 @@ def generateAdresses():
     adressDao.save(addressModel)
 
 def generateAccounts():  
-  for _ in range(100):
+  for i in range(1, 101):
     lastName = random.choice(words)
     firstName = random.choice(words)
     accountModel = AccountModel(
-      id_User=random.randint(1, 100),
-      id_Address=random.randint(1, 100),
+      id_User=i,
+      id_Address=i,
       firstName=firstName,
       lastName=lastName,
       email=firstName + "." + lastName + "@gmail.com",

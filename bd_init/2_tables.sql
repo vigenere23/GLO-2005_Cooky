@@ -163,7 +163,8 @@ CREATE TABLE `Account` (
   `lastName` VARCHAR(50) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
   `password` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`id_User`)
 ) COMMENT 'Private user infos.';
 
 -- ---

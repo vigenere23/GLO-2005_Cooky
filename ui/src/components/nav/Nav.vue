@@ -8,7 +8,7 @@
         class="profile-picture"
         :src="avatar()"
       >
-      <span class="username">mscupcake352</span>
+      <span class="username">{{ username || '' }}</span>
     </NavItem>
     <div
       class="navigation-category"
@@ -50,7 +50,7 @@ export default {
   },
 
   computed: {
-    ...mapState('user', ['userId']),
+    ...mapState('user', ['userId', 'username']),
     ...mapGetters('user', ['avatar'])
   }
 
