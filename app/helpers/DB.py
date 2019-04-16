@@ -68,15 +68,6 @@ class DB:
     
     return results
 
-  def executeMultiple(self, queries, data):
-    try:
-      for query in queries:
-        self.__cursor.execute(query, data)
-      self.__connection.commit()
-    except Exception as e:
-      self.__connection.rollback()
-      raise e
-
   def commit(self):
     try:
       self.__connection.commit()

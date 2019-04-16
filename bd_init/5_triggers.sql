@@ -29,15 +29,6 @@ BEGIN
 END;
 //
 
-CREATE TRIGGER `UpdateRecipeRatingOnRatingDelete`
-AFTER DELETE ON `Rating`
-FOR EACH ROW
-BEGIN
-  SET @rating := IFNULL((SELECT AVG(R.value) FROM Rating R WHERE R.id_Recipe = OLD.id_Recipe), 0);
-  UPDATE Recipe R SET R.rating := @rating WHERE R.id = OLD.id_Recipe;
-END;
-//
-
 CREATE TRIGGER `NewCartAfterCommand`
 AFTER INSERT ON `Command`
 FOR EACH ROW
@@ -102,6 +93,17 @@ BEGIN
     SIGNAL SQLSTATE '45000'
     SET MESSAGE_TEXT = "Le panier à déjà été commandé et n'est plus modifiable";
   END IF;
+END;
+//
+
+CREATE TRIGGER `BeforeRecipeDelete`
+BEFORE DELETE ON `Recipe`
+FOR EACH ROW
+BEGIN
+  DELETE FROM Comment WHERE Comment.id_Recipe = OLD.id;
+  DELETE FROM Rating WHERE Rating.id_Recipe = OLD.id;
+  DELETE FROM LikeRecipe WHERE LikeRecipe.id_Recipe = OLD.id;
+  DELETE FROM RecipeIngredient WHERE RecipeIngredient.id_Recipe = OLD.id;
 END;
 //
 

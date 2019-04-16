@@ -98,9 +98,7 @@ export default {
 
   mounted () {
     if (this.initialItem && this.selectedItem) {
-      setTimeout(() => {
-        this.$emit('input', this.selectedItem)
-      }, Math.random() * 6000)
+      this.$emit('input', this.selectedItem)
     }
   }
 

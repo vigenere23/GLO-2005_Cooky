@@ -13,6 +13,10 @@ services:
     build: ./app
     environment:
       - PYTHONUNBUFFERED=TRUE
+      - DB_HOST=db
+      - DB_PORT=3306
+      - MYSQL_USER=api
+      - MYSQL_PASSWORD=e7364202-2f94-4355-b354-c95907adfef6
     ports:
       - "8090:5000"
     links:
@@ -21,7 +25,7 @@ services:
   db:
     image: mysql
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: '517ca3dd-35a8-4c4a-8449-ec9151a4cd14'
     volumes:
       - ./bd_init/bd_init.sql:/docker-entrypoint-initdb.d/dump.sql/:ro
     ports:

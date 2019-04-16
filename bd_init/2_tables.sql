@@ -17,7 +17,6 @@ DROP TABLE IF EXISTS `User`;
 CREATE TABLE `User` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(20) NOT NULL,
-  `bio` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`username`)
 ) COMMENT 'Quick user infos.';
@@ -292,8 +291,8 @@ ALTER TABLE `QuantityUnit` ADD FOREIGN KEY (id_QuantityType) REFERENCES `Quantit
 -- Test Data
 -- ---
 
--- INSERT INTO `User` (`id`,`username`,`bio`) VALUES
--- ('','','');
+-- INSERT INTO `User` (`id`,`username`) VALUES
+-- ('','');
 -- INSERT INTO `Recipe` (`id`,`id_User`,`name`,`description`,`directives`,`rating`) VALUES
 -- ('','','','','','');
 -- INSERT INTO `Cart` (`id`,`id_User`,`totalCost`) VALUES

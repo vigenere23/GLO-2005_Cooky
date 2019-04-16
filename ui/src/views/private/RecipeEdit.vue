@@ -90,16 +90,14 @@ export default {
       this.ingredients = ingredients
     },
     fetchData () {
-      setTimeout(async () => {
-        this.name = this.description = this.directives = ''
-        this.ingredients = null
-        this.id = Number(this.$route.params.id)
-        const recipe = await API.getRecipeById(this.id)
-        this.name = recipe.name
-        this.description = recipe.description
-        this.directives = recipe.directives
-        this.ingredients = await API.getIngredientFromIdRecipe(this.id)
-      }, 500)
+      this.name = this.description = this.directives = ''
+      this.ingredients = null
+      this.id = Number(this.$route.params.id)
+      const recipe = await API.getRecipeById(this.id)
+      this.name = recipe.name
+      this.description = recipe.description
+      this.directives = recipe.directives
+      this.ingredients = await API.getIngredientFromIdRecipe(this.id)
     }
   }
 
