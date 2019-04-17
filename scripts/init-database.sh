@@ -19,6 +19,6 @@ echo "6/7  Filling static tables..."
 docker exec -i mysql1 mysql -uroot -p"517ca3dd-35a8-4c4a-8449-ec9151a4cd14" < bd_init/6_populate_static.sql
 
 echo "7/7  Filling other tables...(longer)"
-MYSQL_PASSWORD="517ca3dd-35a8-4c4a-8449-ec9151a4cd14" python fill_db.py
+DB_HOST="localhost" MYSQL_USER="root" MYSQL_PASSWORD="517ca3dd-35a8-4c4a-8449-ec9151a4cd14" python fill_db.py
 
 echo "Done!"

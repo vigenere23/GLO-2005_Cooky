@@ -13,10 +13,6 @@ services:
     build: ./app
     environment:
       - PYTHONUNBUFFERED=TRUE
-      - DB_HOST=db
-      - DB_PORT=3306
-      - MYSQL_USER=api
-      - MYSQL_PASSWORD=e7364202-2f94-4355-b354-c95907adfef6
     ports:
       - "8090:5000"
     links:
