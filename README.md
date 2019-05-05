@@ -2,6 +2,8 @@
 
 Welcome to Cooky, the amazing recipe sharing app that let's you buy ingredients on the go!
 
+![Cooky](https://user-images.githubusercontent.com/32545895/57196087-780c7200-6f27-11e9-9708-11167c647d1b.png)
+
 ## Database
 
 ### Preparing and executing
