@@ -87,6 +87,11 @@ For now, only the server and the database are (successfully) connected inside th
 
 * The database initiation process fails on Windows, which means it will not be usable on that platform
 
+## Team members
+
+* Gabriel St-Pierre (me)
+* Olivier Gingras
+
 ## Screenshots
 
 ![Cooky screenshot 1](https://user-images.githubusercontent.com/32545895/57195610-b6ebf900-6f22-11e9-85e9-92f19ccdcbc7.png)
