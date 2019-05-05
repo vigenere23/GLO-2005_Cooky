@@ -1,4 +1,6 @@
-# App
+# Cooky
+
+Welcome to Cooky, the amazing recipe sharing app that let's you buy ingredients on the go!
 
 ## Database
 
