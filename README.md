@@ -17,7 +17,7 @@ Welcome to Cooky, the amazing recipe sharing app that let's you buy ingredients 
 **Linux / Mac**
 
 ```bash
-scripts/start-docker.sh
+./scripts/start-docker.sh
 ```
 
 ### Populating (on bash only)
