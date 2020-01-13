@@ -85,7 +85,7 @@ For now, only the server and the database are (successfully) connected inside th
 
 ### Known problems
 
-* The database initiation process fails on Windows, which means it will not be usable on that platform
+* The database initiation process fails on Windows, which means it will not be usable on that platform.
 
 ## Team members
 
